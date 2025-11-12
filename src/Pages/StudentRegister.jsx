@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const StudentRegister = () => {
+  const navigate = useNavigate();
+
   // State to hold form data
   const [formData, setFormData] = useState({
     firstName: '',
@@ -27,9 +33,9 @@ const StudentRegister = () => {
   };
 
   const handleLoginRedirect = () => {
-    console.log('Redirecting to login page...');
-    // Add actual navigation logic here
-  };
+  navigate("/login");
+};
+
 
   // Common Tailwind CSS classes for consistent input styling
   const inputClass = "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
@@ -37,10 +43,7 @@ const StudentRegister = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
-      {/* Title for the entire page/app section */}
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-left text-xl font-bold text-gray-900">Student Register</h2>
-      </div>
+     
 
       {/* Main Registration Card Container */}
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

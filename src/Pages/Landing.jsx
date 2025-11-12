@@ -5,7 +5,7 @@ import heroImg from "../assets/quiz-hero.png"; // 🖼️ Add your hero image in
 const Landing = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-between bg-gray-50">
-      {/* Navbar */}
+      
       <nav className="w-full bg-white shadow-md py-4 px-6 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <img
@@ -16,18 +16,10 @@ const Landing = () => {
           <h1 className="text-2xl font-bold text-blue-600">Quiz Master</h1>
         </div>
         <div className="flex space-x-3">
-          <Link
-            to="/login"
-            className="text-gray-700 hover:text-blue-600 font-medium"
-          >
-            Login
-          </Link>
-          <Link
-            to="/student-register"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-medium"
-          >
-            Sign Up (Student)
-          </Link>
+          
+           
+          
+          
         </div>
       </nav>
 
@@ -48,24 +40,19 @@ const Landing = () => {
         </p>
         <div className="flex space-x-4">
           <Link
-            to="/student-register"
+            to="/login"
             className="bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition"
           >
-            Get Started (Student Sign Up)
+            Get Started 
           </Link>
-          <Link
-            to="/login"
-            className="border border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition"
-          >
-            I Already Have An Account
-          </Link>
+          
         </div>
       </section>
-
       {/* Footer */}
-      <footer className="py-6 text-gray-500 text-sm">
-        © {new Date().getFullYear()} Quiz Master. All rights reserved.
+      <footer className="w-full bg-white shadow-inner py-4 px-6 mt-12 text-center text-gray-500">
+        &copy; {new Date().getFullYear()} Quiz Master. All rights reserved.
       </footer>
+      
     </div>
   );
 };

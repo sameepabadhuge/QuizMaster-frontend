@@ -6,6 +6,7 @@ import QuizResult from "./Pages/QuizResult";
 import Leaderboard from "./Pages/Leaderboard";
 import Login from "./Pages/Login";
 import StudentRegister from "./Pages/StudentRegister";
+import TeacherRegister from "./Pages/TeacherRegister";
 import Nav from "./Components/Nav";
 
 function App() {
@@ -20,7 +21,7 @@ function MainApp() {
   const location = useLocation();
 
   // Show Navbar only if NOT on Landing or Login/Register
-  const hideNavbarPaths = ["/", "/login", "/student-register"];
+  const hideNavbarPaths = ["/", "/login", "/student-register", "/teacher-register"];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
 
   return (
@@ -35,6 +36,7 @@ function MainApp() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/student-register" element={<StudentRegister />} />
+        <Route path="/teacher-register" element={<TeacherRegister />} />
       </Routes>
     </div>
   );

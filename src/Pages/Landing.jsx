@@ -8,11 +8,7 @@ const Landing = () => {
       
       <nav className="w-full bg-white shadow-md py-4 px-6 flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <img
-            src="/logo.png"
-            alt="logo"
-            className="w-8 h-8"
-          />
+          
           <h1 className="text-2xl font-bold text-blue-600">Quiz Master</h1>
         </div>
         <div className="flex space-x-3">

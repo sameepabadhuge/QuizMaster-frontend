@@ -1,6 +1,11 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
+
+
 
 const QuizMasterLogin = () => {
+  const navigate = useNavigate(); // ✅ move here!
+
   // Simple state management for demonstration purposes
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -12,16 +17,17 @@ const QuizMasterLogin = () => {
   };
 
   const handleRegister = (role) => {
-    console.log(`Navigating to register as ${role}`);
-    // Add actual navigation/redirection logic here
-  };
+  if (role === "Student") {
+    navigate("/student-register");
+  } else if (role === "Teacher") {
+    navigate("/teacher-register");
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
-      {/* Title for the entire page/app section */}
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-left text-xl font-bold text-gray-900">Login</h2>
-      </div>
+      
 
       {/* Main Login Card Container */}
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

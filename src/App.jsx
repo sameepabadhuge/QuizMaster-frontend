@@ -1,4 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+
 import Landing from "./Pages/Landing";
 import Home from "./Pages/Home";
 import QuizList from "./Pages/QuizList";
@@ -20,23 +22,32 @@ function App() {
 function MainApp() {
   const location = useLocation();
 
-  // Show Navbar only if NOT on Landing or Login/Register
+  // Show Navbar only if NOT on Landing, Login, or Register pages
   const hideNavbarPaths = ["/", "/login", "/student-register", "/teacher-register"];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
 
   return (
-    <div>
-      {shouldShowNavbar && <Nav />}  {/* Navbar shows only after login */}
+    <div className="min-h-screen bg-gray-50">
+      {/* Navbar */}
+      {shouldShowNavbar && <Nav />}
 
+      {/* Routes */}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/quizlist" element={<QuizList />} />
-        <Route path="/quizresult" element={<QuizResult />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/student-register" element={<StudentRegister />} />
         <Route path="/teacher-register" element={<TeacherRegister />} />
+
+        {/* Redirect /home to ensure default after login */}
+        <Route path="/home" element={<Home />} />
+
+        {/* Quiz routes */}
+        <Route path="/quiz-list" element={<QuizList />} />
+        <Route path="/quiz-result" element={<QuizResult />} />
+        <Route path="/leader-board" element={<Leaderboard />} />
+
+        {/* Redirect unknown routes to Landing */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );

@@ -26,7 +26,7 @@ const QuizMasterLogin = () => {
 
       if (response.ok && data.success) {
         // Login successful, redirect to QuizList
-        navigate("/quiz-list");
+        navigate("/home");
       } else {
         // Login failed, show error from backend or default message
         setError(data.message || "Invalid email or password");

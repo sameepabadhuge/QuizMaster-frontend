@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
-
-
+import axios from "axios";
 
 const StudentRegister = () => {
   const navigate = useNavigate();
@@ -17,6 +15,10 @@ const StudentRegister = () => {
     confirmPassword: '',
   });
 
+  // State to show loading and error messages
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
@@ -25,44 +27,73 @@ const StudentRegister = () => {
     }));
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log('Attempting Student Registration with:', formData);
-    // Add validation and actual registration logic here
-    // e.g., check if passwords match, call an API, etc.
+
+    // Password match check
+    if (formData.password !== formData.confirmPassword) {
+      setMessage("Passwords do not match!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setMessage("");
+
+      // Call backend API
+      const response = await axios.post("http://localhost:5000/api/students/register", formData);
+
+      if (response.data.message) {
+        alert(response.data.message);
+        navigate("/login"); // Redirect after successful registration
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      setMessage(error.response?.data?.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLoginRedirect = () => {
-  navigate("/login");
-};
-
+    navigate("/login");
+  };
 
   // Common Tailwind CSS classes for consistent input styling
-  const inputClass = "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
+  const inputClass =
+    "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
   const labelClass = "block text-sm font-medium text-gray-700";
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
-     
-
       {/* Main Registration Card Container */}
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          
           {/* Card Header */}
           <div className="mb-8 text-center">
-            <h1 className="text-2xl font-semibold text-gray-900">
-              Student Registration
-            </h1>
+            <h1 className="text-2xl font-semibold text-gray-900">Student Registration</h1>
             <p className="mt-2 text-sm text-gray-600">
               Create your account to start taking quizzes!
             </p>
           </div>
 
+          {/* Show any messages */}
+          {message && (
+            <div
+              className={`mb-4 text-sm ${
+                message.includes("success") ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {message}
+            </div>
+          )}
+
           <form className="space-y-4" onSubmit={handleRegister}>
             {/* First Name */}
             <div>
-              <label htmlFor="firstName" className={labelClass}>First Name</label>
+              <label htmlFor="firstName" className={labelClass}>
+                First Name
+              </label>
               <input
                 id="firstName"
                 name="firstName"
@@ -78,7 +109,9 @@ const StudentRegister = () => {
 
             {/* Last Name */}
             <div>
-              <label htmlFor="lastName" className={labelClass}>Last Name</label>
+              <label htmlFor="lastName" className={labelClass}>
+                Last Name
+              </label>
               <input
                 id="lastName"
                 name="lastName"
@@ -94,7 +127,9 @@ const StudentRegister = () => {
 
             {/* Username */}
             <div>
-              <label htmlFor="username" className={labelClass}>Username</label>
+              <label htmlFor="username" className={labelClass}>
+                Username
+              </label>
               <input
                 id="username"
                 name="username"
@@ -110,7 +145,9 @@ const StudentRegister = () => {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className={labelClass}>Email</label>
+              <label htmlFor="email" className={labelClass}>
+                Email
+              </label>
               <input
                 id="email"
                 name="email"
@@ -126,7 +163,9 @@ const StudentRegister = () => {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className={labelClass}>Password</label>
+              <label htmlFor="password" className={labelClass}>
+                Password
+              </label>
               <input
                 id="password"
                 name="password"
@@ -142,7 +181,9 @@ const StudentRegister = () => {
 
             {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className={labelClass}>Confirm Password</label>
+              <label htmlFor="confirmPassword" className={labelClass}>
+                Confirm Password
+              </label>
               <input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -160,9 +201,12 @@ const StudentRegister = () => {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                disabled={loading}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                  loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
-                Register Account
+                {loading ? "Registering..." : "Register Account"}
               </button>
             </div>
           </form>
@@ -170,7 +214,7 @@ const StudentRegister = () => {
           {/* Login Link */}
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <button
                 onClick={handleLoginRedirect}
                 className="font-medium text-blue-600 hover:text-blue-500"

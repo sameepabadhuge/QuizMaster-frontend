@@ -70,17 +70,7 @@ export default function QuizList() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-md p-4 flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-          <div className="text-blue-600 text-2xl font-bold">Quiz Master</div>
-        </div>
-        <div className="flex items-center space-x-4">
-          <span className="text-gray-700 font-medium">Student</span>
-          <button className="px-4 py-1 border border-gray-300 rounded hover:bg-gray-100">
-            Logout
-          </button>
-        </div>
-      </nav>
+     
 
       <div className="max-w-7xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-4">Available Quizzes</h1>

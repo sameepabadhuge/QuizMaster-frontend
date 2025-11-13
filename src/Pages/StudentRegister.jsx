@@ -94,7 +94,7 @@ const StudentRegister = () => {
               <label htmlFor="firstName" className={labelClass}>
                 First Name
               </label>
-              <input
+              <input 
                 id="firstName"
                 name="firstName"
                 type="text"

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 
 import Landing from "./Pages/Landing";
 import Home from "./Pages/Home";
@@ -12,11 +12,7 @@ import TeacherRegister from "./Pages/TeacherRegister";
 import Nav from "./Components/Nav";
 
 function App() {
-  return (
-    <Router>
-      <MainApp />
-    </Router>
-  );
+  return <MainApp />;
 }
 
 function MainApp() {

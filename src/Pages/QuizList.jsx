@@ -1,148 +1,58 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  // ✅ import navigate
-
-const quizzesData = [
-  {
-    id: 1,
-    title: "Introduction to JavaScript",
-    description:
-      "Test your foundational knowledge of JavaScript syntax, variables, and basic functions.",
-    lecture: "JavaScript",
-    subject: "Programming",
-    difficulty: "Easy",
-    estTime: "15 min",
-  },
-  {
-    id: 2,
-    title: "Advanced React Hooks",
-    description:
-      "Challenge your understanding of useEffect, useContext, and custom hooks in React.",
-    lecture: "React",
-    subject: "Frontend",
-    difficulty: "Medium",
-    estTime: "30 min",
-  },
-  {
-    id: 3,
-    title: "Data Structures & Algorithms",
-    description:
-      "Comprehensive quiz covering fundamental data structures and common algorithmic paradigms.",
-    lecture: "DSA",
-    subject: "Computer Science",
-    difficulty: "Hard",
-    estTime: "60 min",
-  },
-  {
-    id: 4,
-    title: "CSS Flexbox Fundamentals",
-    description:
-      "Evaluate your knowledge of Flexbox properties for responsive web layouts.",
-    lecture: "CSS",
-    subject: "Frontend",
-    difficulty: "Easy",
-    estTime: "20 min",
-  },
-  {
-    id: 5,
-    title: "Backend with Node.js",
-    description:
-      "Questions on Node.js runtime, Express.js, and database integration concepts.",
-    lecture: "Node.js",
-    subject: "Backend",
-    difficulty: "Medium",
-    estTime: "45 min",
-  },
-  {
-    id: 6,
-    title: "Cloud Computing Basics",
-    description:
-      "Understand the core concepts of cloud computing, services, and deployment models.",
-    lecture: "Cloud",
-    subject: "IT",
-    difficulty: "Easy",
-    estTime: "25 min",
-  },
-];
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function QuizList() {
+  const [quizzes, setQuizzes] = useState([]);
   const [search, setSearch] = useState("");
-  const navigate = useNavigate(); // ✅ initialize navigate
+  const [difficulty, setDifficulty] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  const filteredQuizzes = quizzesData.filter(
-    (quiz) =>
-      quiz.title.toLowerCase().includes(search.toLowerCase()) ||
-      quiz.lecture.toLowerCase().includes(search.toLowerCase()) ||
-      quiz.subject.toLowerCase().includes(search.toLowerCase())
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/quiz/list");
+        if (res.data.success) setQuizzes(res.data.quizzes);
+      } catch (err) { console.error(err); }
+      finally { setLoading(false); }
+    };
+    fetchQuizzes();
+  }, []);
+
+  const filteredQuizzes = quizzes.filter(
+    q => 
+      (q.title.toLowerCase().includes(search.toLowerCase()) || q.subject.toLowerCase().includes(search.toLowerCase()) || q.lectureName.toLowerCase().includes(search.toLowerCase())) &&
+      (difficulty === "All" || q.difficulty === difficulty)
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-4">Available Quizzes</h1>
-        <p className="text-gray-600 mb-6">
-          Select a quiz to test your knowledge and track your progress.
-        </p>
+    <div className="min-h-screen bg-gray-50 p-6">
+      <h1 className="text-3xl font-bold mb-4">Available Quizzes</h1>
+      <input type="text" placeholder="Search..." value={search} onChange={e=>setSearch(e.target.value)} className="w-full p-3 border rounded mb-4" />
+      <select value={difficulty} onChange={e=>setDifficulty(e.target.value)} className="w-full p-3 border rounded mb-4">
+        <option>All</option>
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
 
-        {/* Search Section */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-          <input
-            type="text"
-            placeholder="Search quizzes by title, lecture, or subject..."
-            className="w-full md:w-1/2 p-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-          <select className="p-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>All Difficulties</option>
-            <option>Easy</option>
-            <option>Medium</option>
-            <option>Hard</option>
-          </select>
-        </div>
-
-        {/* Quiz Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredQuizzes.map((quiz) => (
-            <div
-              key={quiz.id}
-              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-semibold">{quiz.title}</h2>
-                <span
-                  className={`px-2 py-1 rounded-full text-sm font-medium ${
-                    quiz.difficulty === "Easy"
-                      ? "bg-green-100 text-green-700"
-                      : quiz.difficulty === "Medium"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : "bg-red-100 text-red-700"
-                  }`}
-                >
-                  {quiz.difficulty}
-                </span>
-              </div>
-
-              <p className="text-gray-600 mb-4">{quiz.description}</p>
-              <p className="text-gray-500 mb-4">Est. Time: {quiz.estTime}</p>
-
-              {/* ⭐ Navigate to Quiz Page */}
-              <button
-                onClick={() => navigate(`/take-quiz/${quiz.id}`)}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-              >
-                Start Quiz
-              </button>
+      {loading ? <p>Loading...</p> :
+        filteredQuizzes.length === 0 ? <p>No quizzes found.</p> :
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredQuizzes.map(q => (
+            <div key={q._id} className="bg-white p-6 rounded shadow">
+              <h2 className="font-semibold text-xl">{q.title}</h2>
+              <p>Lecture: {q.lectureName}</p>
+              <p>Subject: {q.subject}</p>
+              <p>Duration: {q.duration} min</p>
+              <p>Questions: {q.questions.length}</p>
+              <p>Difficulty: {q.difficulty}</p>
+              <button onClick={()=>navigate(`/take-quiz/${q._id}`)} className="mt-2 w-full bg-blue-600 text-white py-2 rounded">Start Quiz</button>
             </div>
           ))}
-
-          {filteredQuizzes.length === 0 && (
-            <p className="col-span-full text-center text-gray-500">
-              No quizzes found.
-            </p>
-          )}
         </div>
-      </div>
+      }
     </div>
   );
 }

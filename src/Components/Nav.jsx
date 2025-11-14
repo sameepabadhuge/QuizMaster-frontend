@@ -1,8 +1,17 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Nav() {
-  const location = useLocation(); // to get current path
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get role from localStorage
+  const role = localStorage.getItem("role");
+
+  // Only show navbar if user is a student
+  if (role !== "student") {
+    return null;
+  }
 
   const navLinks = [
     { name: "Home", path: "/home" },
@@ -11,12 +20,20 @@ export default function Nav() {
     { name: "Leaderboard", path: "/leader-board" },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("role");
+
+    navigate("/login");
+  };
+
   return (
     <nav className="flex items-center justify-between bg-blue-600 text-white px-8 py-4 shadow-md sticky top-0 z-50">
       {/* Logo */}
       <h2 className="text-2xl font-bold tracking-wide">QuizMaster</h2>
 
-      {/* Navigation Links */}
+      {/* Links */}
       <div className="flex space-x-6">
         {navLinks.map((link) => (
           <Link
@@ -32,6 +49,14 @@ export default function Nav() {
           </Link>
         ))}
       </div>
+
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-600 font-semibold transition"
+      >
+        Logout
+      </button>
     </nav>
   );
 }

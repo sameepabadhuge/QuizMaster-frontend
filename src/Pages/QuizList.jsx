@@ -1,11 +1,12 @@
-// QuizList.jsx
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";  // ✅ import navigate
 
 const quizzesData = [
   {
     id: 1,
     title: "Introduction to JavaScript",
-    description: "Test your foundational knowledge of JavaScript syntax, variables, and basic functions.",
+    description:
+      "Test your foundational knowledge of JavaScript syntax, variables, and basic functions.",
     lecture: "JavaScript",
     subject: "Programming",
     difficulty: "Easy",
@@ -14,7 +15,8 @@ const quizzesData = [
   {
     id: 2,
     title: "Advanced React Hooks",
-    description: "Challenge your understanding of useEffect, useContext, and custom hooks in React.",
+    description:
+      "Challenge your understanding of useEffect, useContext, and custom hooks in React.",
     lecture: "React",
     subject: "Frontend",
     difficulty: "Medium",
@@ -23,7 +25,8 @@ const quizzesData = [
   {
     id: 3,
     title: "Data Structures & Algorithms",
-    description: "Comprehensive quiz covering fundamental data structures and common algorithmic paradigms.",
+    description:
+      "Comprehensive quiz covering fundamental data structures and common algorithmic paradigms.",
     lecture: "DSA",
     subject: "Computer Science",
     difficulty: "Hard",
@@ -32,7 +35,8 @@ const quizzesData = [
   {
     id: 4,
     title: "CSS Flexbox Fundamentals",
-    description: "Evaluate your knowledge of Flexbox properties for responsive web layouts.",
+    description:
+      "Evaluate your knowledge of Flexbox properties for responsive web layouts.",
     lecture: "CSS",
     subject: "Frontend",
     difficulty: "Easy",
@@ -41,7 +45,8 @@ const quizzesData = [
   {
     id: 5,
     title: "Backend with Node.js",
-    description: "Questions on Node.js runtime, Express.js, and database integration concepts.",
+    description:
+      "Questions on Node.js runtime, Express.js, and database integration concepts.",
     lecture: "Node.js",
     subject: "Backend",
     difficulty: "Medium",
@@ -50,7 +55,8 @@ const quizzesData = [
   {
     id: 6,
     title: "Cloud Computing Basics",
-    description: "Understand the core concepts of cloud computing, services, and deployment models.",
+    description:
+      "Understand the core concepts of cloud computing, services, and deployment models.",
     lecture: "Cloud",
     subject: "IT",
     difficulty: "Easy",
@@ -60,6 +66,7 @@ const quizzesData = [
 
 export default function QuizList() {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate(); // ✅ initialize navigate
 
   const filteredQuizzes = quizzesData.filter(
     (quiz) =>
@@ -70,14 +77,13 @@ export default function QuizList() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-     
-
       <div className="max-w-7xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-4">Available Quizzes</h1>
         <p className="text-gray-600 mb-6">
           Select a quiz to test your knowledge and track your progress.
         </p>
 
+        {/* Search Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <input
             type="text"
@@ -86,6 +92,7 @@ export default function QuizList() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+
           <select className="p-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>All Difficulties</option>
             <option>Easy</option>
@@ -94,6 +101,7 @@ export default function QuizList() {
           </select>
         </div>
 
+        {/* Quiz Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredQuizzes.map((quiz) => (
             <div
@@ -114,13 +122,20 @@ export default function QuizList() {
                   {quiz.difficulty}
                 </span>
               </div>
+
               <p className="text-gray-600 mb-4">{quiz.description}</p>
               <p className="text-gray-500 mb-4">Est. Time: {quiz.estTime}</p>
-              <button className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">
+
+              {/* ⭐ Navigate to Quiz Page */}
+              <button
+                onClick={() => navigate(`/take-quiz/${quiz.id}`)}
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+              >
                 Start Quiz
               </button>
             </div>
           ))}
+
           {filteredQuizzes.length === 0 && (
             <p className="col-span-full text-center text-gray-500">
               No quizzes found.

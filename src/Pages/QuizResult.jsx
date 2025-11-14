@@ -171,22 +171,8 @@ export default function QuizResult() {
           ))}
         </div>
 
-        {/* Buttons */}
-        <div className="flex justify-between mt-6">
-          <button
-            onClick={() => navigate("/home")}
-            className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300"
-          >
-            Back to Home
-          </button>
-
-          <button
-            onClick={() => navigate("/leaderboard")}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            View Leaderboard
-          </button>
-        </div>
+        
+        
       </div>
     </div>
   );

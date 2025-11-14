@@ -20,37 +20,7 @@ export default function Leaderboard() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <aside className="w-60 bg-white shadow-sm flex flex-col">
-        <div className="flex items-center justify-center py-6 border-b">
-          
-        </div>
-        <nav className="flex-1 p-4 space-y-2">
-          <button
-            onClick={() => navigate("/home")}
-            className="flex items-center gap-3 w-full text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg px-3 py-2 transition"
-          >
-            <Home size={18} />
-            Home
-          </button>
-          <button
-            onClick={() => navigate("/quiz-list")}
-            className="flex items-center gap-3 w-full text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg px-3 py-2 transition"
-          >
-            <ListOrdered size={18} />
-            Quizzes
-          </button>
-          <button
-            onClick={() => navigate("/leaderboard")}
-            className="flex items-center gap-3 w-full bg-blue-50 text-blue-600 rounded-lg px-3 py-2 transition"
-          >
-            🏆 Leaderboard
-          </button>
-        </nav>
-        <div className="border-t p-4 text-center text-xs text-gray-500">
-          © 2025 Quiz Master. All rights reserved.
-        </div>
-      </aside>
+      
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col">

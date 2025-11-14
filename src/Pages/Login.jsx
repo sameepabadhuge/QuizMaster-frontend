@@ -89,7 +89,7 @@ const Login = () => {
       if ((role || "").toLowerCase() === "student") {
         navigate("/home");
       } else {
-        navigate("/teacher-dashboard");
+        navigate("/teacher-home");
       }
 
     } catch (error) {

@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import StudentRegister from "./Pages/StudentRegister";
 import TeacherRegister from "./Pages/TeacherRegister";
 import Nav from "./Components/Nav";
+import TeacherHome from "./Pages/TeacherHome";
 
 function App() {
   return <MainApp />;
@@ -33,6 +34,7 @@ function MainApp() {
         <Route path="/login" element={<Login />} />
         <Route path="/student-register" element={<StudentRegister />} />
         <Route path="/teacher-register" element={<TeacherRegister />} />
+        <Route path="/teacher-home" element={<TeacherHome />} />
 
         {/* Redirect /home to ensure default after login */}
         <Route path="/home" element={<Home />} />

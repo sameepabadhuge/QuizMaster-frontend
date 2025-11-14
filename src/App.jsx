@@ -9,8 +9,9 @@ import Leaderboard from "./Pages/Leaderboard";
 import Login from "./Pages/Login";
 import StudentRegister from "./Pages/StudentRegister";
 import TeacherRegister from "./Pages/TeacherRegister";
-import Nav from "./Components/Nav";
 import TeacherHome from "./Pages/TeacherHome";
+import CreateQuiz from "./Pages/CreateQuiz";
+import Nav from "./Components/Nav";
 
 function App() {
   return <MainApp />;
@@ -34,12 +35,13 @@ function MainApp() {
         <Route path="/login" element={<Login />} />
         <Route path="/student-register" element={<StudentRegister />} />
         <Route path="/teacher-register" element={<TeacherRegister />} />
+
+        {/* Teacher Routes */}
         <Route path="/teacher-home" element={<TeacherHome />} />
+        <Route path="/create-quiz" element={<CreateQuiz />} />
 
-        {/* Redirect /home to ensure default after login */}
+        {/* Student Routes */}
         <Route path="/home" element={<Home />} />
-
-        {/* Quiz routes */}
         <Route path="/quiz-list" element={<QuizList />} />
         <Route path="/quiz-result" element={<QuizResult />} />
         <Route path="/leader-board" element={<Leaderboard />} />

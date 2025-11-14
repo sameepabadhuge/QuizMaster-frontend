@@ -8,28 +8,49 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   // ------------------------------
   // 🔥 Login Function + Token Save
   // ------------------------------
   const handleLogin = async (e) => {
     e.preventDefault();
+    
+    // Validate before sending
+    if (!email || !password || !role) {
+      const msg = "Please fill in all fields";
+      console.error("❌ Validation error:", msg);
+      setErrorMsg(msg);
+      return;
+    }
+    
     setLoading(true);
+    setErrorMsg("");
 
     try {
+      // send role in lowercase to match typical backend enums (e.g. 'student' / 'teacher')
+      const payload = { role: role.toLowerCase(), email, password };
+      console.log("📤 Sending login payload:", JSON.stringify(payload));
+      console.log("📊 Current state - email:", email, "password:", password.length + " chars", "role:", role);
+
       const res = await fetch("http://localhost:5000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ role, email, password }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
+      console.log("📥 Server response:", { status: res.status, data });
       setLoading(false);
 
       if (!res.ok) {
-        alert(data.message || "Login failed");
+        // show server message when login fails
+        const errMsg = data.message || `Login failed (${res.status})`;
+        console.error("❌ Login error:", errMsg);
+        setErrorMsg(errMsg);
+        alert(errMsg);
         return;
       }
 
@@ -37,30 +58,46 @@ const Login = () => {
       // 🟦 Save Token + User Data
       // ------------------------------
       const token = data.token;
+      if (!token) {
+        const noTokenMsg = "Login did not return a token. Server response: " + JSON.stringify(data);
+        console.error("❌ No token:", noTokenMsg);
+        setErrorMsg(noTokenMsg);
+        alert(noTokenMsg);
+        return;
+      }
+
+      console.log("✅ Token received, saving to localStorage...");
       localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
+      // store normalized role
+      localStorage.setItem("role", (role || "").toLowerCase());
 
-      // Decode token payload
-      const payloadBase64 = token.split(".")[1];
-      const decodedData = JSON.parse(atob(payloadBase64));
-
-      // Save decoded user details
-      localStorage.setItem("userId", decodedData.id || "");
-      localStorage.setItem("userEmail", decodedData.email || "");
+      // Decode token payload safely (guard in case token format is unexpected)
+      try {
+        const payloadBase64 = token.split(".")[1] || "";
+        const decodedData = payloadBase64 ? JSON.parse(atob(payloadBase64)) : {};
+        localStorage.setItem("userId", decodedData.id || "");
+        localStorage.setItem("userEmail", decodedData.email || "");
+        console.log("✅ User data saved:", decodedData);
+      } catch (err) {
+        console.warn("⚠️ Failed to decode token payload:", err);
+      }
 
       // ------------------------------
       // 🚀 Redirect based on role
       // ------------------------------
-      if (role === "Student") {
+      console.log("🚀 Redirecting user...");
+      if ((role || "").toLowerCase() === "student") {
         navigate("/home");
       } else {
         navigate("/teacher-dashboard");
       }
 
     } catch (error) {
-      console.error(error);
+      console.error("❌ Network/Parse error:", error);
       setLoading(false);
-      alert("Something went wrong!");
+      const msg = error.message || "Something went wrong!";
+      setErrorMsg(msg);
+      alert(msg);
     }
   };
 
@@ -74,6 +111,13 @@ const Login = () => {
         <p className="text-center text-gray-500 mt-1">
           Log in to your Quiz Master account.
         </p>
+
+        {/* Error Message Display */}
+        {errorMsg && (
+          <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+            {errorMsg}
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="mt-8">
 
@@ -93,6 +137,8 @@ const Login = () => {
           <input
             type="email"
             placeholder="Enter your email"
+            required
+            value={email}
             className="w-full p-3 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -102,6 +148,8 @@ const Login = () => {
           <input
             type="password"
             placeholder="Enter your password"
+            required
+            value={password}
             className="w-full p-3 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             onChange={(e) => setPassword(e.target.value)}
           />

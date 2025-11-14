@@ -1,150 +1,214 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const TeacherRegister = () => {
+export default function TeacherRegister() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     username: "",
     email: "",
-    institution: "",
     password: "",
     confirmPassword: "",
+    subject: "",
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const apiBase = import.meta.env.VITE_API_URL;
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // You can add your backend API call here
+    setError("");
+
+    // Client-side validation
+    if (
+      !formData.firstName.trim() ||
+      !formData.lastName.trim() ||
+      !formData.username.trim() ||
+      !formData.email.trim() ||
+      !formData.password ||
+      !formData.confirmPassword ||
+      !formData.subject.trim()
+    ) {
+      setError("Please fill all fields.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    if (!apiBase) {
+      setError(
+        "VITE_API_URL is not set. Check your .env file (VITE_API_URL=http://localhost:5000)."
+      );
+      return;
+    }
+
+    setLoading(true);
+
+    console.log("Register payload:", formData);
+
+    try {
+      const response = await axios.post(
+        `${apiBase.replace(/\/$/, "")}/api/teachers/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Server response:", response);
+      alert(response.data.message || "Registered successfully");
+      navigate("/login");
+    } catch (err) {
+      console.error("Register error (full):", err);
+
+      if (!err.response) {
+        setError(
+          `Network error: ${err.message}. Check backend is running at ${apiBase}`
+        );
+      } else {
+        const status = err.response.status;
+        const respData = err.response.data;
+        const serverMessage =
+          typeof respData === "string"
+            ? respData
+            : respData?.message || JSON.stringify(respData);
+        setError(`Error ${status}: ${serverMessage}`);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white shadow-md rounded-2xl p-10 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-gray-900 mb-2">
-          Teacher Registration
-        </h2>
-        <p className="text-sm text-center text-gray-500 mb-6">
-          Join Quiz Master as an educator to create and manage quizzes.
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Teacher Register</h2>
+
+        {error && (
+          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded break-words">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Full Name
-            </label>
+            <label className="block mb-1 font-medium">First Name</label>
             <input
               type="text"
-              name="fullName"
-              value={formData.fullName}
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
-              placeholder="John Doe"
-              className="mt-1 w-full border border-gray-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Username
-            </label>
+            <label className="block mb-1 font-medium">Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium">Username</label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              placeholder="teacher_john"
-              className="mt-1 w-full border border-gray-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="block mb-1 font-medium">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="john.doe@example.com"
-              className="mt-1 w-full border border-gray-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Institution/School Name
-            </label>
-            <input
-              type="text"
-              name="institution"
-              value={formData.institution}
-              onChange={handleChange}
-              placeholder="Springfield High School"
-              className="mt-1 w-full border border-gray-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="block mb-1 font-medium">Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="••••••"
-              className="mt-1 w-full border border-gray-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Confirm Password
-            </label>
+            <label className="block mb-1 font-medium">Confirm Password</label>
             <input
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              placeholder="••••••"
-              className="mt-1 w-full border border-gray-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium">Subject</label>
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md font-medium transition-all"
+            disabled={loading}
+            className={`w-full py-2 rounded text-white ${
+              loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-600"
+            } transition`}
           >
-            Register Account
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-sm text-center mt-4">
           Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-blue-600 hover:underline font-medium"
+          <span
+            className="text-blue-500 cursor-pointer"
+            onClick={() => navigate("/login")}
           >
             Login
-          </Link>
+          </span>
         </p>
       </div>
     </div>
   );
-};
-
-export default TeacherRegister;
+}

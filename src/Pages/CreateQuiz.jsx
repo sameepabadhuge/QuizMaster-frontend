@@ -56,10 +56,9 @@ export default function CreateQuiz() {
       {/* Main Content */}
       <div className="flex-1 p-10">
         <header className="flex justify-between items-center mb-10">
-          <h1 className="text-2xl font-bold text-blue-600">Quiz Master</h1>
+          
           <div className="flex items-center gap-4">
-            <img src="https://i.pravatar.cc/40" alt="profile" className="rounded-full" />
-            <button className="text-gray-700 hover:text-red-500">Logout</button>
+            
           </div>
         </header>
 

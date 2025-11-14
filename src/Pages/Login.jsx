@@ -1,146 +1,145 @@
-import React from 'react';
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const QuizMasterLogin = () => {
+const Login = () => {
   const navigate = useNavigate();
 
-  // State management
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState('');
-  const [loading, setLoading] = React.useState(false);
+  const [role, setRole] = useState("Student");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // ------------------------------
+  // 🔥 Login Function + Token Save
+  // ------------------------------
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const res = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ role, email, password }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
+      setLoading(false);
 
-      if (response.ok && data.success) {
-        // Login successful, redirect to QuizList
+      if (!res.ok) {
+        alert(data.message || "Login failed");
+        return;
+      }
+
+      // ------------------------------
+      // 🟦 Save Token + User Data
+      // ------------------------------
+      const token = data.token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+
+      // Decode token payload
+      const payloadBase64 = token.split(".")[1];
+      const decodedData = JSON.parse(atob(payloadBase64));
+
+      // Save decoded user details
+      localStorage.setItem("userId", decodedData.id || "");
+      localStorage.setItem("userEmail", decodedData.email || "");
+
+      // ------------------------------
+      // 🚀 Redirect based on role
+      // ------------------------------
+      if (role === "Student") {
         navigate("/home");
       } else {
-        // Login failed, show error from backend or default message
-        setError(data.message || "Invalid email or password");
+        navigate("/teacher-dashboard");
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const handleRegister = (role) => {
-    if (role === "Student") {
-      navigate("/student-register");
-    } else if (role === "Teacher") {
-      navigate("/teacher-register");
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      alert("Something went wrong!");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          
-          {/* Card Header */}
-          <div className="mb-8 text-center">
-            <h1 className="text-2xl font-semibold text-gray-900">Welcome Back!</h1>
-            <p className="mt-2 text-sm text-gray-600">Log in to your Quiz Master account.</p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white shadow-xl rounded-2xl p-10 w-full max-w-md">
 
-          {/* Error Message */}
-          {error && <div className="mb-4 text-red-500 text-sm text-center">{error}</div>}
+        <h1 className="text-3xl font-bold text-center text-gray-900">
+          Welcome Back!
+        </h1>
+        <p className="text-center text-gray-500 mt-1">
+          Log in to your Quiz Master account.
+        </p>
 
-          <form className="space-y-6" onSubmit={handleLogin}>
-            {/* Email Input */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-            </div>
+        <form onSubmit={handleLogin} className="mt-8">
 
-            {/* Password Input */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-            </div>
+          {/* Select Role */}
+          <label className="font-medium text-gray-700">Login As</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+          >
+            <option value="Student">Student</option>
+            <option value="Teacher">Teacher</option>
+          </select>
 
-            {/* Login Button */}
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white 
-                  bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-                  ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {loading ? 'Logging in...' : 'Login'}
-              </button>
-            </div>
-          </form>
+          {/* Email */}
+          <label className="font-medium text-gray-700 mt-4 block">Email</label>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="w-full p-3 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-          {/* Separator */}
-          <div className="mt-6 relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">OR CONTINUE WITH</span>
-            </div>
-          </div>
+          {/* Password */}
+          <label className="font-medium text-gray-700 mt-4 block">Password</label>
+          <input
+            type="password"
+            placeholder="Enter your password"
+            className="w-full p-3 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          {/* Registration Buttons */}
-          <div className="mt-6 space-y-3">
-            <button
-              onClick={() => handleRegister('Student')}
-              className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Register as Student
-            </button>
-            <button
-              onClick={() => handleRegister('Teacher')}
-              className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Register as Teacher
-            </button>
-          </div>
+          {/* Login Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium mt-6 hover:bg-blue-700 transition disabled:bg-blue-300"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        {/* Divider */}
+        <div className="flex items-center gap-4 my-6">
+          <hr className="flex-grow border-gray-300" />
+          <p className="text-gray-500 text-sm">OR CONTINUE WITH</p>
+          <hr className="flex-grow border-gray-300" />
         </div>
+
+        {/* Register Buttons */}
+        <button
+          onClick={() => navigate("/student-register")}
+          className="w-full border border-gray-400 text-gray-700 py-3 rounded-lg mb-3 hover:bg-gray-100 transition"
+        >
+          Register as Student
+        </button>
+
+        <button
+          onClick={() => navigate("/teacher-register")}
+          className="w-full border border-gray-400 text-gray-700 py-3 rounded-lg hover:bg-gray-100 transition"
+        >
+          Register as Teacher
+        </button>
       </div>
     </div>
   );
 };
 
-export default QuizMasterLogin;
+export default Login;

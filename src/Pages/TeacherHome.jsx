@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // <-- Import useNavigate
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
 import Card from "../Components/Card";
 import axios from "axios";
@@ -14,10 +14,10 @@ export default function TeacherHome() {
   const [errorStats, setErrorStats] = useState("");
 
   const teacherName = localStorage.getItem("userEmail") || "Teacher";
-
-  const navigate = useNavigate(); // <-- Initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Example API call
     axios
       .get("http://localhost:5000/api/teacher/stats")
       .then((res) => setStats(res.data))
@@ -73,7 +73,7 @@ export default function TeacherHome() {
                 Start building engaging quizzes for your students.
               </p>
               <button
-                onClick={() => navigate("/create-quiz")} // <-- Navigate to CreateQuiz page
+                onClick={() => navigate("/create-quiz")}
                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
               >
                 Start Creating

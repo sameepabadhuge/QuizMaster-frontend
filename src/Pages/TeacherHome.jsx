@@ -16,21 +16,24 @@ export default function TeacherHome() {
   const [loadingStats, setLoadingStats] = useState(true);
   const [errorStats, setErrorStats] = useState("");
 
-  const [activeTab, setActiveTab] = useState("create-quiz"); // default tab
+  const [activeTab, setActiveTab] = useState("create-quiz");
   const teacherName = localStorage.getItem("userEmail") || "Teacher";
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/teacher/stats")
-      .then((res) => setStats(res.data))
-      .catch((err) => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/teachers/stats");
+        setStats(res.data);
+      } catch (err) {
         console.error(err);
         setErrorStats("Failed to load stats");
-      })
-      .finally(() => setLoadingStats(false));
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+    fetchStats();
   }, []);
 
-  // Render content based on active sidebar tab
   const renderContent = () => {
     switch (activeTab) {
       case "create-quiz":
@@ -48,25 +51,19 @@ export default function TeacherHome() {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
       <Sidebar userType="teacher" activeTab={activeTab} onSelectTab={setActiveTab} />
-
-      {/* Main Content */}
       <div className="flex-1 p-10">
-        {/* Show Welcome + Overview only for Create Quiz tab */}
         {activeTab === "create-quiz" && (
           <>
             <section className="mb-10">
               <div className="bg-white p-6 rounded shadow">
                 <p className="text-gray-700">
-                  Welcome Back, <strong>{teacherName}</strong>! Manage your quizzes,
-                  track student progress, and create new learning experiences with ease.
+                  Welcome Back, <strong>{teacherName}</strong>! Manage your quizzes.
                 </p>
               </div>
             </section>
-
             <section className="mb-10">
-              <h3 className="text-lg font-bold mb-4">Overview</h3>
+              //<h3 className="text-lg font-bold mb-4">Overview</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {loadingStats ? (
                   <p>Loading...</p>
@@ -83,8 +80,6 @@ export default function TeacherHome() {
             </section>
           </>
         )}
-
-        {/* Dynamic content */}
         <section>{renderContent()}</section>
       </div>
     </div>

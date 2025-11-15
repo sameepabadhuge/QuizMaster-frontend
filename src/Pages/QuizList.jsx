@@ -12,17 +12,23 @@ export default function QuizList() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/quiz/list");
+        const res = await axios.get("http://localhost:5000/api/createquiz/");
+        console.log("QUIZZES:", res.data);
         if (res.data.success) setQuizzes(res.data.quizzes);
-      } catch (err) { console.error(err); }
-      finally { setLoading(false); }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchQuizzes();
   }, []);
 
   const filteredQuizzes = quizzes.filter(
-    q => 
-      (q.title.toLowerCase().includes(search.toLowerCase()) || q.subject.toLowerCase().includes(search.toLowerCase()) || q.lectureName.toLowerCase().includes(search.toLowerCase())) &&
+    q =>
+      (q.title.toLowerCase().includes(search.toLowerCase()) ||
+        q.subject?.toLowerCase().includes(search.toLowerCase()) ||
+        q.lectureName?.toLowerCase().includes(search.toLowerCase())) &&
       (difficulty === "All" || q.difficulty === difficulty)
   );
 

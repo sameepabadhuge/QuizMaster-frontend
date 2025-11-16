@@ -1,13 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Card({ title, value, icon }) {
+export default function Card({ quiz }) {
+  const navigate = useNavigate();
+
+  if (!quiz) return null;
+
   return (
-    <div className="bg-white p-6 rounded shadow flex items-center justify-between">
-      <div>
-        <h3 className="text-sm text-gray-500">{title}</h3>
-        <p className="text-2xl font-bold">{value}</p>
-      </div>
-      <div className="text-gray-400 text-2xl">{icon}</div>
+    <div className="bg-white p-6 rounded shadow">
+      <h2 className="font-semibold text-xl mb-2">{quiz.title}</h2>
+      <p className="text-sm text-gray-600">Lecture: {quiz.lectureName || "-"}</p>
+      <p className="text-sm text-gray-600">Subject: {quiz.subject || "-"}</p>
+      <p className="text-sm text-gray-600">Duration: {quiz.duration || "-"} min</p>
+      <p className="text-sm text-gray-600">Questions: {quiz.questions ? quiz.questions.length : 0}</p>
+      <p className="text-sm text-gray-600 mb-4">Difficulty: {quiz.difficulty || "-"}</p>
+
+      <button
+        onClick={() => navigate(`/take-quiz/${quiz._id}`)}
+        className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded"
+      >
+        Start Quiz
+      </button>
     </div>
   );
 }

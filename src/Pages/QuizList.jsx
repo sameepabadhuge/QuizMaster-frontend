@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Card from "../Components/Card";
 
 export default function QuizList() {
   const [quizzes, setQuizzes] = useState([]);
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("All");
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/createquiz/");
-        console.log("QUIZZES:", res.data);
         if (res.data.success) setQuizzes(res.data.quizzes);
       } catch (err) {
         console.error(err);
@@ -43,22 +41,17 @@ export default function QuizList() {
         <option>Hard</option>
       </select>
 
-      {loading ? <p>Loading...</p> :
-        filteredQuizzes.length === 0 ? <p>No quizzes found.</p> :
+      {loading ? (
+        <p>Loading...</p>
+      ) : filteredQuizzes.length === 0 ? (
+        <p>No quizzes found.</p>
+      ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredQuizzes.map(q => (
-            <div key={q._id} className="bg-white p-6 rounded shadow">
-              <h2 className="font-semibold text-xl">{q.title}</h2>
-              <p>Lecture: {q.lectureName}</p>
-              <p>Subject: {q.subject}</p>
-              <p>Duration: {q.duration} min</p>
-              <p>Questions: {q.questions.length}</p>
-              <p>Difficulty: {q.difficulty}</p>
-              <button onClick={()=>navigate(`/take-quiz/${q._id}`)} className="mt-2 w-full bg-blue-600 text-white py-2 rounded">Start Quiz</button>
-            </div>
+            <Card key={q._id} quiz={q} />
           ))}
         </div>
-      }
+      )}
     </div>
   );
 }

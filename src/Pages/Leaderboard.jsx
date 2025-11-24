@@ -1,70 +1,141 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Home, ListOrdered } from "lucide-react";
 
 export default function Leaderboard() {
   const navigate = useNavigate();
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const leaderboardData = [
-    { rank: 1, name: "Alex Johnson", score: 1250, avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-    { rank: 2, name: "Maria Garcia", score: 1200, avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
-    { rank: 3, name: "David Lee", score: 1180, avatar: "https://randomuser.me/api/portraits/men/40.jpg" },
-    { rank: 4, name: "Sophia Chen", score: 1150, avatar: "https://randomuser.me/api/portraits/women/41.jpg" },
-    { rank: 5, name: "Ethan White", score: 1120, avatar: "https://randomuser.me/api/portraits/men/24.jpg" },
-    { rank: 6, name: "Olivia Brown", score: 1090, avatar: "https://randomuser.me/api/portraits/women/20.jpg" },
-    { rank: 7, name: "Liam Wilson", score: 1050, avatar: "https://randomuser.me/api/portraits/men/48.jpg" },
-    { rank: 8, name: "Isabella Taylor", score: 1020, avatar: "https://randomuser.me/api/portraits/women/29.jpg" },
-    { rank: 9, name: "Noah Miller", score: 980, avatar: "https://randomuser.me/api/portraits/men/15.jpg" },
-    { rank: 10, name: "Ava Davis", score: 950, avatar: "https://randomuser.me/api/portraits/women/13.jpg" },
-  ];
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/students/leaderboard");
+        if (res.data.success) {
+          setLeaderboardData(res.data.leaderboard);
+        }
+      } catch (err) {
+        console.error("Error fetching leaderboard:", err);
+        setError("Failed to load leaderboard");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-600 text-lg">Loading leaderboard...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 text-lg mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      
-
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col">
-        
-        
-        
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">🏆 Leaderboard</h1>
+          <p className="text-gray-600">Top performing students</p>
+        </div>
 
         {/* Leaderboard Table */}
-        <div className="p-6">
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <h3 className="text-lg font-semibold mb-4">Top Scorers</h3>
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b text-gray-500 text-sm">
-                  <th className="pb-2">RANK</th>
-                  <th className="pb-2">STUDENT</th>
-                  <th className="pb-2 text-right">SCORE</th>
+        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+          {leaderboardData.length > 0 ? (
+            <table className="w-full">
+              <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                <tr>
+                  <th className="px-6 py-4 text-left">Rank</th>
+                  <th className="px-6 py-4 text-left">Student Name</th>
+                  <th className="px-6 py-4 text-left">Email</th>
+                  <th className="px-6 py-4 text-center">Quizzes Attempted</th>
+                  <th className="px-6 py-4 text-center">Total Score</th>
+                  <th className="px-6 py-4 text-right">Avg %</th>
                 </tr>
               </thead>
               <tbody>
                 {leaderboardData.map((student) => (
                   <tr
-                    key={student.rank}
-                    className="border-b hover:bg-gray-50 transition"
+                    key={student.studentId}
+                    className={`border-b hover:bg-blue-50 transition ${
+                      student.rank <= 3 ? "bg-blue-50" : ""
+                    }`}
                   >
-                    <td className="py-2">{student.rank}</td>
-                    <td className="flex items-center gap-3 py-2">
-                      <img
-                        src={student.avatar}
-                        alt={student.name}
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <span>{student.name}</span>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-bold ${
+                        student.rank === 1
+                          ? "bg-yellow-400 text-white"
+                          : student.rank === 2
+                          ? "bg-gray-400 text-white"
+                          : student.rank === 3
+                          ? "bg-orange-400 text-white"
+                          : "bg-gray-200 text-gray-700"
+                      }`}>
+                        {student.rank}
+                      </span>
                     </td>
-                    <td className="text-right text-blue-600 font-semibold">
-                      {student.score}
+                    <td className="px-6 py-4 font-medium text-gray-800">
+                      {student.firstName} {student.lastName}
+                    </td>
+                    <td className="px-6 py-4 text-gray-600 text-sm">{student.email}</td>
+                    <td className="px-6 py-4 text-center text-gray-700">
+                      {student.quizzesAttempted}
+                    </td>
+                    <td className="px-6 py-4 text-center font-bold text-blue-600">
+                      {student.totalScore}/{student.totalQuestions}
+                    </td>
+                    <td className="px-6 py-4 text-right font-semibold">
+                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                        student.averagePercentage >= 75
+                          ? "bg-green-100 text-green-700"
+                          : student.averagePercentage >= 50
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-700"
+                      }`}>
+                        {student.averagePercentage}%
+                      </span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
+          ) : (
+            <div className="p-8 text-center text-gray-600">
+              <p className="text-lg">No quiz submissions yet</p>
+            </div>
+          )}
         </div>
-      </main>
+
+        {/* Back Button */}
+        <div className="mt-6">
+          <button
+            onClick={() => navigate("/home")}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition"
+          >
+            ← Back to Home
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

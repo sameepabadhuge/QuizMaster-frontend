@@ -40,14 +40,14 @@ function MainApp() {
         {/* Teacher Pages */}
         <Route path="/teacher-home" element={<TeacherHome />} />
         <Route path="/create-quiz" element={<CreateQuiz />} />
-        <Route path="/quiz-results" element={<QuizResult />} />
+        
         <Route path="/leader-board" element={<Leaderboard />} />
         <Route path="/view-submission/:quizId" element={<ViewSubmission />} /> {/* ✅ ADDED */}
         {/* Student Pages */}
         <Route path="/home" element={<Home />} />
         <Route path="/quiz-list" element={<QuizList />} />
         <Route path="/quiz-result" element={<QuizResult />} />
-        <Route path="/leader-board" element={<Leaderboard />} />
+        
 
         {/* ⭐⭐ Take Quiz PAGE */}
         <Route path="/take-quiz/:quizId" element={<TakeQuiz />} />   {/* <= FIXED */}

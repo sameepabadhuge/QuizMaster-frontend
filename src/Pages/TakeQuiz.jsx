@@ -43,12 +43,13 @@ export default function TakeQuiz() {
 
     setSubmitting(true);
 
-    console.log("Submitting quiz:", { quizId, answers });
+    const studentId = localStorage.getItem("studentId");
+    console.log("Submitting quiz:", { quizId, answers, studentId });
 
     try {
       const res = await axios.post(
         "http://localhost:5000/api/students/submit-quiz",
-        { quizId, answers },
+        { quizId, answers, studentId },
         { headers: { "Content-Type": "application/json" } }
       );
       

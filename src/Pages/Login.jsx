@@ -166,9 +166,9 @@ const Login = () => {
 
         {/* Divider */}
         <div className="flex items-center gap-4 my-6">
-          <hr className="flex-grow border-gray-300" />
+          <hr className="grow border-gray-300" />
           <p className="text-gray-500 text-sm">OR CONTINUE WITH</p>
-          <hr className="flex-grow border-gray-300" />
+          <hr className="grow border-gray-300" />
         </div>
 
         {/* Register Buttons */}

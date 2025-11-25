@@ -1,57 +1,49 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import heroImg from "../assets/quiz-hero.png"; // 🖼️ Add your hero image inside /src/assets/
+
+import landingImg from "../assets/landing.avif";
 
 const Landing = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-between bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-blue-100 via-purple-50 to-pink-50">
       
-      <nav className="w-full bg-white shadow-md py-4 px-6 flex justify-between items-center">
+      {/* Navbar */}
+      <nav className="w-full bg-blue-600 shadow-lg py-4 px-6 flex justify-between items-center ">
         <div className="flex items-center space-x-2">
-          
-          <h1 className="text-2xl font-bold text-blue-600">Quiz Master</h1>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-white">
+            quizMaster 
+          </h1>
         </div>
-        <div className="flex space-x-3">
-          
-           
-          
-          
-        </div>
+        
       </nav>
 
-      {/* Hero Section */}
-      <section className="text-center flex flex-col items-center px-6 mt-12">
+      {/* image */}
+      <section className="text-center flex flex-col items-center px-6 mt-12 animate-fadeIn">
         <img
-          src={heroImg}
+          src={landingImg}
           alt="students learning"
-          className="w-[400px] md:w-[500px] mb-6"
+          className="w-1/4 md:w-1/2 mb-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
         />
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-          Master Your Knowledge with Quiz Master
+        <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-blue-600 drop-shadow-lg">
+          Master Your Knowledge! 
         </h2>
-        <p className="text-gray-600 max-w-xl text-center mb-8">
-          Create, take, and track quizzes with ease. Perfect for students to test
-          their understanding and for teachers to manage educational content
-          effectively.
+        <p className="text-gray-700 max-w-xl text-center mb-8 text-lg md:text-xl">
+         Engaging quizzes to help students learn and teachers teach.
         </p>
         <div className="flex space-x-4">
           <Link
             to="/login"
-            className="bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-700 hover:scale-105 transition transform"
           >
             Get Started 
           </Link>
           
         </div>
       </section>
-      {/* Footer */}
-      <footer className="w-full bg-white shadow-inner py-4 px-6 mt-12 text-center text-gray-500">
-        &copy; {new Date().getFullYear()} Quiz Master. All rights reserved.
-      </footer>
+
       
     </div>
   );
 };
 
 export default Landing;
-

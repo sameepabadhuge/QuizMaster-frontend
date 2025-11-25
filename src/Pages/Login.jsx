@@ -71,13 +71,19 @@ const Login = () => {
       // store normalized role
       localStorage.setItem("role", (role || "").toLowerCase());
 
+      // Save student/user data
+      if (data.student) {
+        localStorage.setItem("studentId", data.student.id);
+        localStorage.setItem("userEmail", data.student.email);
+        console.log("✅ Student data saved:", data.student);
+      }
+
       // Decode token payload safely (guard in case token format is unexpected)
       try {
         const payloadBase64 = token.split(".")[1] || "";
         const decodedData = payloadBase64 ? JSON.parse(atob(payloadBase64)) : {};
         localStorage.setItem("userId", decodedData.id || "");
-        localStorage.setItem("userEmail", decodedData.email || "");
-        console.log("✅ User data saved:", decodedData);
+        console.log("✅ Token data decoded:", decodedData);
       } catch (err) {
         console.warn("⚠️ Failed to decode token payload:", err);
       }

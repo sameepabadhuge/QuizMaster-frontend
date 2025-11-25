@@ -46,6 +46,7 @@ function MainApp() {
         {/* Student Pages */}
         <Route path="/home" element={<Home />} />
         <Route path="/quiz-list" element={<QuizList />} />
+        <Route path="/quiz-result/:resultId" element={<QuizResult />} />
         <Route path="/quiz-result" element={<QuizResult />} />
         
 

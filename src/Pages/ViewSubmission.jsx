@@ -52,6 +52,7 @@ const individualSubmissions = [
 
 // --- Sub-Components ---
 
+// eslint-disable-next-line no-unused-vars
 const StatCard = ({ title, value, detail, icon: Icon, borderClass }) => (
   <div className={`flex flex-col p-4 bg-white border-r ${borderClass} shadow-sm`}>
     <div className="text-sm font-semibold text-gray-500 uppercase flex items-center mb-1">

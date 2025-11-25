@@ -63,7 +63,7 @@ export default function Leaderboard() {
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           {leaderboardData.length > 0 ? (
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+              <thead className="bg-linear-to-r from-blue-600 to-blue-700 text-white">
                 <tr>
                   <th className="px-6 py-4 text-left">Rank</th>
                   <th className="px-6 py-4 text-left">Student Name</th>

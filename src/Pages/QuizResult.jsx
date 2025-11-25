@@ -1,12 +1,43 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import axios from "axios";
 
-// ✅ NEW VERSION - Quiz Results Display
-export default function QuizResultNew() {
+export default function QuizResult() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { resultId } = useParams();
 
-  const data = location.state;
+  const [data, setData] = useState(location.state || null);
+  const [loading, setLoading] = useState(false);
+
+  // If we have resultId in URL, fetch from backend
+  useEffect(() => {
+    if (resultId && !data) {
+      const fetchResult = async () => {
+        try {
+          setLoading(true);
+          const res = await axios.get(`http://localhost:5000/api/students/quiz-result/${resultId}`);
+          console.log("Backend response:", res.data);
+          // Backend returns { success: true, data: resultObject }
+          const resultData = res.data.data || res.data;
+          setData(resultData);
+        } catch (err) {
+          console.error("Error fetching result:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchResult();
+    }
+  }, [resultId, data]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-600 text-lg">Loading results...</p>
+      </div>
+    );
+  }
 
   // Safety check - no data received
   if (!data) {
@@ -38,7 +69,7 @@ export default function QuizResultNew() {
   const results = Array.isArray(data.results) ? data.results : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-4 sm:p-8">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-50 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header Card */}
         <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-8">

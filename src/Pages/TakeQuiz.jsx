@@ -54,18 +54,24 @@ export default function TakeQuiz() {
       );
       
       console.log("Quiz submission response:", res.data);
+      console.log("Result ID from backend:", res.data.resultId);
 
-      // Ensure data is in correct format for QuizResult page
-      const resultData = {
-        quizTitle: res.data.quizTitle || "Quiz",
-        score: res.data.score || 0,
-        totalQuestions: res.data.totalQuestions || 0,
-        percentage: res.data.percentage || 0,
-        results: res.data.results || []
-      };
-
-      console.log("Navigating to results with:", resultData);
-      navigate("/quiz-result", { state: resultData });
+      // Navigate to result page with resultId from backend
+      if (res.data.resultId) {
+        console.log("Navigating to /quiz-result/" + res.data.resultId);
+        navigate(`/quiz-result/${res.data.resultId}`);
+      } else {
+        console.log("⚠️ No resultId received from backend, using fallback state navigation");
+        // Fallback: use state if resultId not available
+        const resultData = {
+          quizTitle: res.data.quizTitle || "Quiz",
+          score: res.data.score || 0,
+          totalQuestions: res.data.totalQuestions || 0,
+          percentage: res.data.percentage || 0,
+          results: res.data.results || []
+        };
+        navigate("/quiz-result", { state: resultData });
+      }
     } catch (err) {
       console.error("Quiz submission error:", err);
       console.error("Error response:", err.response?.data);

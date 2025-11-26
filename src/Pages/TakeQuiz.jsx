@@ -44,6 +44,13 @@ export default function TakeQuiz() {
     setSubmitting(true);
 
     const studentId = localStorage.getItem("studentId");
+    if (!studentId) {
+      console.error("⚠️ studentId is missing in localStorage. Cannot submit quiz.");
+      alert("You are not logged in properly. Please log in again.");
+      setSubmitting(false);
+      return;
+    }
+
     console.log("Submitting quiz:", { quizId, answers, studentId });
 
     try {

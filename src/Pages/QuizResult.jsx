@@ -10,26 +10,47 @@ export default function QuizResult() {
   const [data, setData] = useState(location.state || null);
   const [loading, setLoading] = useState(false);
 
-  // If we have resultId in URL, fetch from backend
+  // 🔹 1. Load saved result from localStorage on refresh
   useEffect(() => {
-    if (resultId && !data) {
+    if (!data) {
+      const saved = localStorage.getItem("latestQuizResult");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        console.log("📌 Loaded quiz result from localStorage:", parsed);
+        setData(parsed);
+      }
+    }
+  }, []);
+
+  // 🔹 2. Fetch result from backend if resultId exists
+  useEffect(() => {
+    if (resultId && !location.state && !data) {
       const fetchResult = async () => {
         try {
           setLoading(true);
-          const res = await axios.get(`http://localhost:5000/api/students/quiz-result/${resultId}`);
-          console.log("Backend response:", res.data);
-          // Backend returns { success: true, data: resultObject }
+          const res = await axios.get(
+            `http://localhost:5000/api/students/quiz-result/${resultId}`
+          );
+          console.log("📥 Backend quiz result response:", res.data);
+
           const resultData = res.data.data || res.data;
+
           setData(resultData);
+
+          // Save in localStorage for future
+          localStorage.setItem(
+            "latestQuizResult",
+            JSON.stringify(resultData)
+          );
         } catch (err) {
-          console.error("Error fetching result:", err);
+          console.error("❌ Error fetching result:", err);
         } finally {
           setLoading(false);
         }
       };
       fetchResult();
     }
-  }, [resultId, data]);
+  }, [resultId]);
 
   if (loading) {
     return (
@@ -39,7 +60,6 @@ export default function QuizResult() {
     );
   }
 
-  // Safety check - no data received
   if (!data) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -61,7 +81,6 @@ export default function QuizResult() {
     );
   }
 
-  // Extract data safely
   const quizTitle = data.quizTitle || "Quiz Results";
   const score = data.score || 0;
   const totalQuestions = data.totalQuestions || 0;
@@ -71,7 +90,7 @@ export default function QuizResult() {
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-50 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header Card */}
+        {/* Header */}
         <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
             📊 Quiz Results
@@ -151,7 +170,9 @@ export default function QuizResult() {
                     </p>
                     <p className="text-gray-700">
                       <span className="font-semibold">Correct Answer:</span>{" "}
-                      <span className="text-green-600">{item.correctAnswer}</span>
+                      <span className="text-green-600">
+                        {item.correctAnswer}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -172,14 +193,9 @@ export default function QuizResult() {
             onClick={() => navigate("/quiz-list")}
             className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition"
           >
-            📚 Back to Quizzes
+            Back to Quizzes
           </button>
-          <button
-            onClick={() => navigate("/")}
-            className="px-8 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-semibold transition"
-          >
-            🏠 Home
-          </button>
+          
         </div>
       </div>
     </div>

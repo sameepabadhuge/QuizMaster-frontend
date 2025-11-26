@@ -10,115 +10,102 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // ------------------------------
-  // 🔥 Login Function + Token Save
-  // ------------------------------
+  // 🔥 LOGIN FUNCTION
   const handleLogin = async (e) => {
     e.preventDefault();
-    
-    // Validate before sending
+
+    // Basic validation
     if (!email || !password || !role) {
-      const msg = "Please fill in all fields";
-      console.error("❌ Validation error:", msg);
-      setErrorMsg(msg);
+      setErrorMsg("Please fill in all fields");
       return;
     }
-    
+
     setLoading(true);
     setErrorMsg("");
 
     try {
-      // send role in lowercase to match typical backend enums (e.g. 'student' / 'teacher')
       const payload = { role: role.toLowerCase(), email, password };
-      console.log("📤 Sending login payload:", JSON.stringify(payload));
-      console.log("📊 Current state - email:", email, "password:", password.length + " chars", "role:", role);
+      console.log("📤 Sending login payload:", payload);
 
       const res = await fetch("http://localhost:5000/api/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       const data = await res.json();
-      console.log("📥 Server response:", { status: res.status, data });
+      console.log("📥 LOGIN RESPONSE:", data);
+
       setLoading(false);
 
+      // Handle failure
       if (!res.ok) {
-        // show server message when login fails
-        const errMsg = data.message || `Login failed (${res.status})`;
-        console.error("❌ Login error:", errMsg);
-        setErrorMsg(errMsg);
-        alert(errMsg);
+        const msg = data.message || "Login failed";
+        setErrorMsg(msg);
+        alert(msg);
         return;
       }
 
-      // ------------------------------
-      // 🟦 Save Token + User Data
-      // ------------------------------
-      const token = data.token;
-      if (!token) {
-        const noTokenMsg = "Login did not return a token. Server response: " + JSON.stringify(data);
-        console.error("❌ No token:", noTokenMsg);
-        setErrorMsg(noTokenMsg);
-        alert(noTokenMsg);
+      // -----------------------------
+      // 🟦 Save Token
+      // -----------------------------
+      if (!data.token) {
+        alert("No token received from server!");
         return;
       }
 
-      console.log("✅ Token received, saving to localStorage...");
-      localStorage.setItem("token", token);
-      // store normalized role
-      localStorage.setItem("role", (role || "").toLowerCase());
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", role.toLowerCase());
 
-      // Save student/user data
-      if (data.student) {
-        localStorage.setItem("studentId", data.student.id);
-        localStorage.setItem("userEmail", data.student.email);
-        console.log("✅ Student data saved:", data.student);
+      // -----------------------------
+      // 🟦 Save User Data (Correct)
+      // -----------------------------
+      if (data.user && data.user._id) {
+        localStorage.setItem("studentId", data.user._id);
+        localStorage.setItem("userEmail", data.user.email);
+        console.log("✅ User data saved:", data.user);
+      } else {
+        console.warn("⚠️ User data missing:", data);
+        alert("Login successful but user data missing.");
       }
 
-      // Decode token payload safely (guard in case token format is unexpected)
+      // -----------------------------
+      // 🟦 Decode Token (Optional)
+      // -----------------------------
       try {
-        const payloadBase64 = token.split(".")[1] || "";
-        const decodedData = payloadBase64 ? JSON.parse(atob(payloadBase64)) : {};
-        localStorage.setItem("userId", decodedData.id || "");
-        console.log("✅ Token data decoded:", decodedData);
+        const payloadBase64 = data.token.split(".")[1] || "";
+        const decoded = payloadBase64 ? JSON.parse(atob(payloadBase64)) : {};
+        localStorage.setItem("userId", decoded.id || "");
+        console.log("🔍 Decoded token:", decoded);
       } catch (err) {
-        console.warn("⚠️ Failed to decode token payload:", err);
+        console.warn("⚠️ Token decode failed:", err);
       }
 
-      // ------------------------------
-      // 🚀 Redirect based on role
-      // ------------------------------
-      console.log("🚀 Redirecting user...");
-      if ((role || "").toLowerCase() === "student") {
+      // -----------------------------
+      // 🚀 Redirect by Role
+      // -----------------------------
+      if (role.toLowerCase() === "student") {
         navigate("/home");
       } else {
         navigate("/teacher-home");
       }
 
     } catch (error) {
-      console.error("❌ Network/Parse error:", error);
+      console.error("❌ Network error:", error);
       setLoading(false);
-      const msg = error.message || "Something went wrong!";
-      setErrorMsg(msg);
-      alert(msg);
+      alert(error.message || "Something went wrong!");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white shadow-xl rounded-2xl p-10 w-full max-w-md">
-
-        <h1 className="text-3xl font-bold text-center text-gray-900">
-          Welcome Back!
-        </h1>
+        
+        <h1 className="text-3xl font-bold text-center text-gray-900">Welcome Back!</h1>
         <p className="text-center text-gray-500 mt-1">
           Log in to your Quiz Master account.
         </p>
 
-        {/* Error Message Display */}
         {errorMsg && (
           <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
             {errorMsg}
@@ -127,7 +114,6 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="mt-8">
 
-          {/* Select Role */}
           <label className="font-medium text-gray-700">Login As</label>
           <select
             value={role}
@@ -138,7 +124,6 @@ const Login = () => {
             <option value="Teacher">Teacher</option>
           </select>
 
-          {/* Email */}
           <label className="font-medium text-gray-700 mt-4 block">Email</label>
           <input
             type="email"
@@ -149,7 +134,6 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          {/* Password */}
           <label className="font-medium text-gray-700 mt-4 block">Password</label>
           <input
             type="password"
@@ -160,7 +144,6 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {/* Login Button */}
           <button
             type="submit"
             disabled={loading}
@@ -170,14 +153,12 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Divider */}
         <div className="flex items-center gap-4 my-6">
           <hr className="grow border-gray-300" />
           <p className="text-gray-500 text-sm">OR CONTINUE WITH</p>
           <hr className="grow border-gray-300" />
         </div>
 
-        {/* Register Buttons */}
         <button
           onClick={() => navigate("/student-register")}
           className="w-full border border-gray-400 text-gray-700 py-3 rounded-lg mb-3 hover:bg-gray-100 transition"

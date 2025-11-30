@@ -6,6 +6,20 @@ export default function Card({ quiz }) {
 
   if (!quiz) return null;
 
+  const handleStartQuiz = () => {
+    // Check if the student is logged in
+    const studentToken = localStorage.getItem("studentToken"); // token set on login
+
+    if (!studentToken) {
+      // If not logged in, show alert and redirect to login page
+      alert("You must be logged in to take this quiz!");
+      navigate("/login");
+    } else {
+      // If logged in, navigate to quiz page
+      navigate(`/take-quiz/${quiz._id}`);
+    }
+  };
+
   return (
     <div className="bg-white p-6 rounded shadow">
       <h2 className="font-semibold text-xl mb-2">{quiz.title}</h2>
@@ -16,7 +30,7 @@ export default function Card({ quiz }) {
       <p className="text-sm text-gray-600 mb-4">Difficulty: {quiz.difficulty || "-"}</p>
 
       <button
-        onClick={() => navigate(`/take-quiz/${quiz._id}`)}
+        onClick={handleStartQuiz} // Use the handler
         className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded"
       >
         Start Quiz

@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import landingImg from "../assets/landing.avif";
 
 const Landing = () => {
+
+
+
+
+  
   return (
     <div className="min-h-screen flex flex-col bg-linear-to-b from-blue-100 via-purple-50 to-pink-50">
       

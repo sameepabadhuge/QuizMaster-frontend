@@ -12,10 +12,20 @@ export default function TakeQuiz() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // Fetch quiz data
   useEffect(() => {
+    // 🔒 Check if student is logged in
+    const studentToken = localStorage.getItem("studentToken"); // token stored at login
+    if (!studentToken) {
+      alert("You must be logged in to take this quiz!");
+      navigate("/login"); // redirect unregistered student
+      return;
+    }
+
+    // Fetch quiz data if logged in
     axios
-      .get(`http://localhost:5000/api/createquiz/quiz/${quizId}`)
+      .get(`http://localhost:5000/api/createquiz/quiz/${quizId}`, {
+        headers: { Authorization: `Bearer ${studentToken}` } // optional: backend can verify
+      })
       .then((res) => {
         setQuizData(res.data);
         setLoading(false);
@@ -24,7 +34,7 @@ export default function TakeQuiz() {
         console.error(err);
         setLoading(false);
       });
-  }, [quizId]);
+  }, [quizId, navigate]);
 
   if (loading) return <div className="text-center mt-10">Loading...</div>;
   if (!quizData) return <div className="text-center mt-10">Quiz not found!</div>;
@@ -45,13 +55,11 @@ export default function TakeQuiz() {
 
     const studentId = localStorage.getItem("studentId");
     if (!studentId) {
-      console.error("⚠️ studentId is missing in localStorage. Cannot submit quiz.");
       alert("You are not logged in properly. Please log in again.");
       setSubmitting(false);
+      navigate("/login");
       return;
     }
-
-    console.log("Submitting quiz:", { quizId, answers, studentId });
 
     try {
       const res = await axios.post(
@@ -59,17 +67,10 @@ export default function TakeQuiz() {
         { quizId, answers, studentId },
         { headers: { "Content-Type": "application/json" } }
       );
-      
-      console.log("Quiz submission response:", res.data);
-      console.log("Result ID from backend:", res.data.resultId);
 
-      // Navigate to result page with resultId from backend
       if (res.data.resultId) {
-        console.log("Navigating to /quiz-result/" + res.data.resultId);
         navigate(`/quiz-result/${res.data.resultId}`);
       } else {
-        console.log("⚠️ No resultId received from backend, using fallback state navigation");
-        // Fallback: use state if resultId not available
         const resultData = {
           quizTitle: res.data.quizTitle || "Quiz",
           score: res.data.score || 0,
@@ -81,8 +82,6 @@ export default function TakeQuiz() {
       }
     } catch (err) {
       console.error("Quiz submission error:", err);
-      console.error("Error response:", err.response?.data);
-      console.error("Error status:", err.response?.status);
       alert(`Error submitting quiz: ${err.response?.data?.message || err.message}`);
     } finally {
       setSubmitting(false);

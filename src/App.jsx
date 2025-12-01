@@ -1,18 +1,18 @@
 import React from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 
-import Landing from "./pages/Landing";
-import Home from "./pages/Home";
-import QuizList from "./pages/QuizList";
-import QuizResult from "./pages/QuizResult";
-import Leaderboard from "./pages/Leaderboard";
-import Login from "./pages/Login";
-import StudentRegister from "./pages/StudentRegister";
-import TeacherRegister from "./pages/TeacherRegister";
-import TeacherHome from "./pages/TeacherHome";
-import CreateQuiz from "./pages/CreateQuiz";
-import TakeQuiz from "./pages/TakeQuiz";   // ✅ ADDED
-import ViewSubmission from "./pages/ViewSubmission"; // Matches filename exactly
+import Landing from "./Pages/Landing";
+import Home from "./Pages/Home";
+import QuizList from "./Pages/QuizList";
+import QuizResult from "./Pages/QuizResult";
+import Leaderboard from "./Pages/Leaderboard";
+import Login from "./Pages/Login";
+import StudentRegister from "./Pages/StudentRegister";
+import TeacherRegister from "./Pages/TeacherRegister";
+import TeacherHome from "./Pages/TeacherHome";
+import CreateQuiz from "./Pages/CreateQuiz";
+import TakeQuiz from "./Pages/TakeQuiz";   // ✅ ADDED
+import ViewSubmission from "./Pages/ViewSubmission"; // Matches filename exactly
 
 import Nav from "./Components/Nav";
 

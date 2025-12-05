@@ -25,7 +25,7 @@ export default function Nav() {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-blue-600 text-white px-8 py-4 shadow-md sticky top-0 z-50">
+    <nav className="flex items-center justify-between bg-cyan-600 text-white px-8 py-4 shadow-md sticky top-0 z-50">
       <h2 className="text-2xl font-bold tracking-wide">QuizMaster</h2>
 
       <div className="flex space-x-6">

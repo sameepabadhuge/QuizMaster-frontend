@@ -37,21 +37,22 @@ const Login = () => {
         return;
       }
 
-      // ⭐ STUDENT LOGIN → SAVE TOKEN + STUDENT ID
+      // ⭐ STUDENT LOGIN
       if (role.toLowerCase() === "student") {
-        localStorage.setItem("studentToken", data.token);   // ⭐ REQUIRED
+        localStorage.setItem("role", "student");  // ⭐ IMPORTANT
+        localStorage.setItem("studentToken", data.token);
         localStorage.setItem("studentId", data.user._id);
-        localStorage.setItem(
-          "student",
-          JSON.stringify({ email: data.user.email })
-        );
+        localStorage.setItem("student", JSON.stringify({ email: data.user.email }));
 
-        navigate("/quiz-list"); // Redirect after login
+        navigate("/home");
       } 
+      
       // ⭐ TEACHER LOGIN
       else {
+        localStorage.setItem("role", "teacher");  // ⭐ IMPORTANT
         localStorage.setItem("teacherToken", data.token);
         localStorage.setItem("teacherId", data.user._id);
+
         navigate("/teacher-home");
       }
     } catch (error) {

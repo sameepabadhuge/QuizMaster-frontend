@@ -37,15 +37,39 @@ export default function CreateQuiz() {
   };
 
   const handleSaveQuiz = async () => {
+    // Validation
+    if (!quizTitle.trim()) {
+      alert("Please enter a quiz title");
+      return;
+    }
+
+    if (questions.length === 0) {
+      alert("Please add at least one question");
+      return;
+    }
+
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].text.trim()) {
+        alert(`Question ${i + 1} is empty`);
+        return;
+      }
+      for (let j = 0; j < questions[i].options.length; j++) {
+        if (!questions[i].options[j].trim()) {
+          alert(`Question ${i + 1}, Option ${j + 1} is empty`);
+          return;
+        }
+      }
+    }
+
     try {
       const payload = {
         title: quizTitle,
         description: quizDescription,
         lectureName,
         subject,
-        duration,
+        duration: parseInt(duration) || 10,
         difficulty,
-        teacherId: localStorage.getItem("userId"),
+        teacherId: localStorage.getItem("teacherId"),
         questions: questions.map((q) => ({
           question: q.text,
           options: q.options,
@@ -53,10 +77,14 @@ export default function CreateQuiz() {
         })),
       };
 
+      console.log("Sending payload:", payload);
+
       const res = await axios.post(
         "http://localhost:5000/api/createquiz",
         payload
       );
+
+      console.log("Response:", res.data);
 
       if (res.data.success) {
         alert("Quiz saved successfully!");
@@ -69,8 +97,9 @@ export default function CreateQuiz() {
         setQuestions([{ text: "", options: ["", "", "", ""], correctIndex: 0 }]);
       }
     } catch (err) {
-      console.error(err);
-      alert("Failed to save quiz.");
+      console.error("Error:", err);
+      const errorMessage = err.response?.data?.message || err.response?.data?.error || err.message || "Failed to save quiz";
+      alert("Failed to save quiz: " + errorMessage);
     }
   };
 

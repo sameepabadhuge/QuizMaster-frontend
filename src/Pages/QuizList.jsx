@@ -33,7 +33,7 @@ export default function QuizList() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-3xl font-bold mb-4">Available Quizzes</h1>
-      <input type="text" placeholder="Search..." value={search} onChange={e=>setSearch(e.target.value)} className="w-full p-3 border rounded mb-4" />
+      <input type="text" placeholder="Search your subject" value={search } onChange={e=>setSearch(e.target.value)} className="w-full p-3 border rounded mb-4" />
       <select value={difficulty} onChange={e=>setDifficulty(e.target.value)} className="w-full p-3 border rounded mb-4">
         <option>All</option>
         <option>Easy</option>

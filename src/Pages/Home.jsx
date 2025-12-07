@@ -1,5 +1,5 @@
 import React from 'react';
-import homepageImg from '../assets/test2.avif';
+import homepageImg from '../assets/5.jpg';
 
 function Home() {
   return (

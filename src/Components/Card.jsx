@@ -18,7 +18,7 @@ export default function Card({ quiz }) {
   return (
     <div
       className="
-      bg-white p-6 rounded shadow
+      bg-blue-100 p-6 rounded-3xl shadow
       hover:scale-105 transition-transform duration-300
       cursor-pointer drop-shadow-lg
       "
@@ -32,7 +32,7 @@ export default function Card({ quiz }) {
 
       <button
         onClick={handleStartQuiz}
-        className="mt-2 w-1/4 bg-blue-600 hover:bg-blue-400 text-white py-4 rounded-3xl"
+        className="mt-2 w-1/4 bg-blue-600 hover:bg-blue-400 text-white py-4 rounded-3xl bg-center"
       >
         Start Quiz
       </button>

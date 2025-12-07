@@ -58,12 +58,12 @@ export default function TeacherHome() {
             <section className="mb-10">
               <div className="bg-white p-6 rounded shadow">
                 <p className="text-gray-700">
-                  Welcome Back, <strong>{teacherName}</strong>! Manage your quizzes.
+                  Welcome! Manage your quizzes.
                 </p>
               </div>
             </section>
             <section className="mb-10">
-              //<h3 className="text-lg font-bold mb-4">Overview</h3>
+             
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {loadingStats ? (
                   <p>Loading...</p>

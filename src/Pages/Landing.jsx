@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import landingImg from "../assets/5.jpg";
+import landingImg from "../assets/6.jpg";
 
 const Landing = () => {
   return (
@@ -16,7 +16,7 @@ const Landing = () => {
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
       {/* Navbar */}
-      <nav className="relative w-full bg-gradient-to-r from-cyan-600 to-blue-600 shadow-xl py-5 px-8 z-50">
+      <nav className="relative w-full shadow-xl py-5 px-8 z-50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
@@ -26,7 +26,7 @@ const Landing = () => {
           <div className="flex items-center space-x-4">
             <Link
               to="/login"
-              className="bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-800 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+              className="text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
             >
               Login/Register
             </Link>

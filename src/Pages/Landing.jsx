@@ -1,62 +1,56 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-import landingImg from "../assets/landing.avif";
+import landingImg from "../assets/5.jpg";
 
 const Landing = () => {
-
-
-
-
-  
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-blue-100 via-purple-50 to-pink-50">
-      
+    <div className="h-screen flex flex-col relative">
+      {/* Full Screen Image Background */}
+      <img
+        src={landingImg}
+        alt="students learning"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+
       {/* Navbar */}
-      <nav className="w-full bg-blue-600 shadow-lg py-4 px-6 flex justify-between items-center ">
-        <div className="flex items-center space-x-2">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white">
-            quizMaster 
-          </h1>
+      <nav className="relative w-full bg-gradient-to-r from-cyan-600 to-blue-600 shadow-xl py-5 px-8 z-50">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-3">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+              quizMaster
+            </h1>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Link
+              to="/login"
+              className="bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-800 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+            >
+              Login/Register
+            </Link>
+          </div>
         </div>
-
-
-        <div className="flex items-center space-x-4">
-          <Link
-            to="/login"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700"
-          >
-            Login/Register
-          </Link>
-        </div>
-        
       </nav>
 
-      {/* image */}
-      <section className="text-center flex flex-col items-center px-6 mt-12 animate-fadeIn">
-        <img
-          src={landingImg}
-          alt="students learning"
-          className="w-1/4 md:w-1/2 mb-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
-        />
-        <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-blue-600 drop-shadow-lg">
-          Master Your Knowledge! 
-        </h2>
-        <p className="text-gray-700 max-w-xl text-center mb-8 text-lg md:text-xl">
-         Engaging quizzes to help students learn and teachers teach.
-        </p>
-        <div className="flex space-x-4">
+      {/* Text Content - Centered on Image */}
+      <div className="relative flex-1 flex items-center justify-center z-10 px-8">
+        <div className="text-center max-w-2xl">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white drop-shadow-2xl leading-tight">
+            Master Your Knowledge!
+          </h2>
+          <p className="text-xl md:text-2xl text-white mb-10 drop-shadow-lg font-medium">
+            Engaging quizzes to help students learn and teachers teach.
+          </p>
           <Link
             to="/quiz-list"
-            className="bg-blue-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-700 hover:scale-105 transition transform"
+            className="inline-block bg-gradient-to-r from-blue-600 to-blue-700 text-white px-10 py-4 rounded-full font-bold shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 transform hover:-translate-y-2 text-lg"
           >
-            Get Started 
+            Get Started
           </Link>
-          
         </div>
-      </section>
-
-      
+      </div>
     </div>
   );
 };

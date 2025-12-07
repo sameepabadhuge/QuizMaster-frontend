@@ -55,40 +55,40 @@ export default function Leaderboard() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">🏆 Leaderboard</h1>
-          <p className="text-gray-600">Top performing students</p>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">🏆Top performing students</h1>
+          
         </div>
 
         {/* Leaderboard Table */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-blue-100 rounded-xl shadow-md overflow-hidden">
           {leaderboardData.length > 0 ? (
             <table className="w-full">
               <thead className="bg-linear-to-r from-blue-600 to-blue-700 text-white">
                 <tr>
-                  <th className="px-6 py-4 text-left">Rank</th>
-                  <th className="px-6 py-4 text-left">Student Name</th>
-                  <th className="px-6 py-4 text-left">Email</th>
-                  <th className="px-6 py-4 text-center">Quizzes Attempted</th>
-                  <th className="px-6 py-4 text-center">Total Score</th>
-                  <th className="px-6 py-4 text-right">Avg %</th>
+                  <th className="px-6 py-4 text-left text-gray-700">Rank</th>
+                  <th className="px-6 py-4 text-left text-gray-700">Student Name</th>
+                  <th className="px-6 py-4 text-left text-gray-700">Email</th>
+                  <th className="px-6 py-4 text-center text-gray-700">Quizzes Attempted</th>
+                  <th className="px-6 py-4 text-center text-gray-700">Total Score</th>
+                  <th className="px-6 py-4 text-right text-gray-700">Avg %</th>
                 </tr>
               </thead>
               <tbody>
                 {leaderboardData.map((student) => (
                   <tr
                     key={student.studentId}
-                    className={`border-b hover:bg-blue-50 transition ${
-                      student.rank <= 3 ? "bg-blue-50" : ""
+                    className={`border-b hover:bg-blue-200 transition ${
+                      student.rank <= 3 ? "bg-blue-100" : ""
                     }`}
                   >
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-bold ${
                         student.rank === 1
-                          ? "bg-yellow-400 text-white"
+                          ? "bg-red-500 text-white"
                           : student.rank === 2
-                          ? "bg-gray-400 text-white"
+                          ? "bg-yellow-300 text-white"
                           : student.rank === 3
-                          ? "bg-orange-400 text-white"
+                          ? "bg-purple-400 text-white"
                           : "bg-gray-200 text-gray-700"
                       }`}>
                         {student.rank}
@@ -126,15 +126,7 @@ export default function Leaderboard() {
           )}
         </div>
 
-        {/* Back Button */}
-        <div className="mt-6">
-          <button
-            onClick={() => navigate("/home")}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition"
-          >
-            ← Back to Home
-          </button>
-        </div>
+        
       </div>
     </div>
   );

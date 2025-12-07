@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import landingImg from "../assets/6.jpg";
+import landingImg from "../assets/test2.avif";
 
 const Landing = () => {
   return (
@@ -26,7 +26,7 @@ const Landing = () => {
           <div className="flex items-center space-x-4">
             <Link
               to="/login"
-              className="text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+              className="bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-800 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
             >
               Login/Register
             </Link>
@@ -34,10 +34,10 @@ const Landing = () => {
         </div>
       </nav>
 
-      {/* Text Content - Centered on Image */}
-      <div className="relative flex-1 flex items-center justify-center z-10 px-8">
-        <div className="text-center max-w-2xl">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white drop-shadow-2xl leading-tight">
+      {/* Text Content - Positioned at Bottom */}
+      <div className="relative z-10 pb-20 px-8 text-center flex items-end justify-center flex-1">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 text-white drop-shadow-2xl leading-tight">
             Master Your Knowledge!
           </h2>
           <p className="text-xl md:text-2xl text-white mb-10 drop-shadow-lg font-medium">

@@ -88,7 +88,7 @@ export default function QuizResult() {
   const results = Array.isArray(data.results) ? data.results : [];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-50 p-4 sm:p-8">
+    <div className="min-h-screen bg-linear-to-br from-blue-100  p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-8">

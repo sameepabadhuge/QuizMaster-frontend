@@ -89,14 +89,14 @@ export default function TakeQuiz() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-blue-100 rounded-xl shadow-md">
       <h2 className="text-3xl font-bold text-center mb-6">{quizData.title}</h2>
 
       <div className="text-right mb-4">
         Question {currentIndex + 1} / {quizData.questions.length}
       </div>
 
-      <div className="p-5 border rounded-lg bg-gray-50 mb-6">
+      <div className="p-5 border rounded-3xl bg-blue-100 mb-6">
         <h3 className="text-xl font-bold mb-4">{question.question}</h3>
         {question.options.map((option, idx) => (
           <label
@@ -121,7 +121,7 @@ export default function TakeQuiz() {
         <button
           disabled={currentIndex === 0}
           onClick={() => setCurrentIndex(currentIndex - 1)}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-yellow-200 rounded disabled:opacity-50"
         >
           Previous
         </button>

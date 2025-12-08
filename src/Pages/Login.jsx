@@ -62,8 +62,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white shadow-xl rounded-2xl p-10 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-blue-100 p-4">
+      <div className="bg-blue-100 shadow-xl rounded-2xl p-10 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-gray-900">Welcome Back!</h1>
 
         {errorMsg && (
@@ -104,7 +104,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium mt-6 hover:bg-blue-700 transition disabled:bg-blue-300"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium mt-6 hover:bg-blue-900 transition disabled:bg-blue-300"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
@@ -115,7 +115,7 @@ const Login = () => {
             Don't have an account?{" "}
             <button
               onClick={() => navigate("/student-register")}
-              className="text-blue-600 hover:text-blue-500 font-medium"
+              className="text-blue-600 hover:text-blue-300 font-medium"
             >
               Register
             </button>

@@ -163,14 +163,14 @@ const QuizSubmissions = () => {
       </div>
 
       {/* Submissions Table */}
-      <section className="bg-white p-6 rounded-lg shadow-lg mb-10 border border-gray-200">
+      <section className="bg-blue-100 p-6 rounded-lg shadow-lg mb-10 border border-gray-200">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Individual Quiz Submissions</h3>
         {submissions.length === 0 && !loading ? (
           <p className="text-gray-500 text-center py-8">No submissions yet</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-blue-100">
                 <tr>
                   <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Name</th>
                   <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quiz Title</th>

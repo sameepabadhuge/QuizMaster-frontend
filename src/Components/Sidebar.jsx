@@ -19,7 +19,7 @@ export default function Sidebar({ userType, activeTab, onSelectTab }) {
   };
 
   return (
-    <div className="w-64 h-screen bg-gray-50 p-6 border-r flex flex-col">
+    <div className="fixed left-0 top-0 w-64 h-screen bg-blue-100 p-6 border-r flex flex-col">
       <h2 className="text-xl font-bold mb-8">Teacher Dashboard</h2>
       <nav className="flex flex-col gap-4 flex-1">
         {menuItems.map((item) => (

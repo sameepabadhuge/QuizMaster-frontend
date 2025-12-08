@@ -38,8 +38,8 @@ const StudentRegister = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white shadow-xl rounded-2xl p-10 w-full max-w-md">
+    <div className="min-h-screen bg-blue-100 flex items-center justify-center">
+      <div className="bg-blue-100 shadow-xl rounded-2xl p-10 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-4">Student Registration</h1>
         {message && <div className="mb-4 text-red-600">{message}</div>}
         <form onSubmit={handleRegister} className="space-y-4">
@@ -59,7 +59,7 @@ const StudentRegister = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-900"
           >
             {loading ? "Registering..." : "Register"}
           </button>

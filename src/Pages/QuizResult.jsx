@@ -54,7 +54,7 @@ export default function QuizResult() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-blue-200 -center justify-center">
         <p className="text-gray-600 text-lg">Loading results...</p>
       </div>
     );
@@ -88,10 +88,10 @@ export default function QuizResult() {
   const results = Array.isArray(data.results) ? data.results : [];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-100  p-4 sm:p-8">
+    <div className="min-h-screen bg-blue-200 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-8">
+        <div className="bg-blue-100 2xl shadow-lg p-6 sm:p-8 mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
             📊 Quiz Results
           </h1>
@@ -99,7 +99,7 @@ export default function QuizResult() {
 
           {/* Score Summary */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-600">
+            <div className="bg-blue-100 roded-lg p-4 border-l-4 border-blue-600">
               <p className="text-gray-600 text-sm font-semibold">Score</p>
               <p className="text-3xl font-bold text-blue-600">
                 {score}/{totalQuestions}

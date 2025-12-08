@@ -52,7 +52,7 @@ export default function TeacherHome() {
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar userType="teacher" activeTab={activeTab} onSelectTab={setActiveTab} />
-      <div className="flex-1 p-10">
+      <div className="flex-1 p-10 ml-64">
         {activeTab === "create-quiz" && (
           <>
             <section className="mb-10">

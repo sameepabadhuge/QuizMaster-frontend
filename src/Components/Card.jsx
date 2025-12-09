@@ -18,21 +18,21 @@ export default function Card({ quiz }) {
   return (
     <div
       className="
-      bg-blue-100 p-6 rounded-3xl shadow
-      hover:scale-105 transition-transform duration-300
-      cursor-pointer drop-shadow-lg
+      bg-white p-6 rounded-xl shadow-lg
+      hover:scale-105 hover:shadow-xl transition-all duration-300
+      cursor-pointer border border-gray-200
       "
     >
-      <h2 className="font-semibold text-xl mb-2">{quiz.title}</h2>
-      <p className="text-sm text-gray-600">Lecture: {quiz.lectureName || "-"}</p>
-      <p className="text-sm text-gray-600">Subject: {quiz.subject || "-"}</p>
-      <p className="text-sm text-gray-600">Duration: {quiz.duration || "-"} min</p>
-      <p className="text-sm text-gray-600">Questions: {quiz.questions?.length || 0}</p>
-      <p className="text-sm text-gray-600 mb-4">Difficulty: {quiz.difficulty || "-"}</p>
+      <h2 className="font-bold text-xl mb-3 text-gray-900">{quiz.title}</h2>
+      <p className="text-sm text-gray-600 mb-1">📖 Lecture: {quiz.lectureName || "-"}</p>
+      <p className="text-sm text-gray-600 mb-1">📚 Subject: {quiz.subject || "-"}</p>
+      <p className="text-sm text-gray-600 mb-1">⏱️ Duration: {quiz.duration || "-"} min</p>
+      <p className="text-sm text-gray-600 mb-1">❓ Questions: {quiz.questions?.length || 0}</p>
+      <p className="text-sm text-gray-600 mb-4">🎯 Difficulty: {quiz.difficulty || "-"}</p>
 
       <button
         onClick={handleStartQuiz}
-        className="mt-2 w-1/4 bg-blue-600 hover:bg-blue-400 text-white py-4 rounded-3xl bg-center"
+        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-md hover:shadow-lg"
       >
         Start Quiz
       </button>

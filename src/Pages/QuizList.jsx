@@ -31,27 +31,46 @@ export default function QuizList() {
   );
 
   return (
-    <div className="min-h-screen bg-blue-50 p-6">
-      <h1 className="text-3xl font-bold mb-4">Available Quizzes</h1>
-      <input type="text" placeholder="Search your subject" value={search } onChange={e=>setSearch(e.target.value)} className="w-full p-3 border rounded mb-4" />
-      <select value={difficulty} onChange={e=>setDifficulty(e.target.value)} className="w-full p-3 border rounded mb-4">
-        <option>All</option>
-        <option>Easy</option>
-        <option>Medium</option>
-        <option>Hard</option>
-      </select>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : filteredQuizzes.length === 0 ? (
-        <p>No quizzes found.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredQuizzes.map(q => (
-            <Card key={q._id} quiz={q} />
-          ))}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">📚 Available Quizzes</h1>
+        
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+          <input 
+            type="text" 
+            placeholder="🔍 Search by subject, title, or lecture name" 
+            value={search} 
+            onChange={e=>setSearch(e.target.value)} 
+            className="w-full p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" 
+          />
+          <select 
+            value={difficulty} 
+            onChange={e=>setDifficulty(e.target.value)} 
+            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          >
+            <option>All</option>
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+          </select>
         </div>
-      )}
+
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">Loading quizzes...</p>
+          </div>
+        ) : filteredQuizzes.length === 0 ? (
+          <div className="text-center py-12 bg-white rounded-xl shadow-lg">
+            <p className="text-gray-600 text-lg">No quizzes found. Try adjusting your search.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredQuizzes.map(q => (
+              <Card key={q._id} quiz={q} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

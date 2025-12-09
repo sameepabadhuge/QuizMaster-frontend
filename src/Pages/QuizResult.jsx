@@ -54,7 +54,7 @@ export default function QuizResult() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-blue-200 -center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <p className="text-gray-600 text-lg">Loading results...</p>
       </div>
     );
@@ -62,7 +62,7 @@ export default function QuizResult() {
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
             ❌ No Results Found
@@ -72,7 +72,7 @@ export default function QuizResult() {
           </p>
           <button
             onClick={() => navigate("/quiz-list")}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors duration-200"
           >
             Back to Quizzes
           </button>
@@ -88,34 +88,34 @@ export default function QuizResult() {
   const results = Array.isArray(data.results) ? data.results : [];
 
   return (
-    <div className="min-h-screen bg-blue-200 p-4 sm:p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="p-10">
         {/* Header */}
-        <div className="bg-blue-100 2xl shadow-lg p-6 sm:p-8 mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
+        <div className="bg-white rounded-xl shadow-xl p-8 mb-10 border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             📊 Quiz Results
           </h1>
           <h2 className="text-xl text-gray-600 mb-6">{quizTitle}</h2>
 
           {/* Score Summary */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-blue-100 roded-lg p-4 border-l-4 border-blue-600">
-              <p className="text-gray-600 text-sm font-semibold">Score</p>
-              <p className="text-3xl font-bold text-blue-600">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-shadow">
+              <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Score</p>
+              <p className="text-4xl font-bold text-blue-600 mt-2">
                 {score}/{totalQuestions}
               </p>
             </div>
 
             <div
-              className={`rounded-lg p-4 border-l-4 ${
+              className={`rounded-xl p-6 border-l-4 shadow-md hover:shadow-lg transition-shadow ${
                 percentage >= 50
-                  ? "bg-green-50 border-green-600"
-                  : "bg-red-50 border-red-600"
+                  ? "bg-gradient-to-br from-green-50 to-green-100 border-green-600"
+                  : "bg-gradient-to-br from-red-50 to-red-100 border-red-600"
               }`}
             >
-              <p className="text-gray-600 text-sm font-semibold">Percentage</p>
+              <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Percentage</p>
               <p
-                className={`text-3xl font-bold ${
+                className={`text-4xl font-bold mt-2 ${
                   percentage >= 50 ? "text-green-600" : "text-red-600"
                 }`}
               >
@@ -123,10 +123,10 @@ export default function QuizResult() {
               </p>
             </div>
 
-            <div className="bg-indigo-50 rounded-lg p-4 border-l-4 border-indigo-600">
-              <p className="text-gray-600 text-sm font-semibold">Status</p>
+            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 border-l-4 border-indigo-600 shadow-md hover:shadow-lg transition-shadow">
+              <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Status</p>
               <p
-                className={`text-lg font-bold ${
+                className={`text-lg font-bold mt-2 ${
                   percentage >= 50 ? "text-green-600" : "text-red-600"
                 }`}
               >
@@ -138,25 +138,25 @@ export default function QuizResult() {
 
         {/* Questions Breakdown */}
         {results.length > 0 ? (
-          <div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">
-              Question Breakdown
+          <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-8 mt-8 hover:shadow-2xl transition-shadow duration-300">
+            <h3 className="text-3xl font-bold text-gray-900 mb-8">
+              ❓ Question Breakdown
             </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {results.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`rounded-xl shadow-md p-6 border-l-4 ${
+                  className={`rounded-xl shadow-md p-6 border-l-4 hover:shadow-lg transition-all duration-200 ${
                     item.isCorrect
-                      ? "bg-green-50 border-green-500"
-                      : "bg-red-50 border-red-500"
+                      ? "bg-gradient-to-br from-green-50 to-green-100 border-green-500"
+                      : "bg-gradient-to-br from-red-50 to-red-100 border-red-500"
                   }`}
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <p className="font-semibold text-gray-800">
+                    <p className="font-semibold text-gray-800 text-lg">
                       Q{idx + 1}: {item.question}
                     </p>
-                    <span className="text-2xl">
+                    <span className="text-3xl">
                       {item.isCorrect ? "✅" : "❌"}
                     </span>
                   </div>
@@ -186,17 +186,6 @@ export default function QuizResult() {
             </p>
           </div>
         )}
-
-        {/* Action Buttons */}
-        <div className="mt-8 flex gap-4 justify-center">
-          <button
-            onClick={() => navigate("/quiz-list")}
-            className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition"
-          >
-            Back to Quizzes
-          </button>
-          
-        </div>
       </div>
     </div>
   );

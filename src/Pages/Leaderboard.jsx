@@ -51,60 +51,58 @@ export default function Leaderboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="p-10 flex flex-col items-center justify-center">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">🏆Top performing students</h1>
-          
+        <div className="mb-10 text-center max-w-6xl w-full">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">🏆 Top Performing Students</h1>
+          <p className="text-gray-600">Celebrating our highest achieving students</p>
         </div>
 
         {/* Leaderboard Table */}
-        <div className="bg-blue-100 rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-shadow duration-300 max-w-6xl w-full">
           {leaderboardData.length > 0 ? (
             <table className="w-full">
-              <thead className="bg-linear-to-r from-blue-600 to-blue-700 text-white">
+              <thead className="bg-gradient-to-r from-blue-600 to-blue-700 border-b-2 border-blue-800">
                 <tr>
-                  <th className="px-6 py-4 text-left text-gray-700">Rank</th>
-                  <th className="px-6 py-4 text-left text-gray-700">Student Name</th>
-                  <th className="px-6 py-4 text-left text-gray-700">Email</th>
-                  <th className="px-6 py-4 text-center text-gray-700">Quizzes Attempted</th>
-                  <th className="px-6 py-4 text-center text-gray-700">Total Score</th>
-                  <th className="px-6 py-4 text-right text-gray-700">Avg %</th>
+                  <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Rank</th>
+                  <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Student Name</th>
+                  <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Email</th>
+                  <th className="px-8 py-5 text-center text-xs font-bold text-white uppercase tracking-wider">Quizzes Attempted</th>
+                  <th className="px-8 py-5 text-center text-xs font-bold text-white uppercase tracking-wider">Total Score</th>
+                  <th className="px-8 py-5 text-right text-xs font-bold text-white uppercase tracking-wider">Avg %</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-200">
                 {leaderboardData.map((student) => (
                   <tr
                     key={student.studentId}
-                    className={`border-b hover:bg-blue-200 transition ${
-                      student.rank <= 3 ? "bg-blue-100" : ""
-                    }`}
+                    className="hover:bg-blue-50 transition-colors duration-200 hover:shadow-md"
                   >
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-bold ${
+                    <td className="px-8 py-5">
+                      <span className={`inline-flex items-center justify-center w-10 h-10 rounded-full font-bold text-white text-sm ${
                         student.rank === 1
-                          ? "bg-red-500 text-white"
+                          ? "bg-gradient-to-br from-red-500 to-red-600 shadow-lg"
                           : student.rank === 2
-                          ? "bg-yellow-300 text-white"
+                          ? "bg-gradient-to-br from-yellow-400 to-yellow-500 shadow-lg"
                           : student.rank === 3
-                          ? "bg-purple-400 text-white"
-                          : "bg-gray-200 text-gray-700"
+                          ? "bg-gradient-to-br from-orange-400 to-orange-500 shadow-lg"
+                          : "bg-gradient-to-br from-gray-400 to-gray-500"
                       }`}>
                         {student.rank}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-medium text-gray-800">
+                    <td className="px-8 py-5 font-semibold text-gray-800">
                       {student.firstName} {student.lastName}
                     </td>
-                    <td className="px-6 py-4 text-gray-600 text-sm">{student.email}</td>
-                    <td className="px-6 py-4 text-center text-gray-700">
+                    <td className="px-8 py-5 text-gray-600 text-sm">{student.email}</td>
+                    <td className="px-8 py-5 text-center text-gray-700 font-medium">
                       {student.quizzesAttempted}
                     </td>
-                    <td className="px-6 py-4 text-center font-bold text-blue-600">
+                    <td className="px-8 py-5 text-center font-bold text-blue-600">
                       {student.totalScore}/{student.totalQuestions}
                     </td>
-                    <td className="px-6 py-4 text-right font-semibold">
+                    <td className="px-8 py-5 text-right font-semibold">
                       <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
                         student.averagePercentage >= 75
                           ? "bg-green-100 text-green-700"
@@ -125,8 +123,6 @@ export default function Leaderboard() {
             </div>
           )}
         </div>
-
-        
       </div>
     </div>
   );

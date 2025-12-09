@@ -104,79 +104,87 @@ export default function CreateQuiz() {
   };
 
   return (
-    <div className="bg-gray-100 p-4 rounded shadow">
-      <h2 className="text-xl font-bold mb-6">Create New Quiz</h2>
+    <div className="min-h-screen bg-gray-100 p-4 overflow-y-auto">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-6 text-gray-900">Create New Quiz</h2>
 
-      <div className="bg-white p-6 rounded shadow mb-6">
-        <input type="text" placeholder="Quiz Title" value={quizTitle}
-          onChange={(e) => setQuizTitle(e.target.value)}
-          className="w-full p-3 border rounded-lg mb-4"
-        />
+        <div className="bg-white p-6 rounded-xl shadow-lg mb-6 border border-gray-200">
+          <h3 className="text-lg font-semibold mb-4 text-gray-800">Quiz Details</h3>
+          
+          <input type="text" placeholder="Quiz Title" value={quizTitle}
+            onChange={(e) => setQuizTitle(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
 
-        <input type="text" placeholder="Lecture Name" value={lectureName}
-          onChange={(e) => setLectureName(e.target.value)}
-          className="w-full p-3 border rounded-lg mb-4"
-        />
+          <input type="text" placeholder="Lecture Name" value={lectureName}
+            onChange={(e) => setLectureName(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
 
-        <input type="text" placeholder="Subject" value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          className="w-full p-3 border rounded-lg mb-4"
-        />
+          <input type="text" placeholder="Subject" value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
 
-        <input type="number" placeholder="Duration (min)" value={duration}
-          onChange={(e) => setDuration(e.target.value)}
-          className="w-full p-3 border rounded-lg mb-4"
-        />
+          <input type="number" placeholder="Duration (min)" value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
 
-        <select value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
-          className="w-full p-3 border rounded-lg mb-4"
-        >
-          <option>Easy</option>
-          <option>Medium</option>
-          <option>Hard</option>
-        </select>
-      </div>
+          <select value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition bg-white"
+          >
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+          </select>
+        </div>
 
-      <div className="bg-white p-6 rounded shadow mb-6">
-        <h3 className="font-bold mb-4">Questions</h3>
-        {questions.map((q, qIndex) => (
-          <div key={qIndex} className="mb-4 border p-4 rounded bg-gray-50">
-            <input type="text" placeholder={`Question ${qIndex + 1}`} value={q.text}
-              onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
-              className="w-full p-2 border rounded mb-2"
-            />
+        <div className="bg-white p-6 rounded-xl shadow-lg mb-6 border border-gray-200">
+          <h3 className="text-lg font-semibold mb-4 text-gray-800">Questions</h3>
+          {questions.map((q, qIndex) => (
+            <div key={qIndex} className="mb-6 border-2 border-gray-200 p-5 rounded-lg bg-gradient-to-br from-gray-50 to-white shadow-sm">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Question {qIndex + 1}</label>
+              <input type="text" placeholder={`Enter question ${qIndex + 1}`} value={q.text}
+                onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              />
 
-            {q.options.map((opt, oIndex) => (
-              <div key={oIndex} className="flex gap-2 mb-2 items-center">
-                <input type="radio" name={`correct-${qIndex}`}
-                  checked={q.correctIndex === oIndex}
-                  onChange={() => handleCorrectChange(qIndex, oIndex)}
-                />
-                <input type="text" placeholder={`Option ${oIndex + 1}`} value={opt}
-                  onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
-                  className="flex-1 p-2 border rounded"
-                />
+              <div className="space-y-2 mb-4">
+                {q.options.map((opt, oIndex) => (
+                  <div key={oIndex} className="flex gap-3 items-center">
+                    <input type="radio" name={`correct-${qIndex}`}
+                      checked={q.correctIndex === oIndex}
+                      onChange={() => handleCorrectChange(qIndex, oIndex)}
+                      className="w-5 h-5 text-blue-600"
+                    />
+                    <input type="text" placeholder={`Option ${oIndex + 1}`} value={opt}
+                      onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
+                      className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
 
-            <button  
-              onClick={() => removeQuestion(qIndex)}
-              className="bg-red-500 text-white px-2 py-1 rounded"
-            >
-              Remove Question
-            </button>
-          </div>
-        ))}
+              <button  
+                onClick={() => removeQuestion(qIndex)}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition-colors shadow-md"
+              >
+                Remove Question
+              </button>
+            </div>
+          ))}
 
-        <button onClick={addQuestion} className="bg-blue-500 text-white px-3 py-2 rounded">
-          + Add Question
+          <button onClick={addQuestion} className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            + Add Question
+          </button>
+        </div>
+
+        <button onClick={handleSaveQuiz} className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-4 px-4 rounded-lg font-bold text-lg hover:from-green-700 hover:to-green-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          Save Quiz
         </button>
       </div>
-
-      <button onClick={handleSaveQuiz} className="w-full bg-green-600 text-white py-2 px-4 rounded">
-        Save Quiz
-      </button>
     </div>
   );
 }

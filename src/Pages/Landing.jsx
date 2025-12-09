@@ -26,7 +26,7 @@ const Landing = () => {
           <div className="flex items-center space-x-4">
             <Link
               to="/login"
-              className="bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-900 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+              className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
             >
               Login/Register
             </Link>
@@ -45,7 +45,7 @@ const Landing = () => {
           </p>
           <Link
             to="/quiz-list"
-            className="inline-block bg-gradient-to-r bg-blue-600 text-white px-10 py-4 rounded-full font-bold shadow-2xl hover:bg-blue-900 hover:shadow-3xl hover:scale-110 transition-all duration-300 transform hover:-translate-y-2 text-lg"
+            className="inline-block bg-gradient-to-r from-blue-600 to-blue-700 text-white px-10 py-4 rounded-full font-bold shadow-2xl hover:from-blue-700 hover:to-blue-800 hover:shadow-3xl hover:scale-110 transition-all duration-300 transform hover:-translate-y-2 text-lg"
           >
             Get Started
           </Link>

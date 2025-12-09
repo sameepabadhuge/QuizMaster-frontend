@@ -25,7 +25,7 @@ export default function Nav() {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-blue-900 text-white px-8 py-4 shadow-md sticky top-0 z-50">
+    <nav className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 shadow-lg sticky top-0 z-50">
       <h2 className="text-2xl font-bold tracking-wide">QuizMaster</h2>
 
       <div className="flex space-x-6">
@@ -35,8 +35,8 @@ export default function Nav() {
             to={link.path}
             className={`font-semibold transition duration-200 ${
               location.pathname === link.path
-                ? "text-yellow-300 border-b-2 border-yellow-300"
-                : "hover:text-yellow-300"
+                ? "text-yellow-200 border-b-2 border-yellow-200"
+                : "hover:text-yellow-200"
             }`}
           >
             {link.name}
@@ -46,7 +46,7 @@ export default function Nav() {
 
       <button
         onClick={handleLogout}
-        className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-600 font-semibold transition"
+        className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-lg"
       >
         Logout
       </button>

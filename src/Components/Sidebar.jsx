@@ -10,7 +10,7 @@ export default function Sidebar({ userType, activeTab, onSelectTab }) {
     { id: "create-quiz", label: "Create Quiz", icon: "➕" },
     { id: "results", label: "View Results", icon: "📈" },
     { id: "leaderboard", label: "Leaderboard", icon: "🏆" },
-    { id: "view-submissions", label: "View Submissions", icon: "📝" }, // ✅ New Tab
+    { id: "view-submissions", label: "View Submissions", icon: "📝" },
   ];
 
   const handleLogout = () => {
@@ -19,29 +19,31 @@ export default function Sidebar({ userType, activeTab, onSelectTab }) {
   };
 
   return (
-    <div className="fixed left-0 top-0 w-64 h-screen bg-blue-100 p-6 border-r flex flex-col">
-      <h2 className="text-xl font-bold mb-8">Teacher Dashboard</h2>
-      <nav className="flex flex-col gap-4 flex-1">
+    <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-blue-50 to-blue-200 p-6 border-r border-gray-300 flex flex-col shadow-lg">
+      <h2 className="text-2xl font-bold mb-10 text-blue-900">Teacher Dashboard</h2>
+
+      <nav className="flex flex-col gap-3 flex-1">
         {menuItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onSelectTab(item.id)}
-            className={`flex items-center gap-2 p-2 rounded font-semibold transition-colors
-              ${activeTab === item.id ? "bg-blue-500 text-white" : "hover:bg-gray-200"}`}
+            className={`flex items-center gap-3 p-3 rounded-lg font-medium transition-all
+              ${activeTab === item.id 
+                ? "bg-blue-600 text-white shadow-md transform scale-105" 
+                : "hover:bg-blue-100 hover:translate-x-1 hover:shadow-sm text-blue-800"}`}
           >
-            <span>{item.icon}</span>
-            {item.label}
+            <span className="text-lg">{item.icon}</span>
+            <span className="text-md">{item.label}</span>
           </button>
         ))}
       </nav>
-      {/* Logout Button at Bottom */}
+
       <button
         onClick={handleLogout}
-        className="bg-red-500 text-white py-2 px-3 rounded font-semibold hover:bg-red-600 transition-colors mt-4 text-sm"
+        className="bg-red-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-600 hover:shadow-md transition-all mt-6 text-sm flex items-center justify-center gap-2"
       >
-        Logout
+        🔒 Logout
       </button>
     </div>
   );
 }
-

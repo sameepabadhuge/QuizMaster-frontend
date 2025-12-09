@@ -93,12 +93,13 @@ export default function TeacherRegister() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Teacher Register</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-blue-50 p-4">
+      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md border border-white">
+        <h2 className="text-4xl font-bold mb-2 text-center text-white">Teacher Register</h2>
+        <p className="text-center text-gray-600 mb-6">Join our teaching community</p>
 
         {error && (
-          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded break-words">
+          <div className="bg-red-100 text-red-700 p-3 mb-4 rounded-lg break-words">
             {error}
           </div>
         )}
@@ -191,18 +192,16 @@ export default function TeacherRegister() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 rounded text-white ${
-              loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-600"
-            } transition`}
+            className="w-full py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl disabled:bg-gray-300 disabled:cursor-not-allowed disabled:transform-none"
           >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-6 text-gray-600">
           Already have an account?{" "}
           <span
-            className="text-blue-500 cursor-pointer"
+            className="text-blue-600 hover:text-blue-800 cursor-pointer font-semibold transition-colors"
             onClick={() => navigate("/login")}
           >
             Login

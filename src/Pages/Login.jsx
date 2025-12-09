@@ -62,9 +62,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-100 p-4">
-      <div className="bg-blue-100 shadow-xl rounded-2xl p-10 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-gray-900">Welcome Back!</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 p-4">
+      <div className="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-md border border-gray-100">
+        <h1 className="text-4xl font-bold text-center text-gray-900 mb-2">Welcome Back!</h1>
+        <p className="text-center text-gray-600 mb-6">Login to continue your learning journey</p>
 
         {errorMsg && (
           <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
@@ -104,18 +105,18 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium mt-6 hover:bg-blue-900 transition disabled:bg-blue-300"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold mt-6 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl disabled:bg-gray-300 disabled:cursor-not-allowed disabled:transform-none"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
             <button
               onClick={() => navigate("/student-register")}
-              className="text-blue-600 hover:text-blue-300 font-medium"
+              className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
             >
               Register
             </button>

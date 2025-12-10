@@ -7,8 +7,7 @@ import QuizList from "./Pages/QuizList";
 import QuizResult from "./Pages/QuizResult";
 import Leaderboard from "./Pages/Leaderboard";
 import Login from "./Pages/Login";
-import StudentRegister from "./Pages/StudentRegister";
-import TeacherRegister from "./Pages/TeacherRegister";
+import Register from "./Pages/Register";
 import TeacherHome from "./Pages/TeacherHome";
 import CreateQuiz from "./Pages/CreateQuiz";
 import TakeQuiz from "./Pages/TakeQuiz";   // ✅ ADDED
@@ -23,7 +22,7 @@ function App() {
 function MainApp() {
   const location = useLocation();
 
-  const hideNavbarPaths = ["/", "/login", "/student-register", "/teacher-register"];
+  const hideNavbarPaths = ["/", "/login", "/register"];
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
 
   return (
@@ -34,8 +33,7 @@ function MainApp() {
         {/* Public Pages */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/student-register" element={<StudentRegister />} />
-        <Route path="/teacher-register" element={<TeacherRegister />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Teacher Pages */}
         <Route path="/teacher-home" element={<TeacherHome />} />

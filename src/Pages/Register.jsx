@@ -4,77 +4,93 @@ import axios from "axios";
 
 export default function Register() {
   const navigate = useNavigate();
+
   const [role, setRole] = useState("Student");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    subject: "", // Only for teachers
+    subject: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Handle Input Change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value.trimStart(), // removes leading spaces only
+    }));
   };
 
+  // Switch role
   const handleRoleChange = (selectedRole) => {
     setRole(selectedRole);
     setError("");
-    // Clear subject when switching to student
+
     if (selectedRole === "Student") {
-      setFormData(prev => ({ ...prev, subject: "" }));
+      setFormData((prev) => ({ ...prev, subject: "" }));
     }
   };
 
+  // Validation Function
+  const validateForm = () => {
+    const { fullName, email, password, confirmPassword, subject } = formData;
+
+    if (!fullName.trim()) return "Please enter your full name.";
+
+    if (!email.trim()) return "Please enter your email.";
+
+    // Basic email validation
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) return "Please enter a valid email address.";
+
+    if (!password) return "Please enter a password.";
+
+    if (password.length < 6)
+      return "Password must be at least 6 characters.";
+
+    if (!confirmPassword)
+      return "Please confirm your password.";
+
+    if (password !== confirmPassword)
+      return "Passwords do not match.";
+
+    if (role === "Teacher" && !subject.trim())
+      return "Please enter the subject you teach.";
+
+    return null; // No errors
+  };
+
+  // Submit Handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Validation
-    if (
-      !formData.firstName.trim() ||
-      !formData.lastName.trim() ||
-      !formData.username.trim() ||
-      !formData.email.trim() ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
-      setError("Please fill all required fields.");
-      return;
-    }
-
-    if (role === "Teacher" && !formData.subject.trim()) {
-      setError("Subject is required for teachers.");
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     setLoading(true);
 
     try {
-      const endpoint = role === "Student" 
-        ? "http://localhost:5000/api/students/register"
-        : "http://localhost:5000/api/teachers/register";
+      const endpoint =
+        role === "Student"
+          ? "http://localhost:5000/api/students/register"
+          : "http://localhost:5000/api/teachers/register";
 
-      const payload = role === "Student"
-        ? {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            username: formData.username,
-            email: formData.email,
-            password: formData.password,
-            confirmPassword: formData.confirmPassword,
-          }
-        : formData;
+      const payload = {
+        fullName: formData.fullName.trim(),
+        email: formData.email.trim(),
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        ...(role === "Teacher" && { subject: formData.subject.trim() }),
+      };
 
       const response = await axios.post(endpoint, payload);
 
@@ -82,8 +98,10 @@ export default function Register() {
       navigate("/login");
     } catch (err) {
       console.error("Register error:", err);
-      const errorMessage = err.response?.data?.message || err.message || "Registration failed";
-      setError(errorMessage);
+      setError(
+        err.response?.data?.message ||
+        "Registration failed, please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -95,9 +113,7 @@ export default function Register() {
         <h1 className="text-4xl font-bold text-center mb-2 text-gray-900">
           Create Account
         </h1>
-        <p className="text-center text-gray-600 mb-6">
-          Join QuizMaster today
-        </p>
+        <p className="text-center text-gray-600 mb-6">Join QuizMaster today</p>
 
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg border border-red-200">
@@ -106,6 +122,7 @@ export default function Register() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          
           {/* Role Selection */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -123,6 +140,7 @@ export default function Register() {
               >
                 👨‍🎓 Student
               </button>
+
               <button
                 type="button"
                 onClick={() => handleRoleChange("Teacher")}
@@ -137,114 +155,89 @@ export default function Register() {
             </div>
           </div>
 
-          {/* Form Fields */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                required
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                required
-                value={formData.lastName}
-                onChange={handleChange}
-                className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-              />
-            </div>
-          </div>
-
+          {/* Full Name */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
-              Username
+              Full Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              name="username"
-              required
-              value={formData.username}
+              name="fullName"
+              value={formData.fullName}
               onChange={handleChange}
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              placeholder="Enter your full name"
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
+          {/* Email */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
-              Email
+              Email <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
               name="email"
-              required
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              placeholder="your.email@example.com"
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
-          {/* Subject field - only for teachers */}
+          {/* Subject for Teacher */}
           {role === "Teacher" && (
-            <div>
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
               <label className="block text-sm font-semibold text-gray-700">
-                Subject
+                Subject You Teach <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 name="subject"
-                required
                 value={formData.subject}
                 onChange={handleChange}
                 placeholder="e.g., Mathematics, Physics"
-                className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
               />
             </div>
           )}
 
+          {/* Password */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
-              Password
+              Password <span className="text-red-500">*</span>
             </label>
             <input
               type="password"
               name="password"
-              required
+              minLength={6}
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              placeholder="Min. 6 characters"
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
+          {/* Confirm Password */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
-              Confirm Password
+              Confirm Password <span className="text-red-500">*</span>
             </label>
             <input
               type="password"
               name="confirmPassword"
-              required
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              placeholder="Re-enter your password"
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl disabled:bg-gray-300 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl disabled:bg-gray-300"
           >
             {loading ? "Creating Account..." : "Register"}
           </button>
@@ -254,7 +247,7 @@ export default function Register() {
           Already have an account?{" "}
           <button
             onClick={() => navigate("/login")}
-            className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
+            className="text-blue-600 hover:text-blue-800 font-semibold"
           >
             Login
           </button>

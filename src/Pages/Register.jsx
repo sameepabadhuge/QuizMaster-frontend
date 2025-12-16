@@ -125,24 +125,18 @@ export default function Register() {
   };
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4 relative"
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
-      {/* Overlay for better readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-      
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 via-teal-100/30 to-teal-50 p-4 relative selection:bg-teal-100 selection:text-teal-900">
       <motion.div 
         initial={{ scale: 0.9, opacity: 0, y: 50 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg shadow-2xl rounded-2xl p-10 w-full max-w-md border border-white/30 relative z-10"
+        className="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-md border border-teal-100 relative z-10"
       >
         <motion.h1 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-4xl font-bold text-center mb-2 text-white drop-shadow-lg"
+          className="text-4xl font-bold text-center mb-2 text-teal-600"
         >
           Create Account
         </motion.h1>
@@ -150,7 +144,7 @@ export default function Register() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-center text-white/90 mb-6"
+          className="text-center text-gray-600 mb-6"
         >
           Join QuizMaster today
         </motion.p>
@@ -176,7 +170,7 @@ export default function Register() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <label className="block text-sm font-semibold text-white mb-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Register as
             </label>
             <div className="flex gap-3">
@@ -187,8 +181,8 @@ export default function Register() {
                 whileTap={{ scale: 0.95 }}
                 className={`flex-1 py-3 rounded-lg font-semibold transition-all duration-200 ${
                   role === "Student"
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-white/20 text-white hover:bg-white/30"
+                    ? "bg-teal-600 text-white shadow-lg"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
                 👨‍🎓 Student
@@ -201,8 +195,8 @@ export default function Register() {
                 whileTap={{ scale: 0.95 }}
                 className={`flex-1 py-3 rounded-lg font-semibold transition-all duration-200 ${
                   role === "Teacher"
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-white/20 text-white hover:bg-white/30"
+                    ? "bg-teal-600 text-white shadow-lg"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
                 👨‍🏫 Teacher
@@ -212,7 +206,7 @@ export default function Register() {
 
           {/* Full Name */}
           <div>
-            <label className="block text-sm font-semibold text-white">
+            <label className="block text-sm font-semibold text-gray-700">
               Full Name
             </label>
             <input
@@ -221,13 +215,13 @@ export default function Register() {
               value={formData.fullName}
               onChange={handleChange}
               placeholder="Enter your full name"
-              className="w-full p-3 mt-1 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none bg-white/20 text-white placeholder-white/60 backdrop-blur-sm"
+              className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-semibold text-white">
+            <label className="block text-sm font-semibold text-gray-700">
               Email
             </label>
             <input
@@ -237,14 +231,14 @@ export default function Register() {
               onChange={handleChange}
               placeholder="your.email@example.com"
               autoComplete="username"
-              className="w-full p-3 mt-1 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none bg-white/20 text-white placeholder-white/60 backdrop-blur-sm"
+              className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
             />
           </div>
 
           {/* Subject for Teacher */}
           {role === "Teacher" && (
-            <div className="bg-blue-500/20 p-4 rounded-lg border border-blue-400/30">
-              <label className="block text-sm font-semibold text-white">
+            <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+              <label className="block text-sm font-semibold text-gray-700">
                 Subject You Teach
               </label>
               <input
@@ -253,14 +247,14 @@ export default function Register() {
                 value={formData.subject}
                 onChange={handleChange}
                 placeholder="e.g., Mathematics, Physics"
-                className="w-full p-3 mt-1 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none bg-white/20 text-white placeholder-white/60 backdrop-blur-sm"
+                className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
               />
             </div>
           )}
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-semibold text-white">
+            <label className="block text-sm font-semibold text-gray-700">
               Password
             </label>
             <input
@@ -271,16 +265,16 @@ export default function Register() {
               onChange={handleChange}
               placeholder="Min. 8 chars with A-Z, a-z, 0-9, !@#$"
               autoComplete="new-password"
-              className="w-full p-3 mt-1 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none bg-white/20 text-white placeholder-white/60 backdrop-blur-sm"
+              className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
             />
-            <p className="text-xs text-white/70 mt-1">
+            <p className="text-xs text-gray-600 mt-1">
               Must include uppercase, lowercase, number & special character
             </p>
           </div>
 
           {/* Confirm Password */}
           <div>
-            <label className="block text-sm font-semibold text-white">
+            <label className="block text-sm font-semibold text-gray-700">
               Confirm Password
             </label>
             <input
@@ -290,7 +284,7 @@ export default function Register() {
               onChange={handleChange}
               placeholder="Re-enter your password"
               autoComplete="new-password"
-              className="w-full p-3 mt-1 border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none bg-white/20 text-white placeholder-white/60 backdrop-blur-sm"
+              className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
             />
           </div>
 
@@ -300,7 +294,7 @@ export default function Register() {
             disabled={loading}
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 hover:shadow-xl disabled:bg-gray-300"
+            className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/30 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? "Creating Account..." : "Register"}
           </motion.button>
@@ -310,12 +304,12 @@ export default function Register() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-6 text-center text-sm text-white/90"
+          className="mt-6 text-center text-sm text-gray-600"
         >
           Already have an account?{" "}
           <button
             onClick={() => navigate("/login")}
-            className="text-blue-300 hover:text-blue-100 font-semibold"
+            className="text-teal-600 hover:text-teal-700 font-semibold"
           >
             Login
           </button>

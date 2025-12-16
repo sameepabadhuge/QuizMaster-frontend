@@ -56,9 +56,9 @@ export default function TeacherHome() {
         {activeTab === "create-quiz" && (
           <>
             <section className="mb-10">
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-8 rounded-xl shadow-lg text-white">
+              <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-8 rounded-xl shadow-lg text-white">
                 <h2 className="text-3xl font-bold mb-2">Welcome! 👋</h2>
-                <p className="text-lg text-blue-50">
+                <p className="text-lg text-teal-50">
                   Manage your quizzes and track student performance.
                 </p>
               </div>

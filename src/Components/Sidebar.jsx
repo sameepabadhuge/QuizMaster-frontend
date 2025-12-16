@@ -19,8 +19,8 @@ export default function Sidebar({ userType, activeTab, onSelectTab }) {
   };
 
   return (
-    <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-blue-50 to-blue-200 p-6 border-r border-gray-300 flex flex-col shadow-lg">
-      <h2 className="text-2xl font-bold mb-10 text-blue-900">Teacher Dashboard</h2>
+    <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-teal-50 to-teal-200 p-6 border-r border-gray-300 flex flex-col shadow-lg">
+      <h2 className="text-2xl font-bold mb-10 text-teal-900">Teacher Dashboard</h2>
 
       <nav className="flex flex-col gap-3 flex-1">
         {menuItems.map((item) => (
@@ -29,8 +29,8 @@ export default function Sidebar({ userType, activeTab, onSelectTab }) {
             onClick={() => onSelectTab(item.id)}
             className={`flex items-center gap-3 p-3 rounded-lg font-medium transition-all
               ${activeTab === item.id 
-                ? "bg-blue-600 text-white shadow-md transform scale-105" 
-                : "hover:bg-blue-100 hover:translate-x-1 hover:shadow-sm text-blue-800"}`}
+                ? "bg-teal-600 text-white shadow-md transform scale-105" 
+                : "hover:bg-teal-100 hover:translate-x-1 hover:shadow-sm text-teal-800"}`}
           >
             <span className="text-lg">{item.icon}</span>
             <span className="text-md">{item.label}</span>

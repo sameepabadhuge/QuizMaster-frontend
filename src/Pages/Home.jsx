@@ -1,47 +1,86 @@
 import React from 'react';
-import homepageImg from '../assets/test2.avif';
+import { motion } from 'framer-motion';
 
 function Home() {
   return (
-    <div 
-      className="relative w-full h-screen bg-cover bg-center"
-      style={{ backgroundImage: `url(${homepageImg})` }}
-    >
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/40"></div>
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-100/30 to-teal-50 relative selection:bg-teal-100 selection:text-teal-900">
+      {/* Header Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center pt-12 md:pt-16 pb-8 md:pb-12 px-4"
+      >
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-gray-900">
+          Welcome to <span className="text-teal-600">QuizMaster</span>
+        </h1>
+        <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
+          Choose what you'd like to do today
+        </p>
+      </motion.div>
 
       {/* Cards container */}
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center h-full gap-8 px-4">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8 px-4 pb-16 md:pb-20">
         
         {/* Card 1: Take Quiz */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 w-72 transform hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer text-center text-white border border-white/20">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          whileHover={{ scale: 1.05, y: -10 }}
+          className="bg-white rounded-2xl p-8 w-72 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer text-center border border-teal-100"
+        >
           <div className="text-5xl mb-4">📝</div>
-          <h2 className="text-2xl font-bold mb-3">Take Quiz</h2>
-          <p className="mb-6 text-gray-100">Students can attempt quizzes and check their scores instantly.</p>
-          <button className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
+          <h2 className="text-2xl font-bold mb-3 text-gray-900">Take Quiz</h2>
+          <p className="mb-6 text-gray-700">Students can attempt quizzes and check their scores instantly.</p>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 font-semibold transition-all duration-300 shadow-lg hover:shadow-teal-500/30"
+          >
             Start Quiz
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Card 2: Add MCQ */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 w-72 transform hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer text-center text-white border border-white/20">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          whileHover={{ scale: 1.05, y: -10 }}
+          className="bg-white rounded-2xl p-8 w-72 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer text-center border border-teal-100"
+        >
           <div className="text-5xl mb-4">✏️</div>
-          <h2 className="text-2xl font-bold mb-3">Add MCQs</h2>
-          <p className="mb-6 text-gray-100">Teachers can create and manage multiple-choice questions easily.</p>
-          <button className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
+          <h2 className="text-2xl font-bold mb-3 text-gray-900">Add MCQs</h2>
+          <p className="mb-6 text-gray-700">Teachers can create and manage multiple-choice questions easily.</p>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 font-semibold transition-all duration-300 shadow-lg hover:shadow-teal-500/30"
+          >
             Add Question
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Card 3: Leaderboard */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 w-72 transform hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer text-center text-white border border-white/20">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          whileHover={{ scale: 1.05, y: -10 }}
+          className="bg-white rounded-2xl p-8 w-72 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer text-center border border-teal-100"
+        >
           <div className="text-5xl mb-4">🏆</div>
-          <h2 className="text-2xl font-bold mb-3">Leaderboard</h2>
-          <p className="mb-6 text-gray-100">Check top-performing students and track your progress.</p>
-          <button className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-lg">
+          <h2 className="text-2xl font-bold mb-3 text-gray-900">Leaderboard</h2>
+          <p className="mb-6 text-gray-700">Check top-performing students and track your progress.</p>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 font-semibold transition-all duration-300 shadow-lg hover:shadow-teal-500/30"
+          >
             View Leaderboard
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
       </div>
     </div>

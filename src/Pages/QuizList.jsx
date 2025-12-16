@@ -31,7 +31,7 @@ export default function QuizList() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-teal-50 p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">📚 Available Quizzes</h1>
         
@@ -41,12 +41,12 @@ export default function QuizList() {
             placeholder="🔍 Search by subject, title, or lecture name" 
             value={search} 
             onChange={e=>setSearch(e.target.value)} 
-            className="w-full p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" 
+            className="w-full p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-teal-500 transition" 
           />
           <select 
             value={difficulty} 
             onChange={e=>setDifficulty(e.target.value)} 
-            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
           >
             <option>All</option>
             <option>Easy</option>

@@ -41,7 +41,7 @@ export default function Leaderboard() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
           >
             Retry
           </button>
@@ -63,7 +63,7 @@ export default function Leaderboard() {
         <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-shadow duration-300 max-w-6xl w-full">
           {leaderboardData.length > 0 ? (
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-blue-600 to-blue-700 border-b-2 border-blue-800">
+              <thead className="bg-gradient-to-r from-teal-600 to-teal-700 border-b-2 border-teal-800">
                 <tr>
                   <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Rank</th>
                   <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Student Name</th>
@@ -77,16 +77,16 @@ export default function Leaderboard() {
                 {leaderboardData.map((student) => (
                   <tr
                     key={student.studentId}
-                    className="hover:bg-blue-50 transition-colors duration-200 hover:shadow-md"
+                    className="hover:bg-teal-50 transition-colors duration-200 hover:shadow-md"
                   >
                     <td className="px-8 py-5">
                       <span className={`inline-flex items-center justify-center w-10 h-10 rounded-full font-bold text-white text-sm ${
                         student.rank === 1
-                          ? "bg-gradient-to-br from-red-500 to-red-600 shadow-lg"
+                          ? "bg-gradient-to-br from-teal-700 to-teal-800 shadow-lg"
                           : student.rank === 2
-                          ? "bg-gradient-to-br from-yellow-400 to-yellow-500 shadow-lg"
+                          ? "bg-gradient-to-br from-teal-600 to-teal-700 shadow-lg"
                           : student.rank === 3
-                          ? "bg-gradient-to-br from-orange-400 to-orange-500 shadow-lg"
+                          ? "bg-gradient-to-br from-teal-500 to-teal-600 shadow-lg"
                           : "bg-gradient-to-br from-gray-400 to-gray-500"
                       }`}>
                         {student.rank}
@@ -99,7 +99,7 @@ export default function Leaderboard() {
                     <td className="px-8 py-5 text-center text-gray-700 font-medium">
                       {student.quizzesAttempted}
                     </td>
-                    <td className="px-8 py-5 text-center font-bold text-blue-600">
+                    <td className="px-8 py-5 text-center font-bold text-teal-600">
                       {student.totalScore}/{student.totalQuestions}
                     </td>
                     <td className="px-8 py-5 text-right font-semibold">
@@ -107,7 +107,7 @@ export default function Leaderboard() {
                         student.averagePercentage >= 75
                           ? "bg-green-100 text-green-700"
                           : student.averagePercentage >= 50
-                          ? "bg-yellow-100 text-yellow-700"
+                          ? "bg-teal-100 text-teal-700"
                           : "bg-red-100 text-red-700"
                       }`}>
                         {student.averagePercentage}%

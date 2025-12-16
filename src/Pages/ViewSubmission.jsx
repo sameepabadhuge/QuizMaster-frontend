@@ -24,7 +24,7 @@ const SubmissionRow = ({ submission }) => {
   const isCompleted = submission.status === "Completed";
   const statusStyle = isCompleted
     ? "text-green-700 bg-green-100"
-    : "text-yellow-700 bg-yellow-100";
+    : "text-teal-700 bg-teal-100";
   const scoreColor = submission.percentage >= 80 ? "text-green-600" : "text-gray-700";
 
   return (
@@ -98,7 +98,7 @@ const QuizSubmissions = () => {
         <button
           onClick={fetchSubmissions}
           disabled={loading}
-          className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center space-x-2 text-teal-600 hover:text-teal-700 font-medium px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <VscRefresh className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
           <span>{loading ? "Loading..." : "Refresh Data"}</span>
@@ -119,28 +119,28 @@ const QuizSubmissions = () => {
           value={quizStats.totalSubmissions}
           detail="submissions"
           icon={MdOutlineSchool}
-          borderClass="border-l-4 border-blue-400"
+          borderClass="border-l-4 border-teal-400"
         />
         <StatCard
           title="Average Score"
           value={quizStats.averageScore}
           detail="overall average score"
           icon={MdOutlineAvTimer}
-          borderClass="border-l-4 border-blue-400"
+          borderClass="border-l-4 border-teal-400"
         />
         <StatCard
           title="Completed"
           value={quizStats.completedSubmissions}
           detail="submissions completed"
           icon={MdOutlineCheckCircleOutline}
-          borderClass="border-l-4 border-blue-400"
+          borderClass="border-l-4 border-teal-400"
         />
         <StatCard
           title="Students Reviewed"
           value={quizStats.studentsReviewed}
           detail="unique students with submissions"
           icon={MdOutlinePeople}
-          borderClass="border-l-4 border-blue-400"
+          borderClass="border-l-4 border-teal-400"
         />
       </div>
 

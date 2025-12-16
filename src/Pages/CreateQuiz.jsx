@@ -113,27 +113,27 @@ export default function CreateQuiz() {
           
           <input type="text" placeholder="Quiz Title" value={quizTitle}
             onChange={(e) => setQuizTitle(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
           />
 
           <input type="text" placeholder="Lecture Name" value={lectureName}
             onChange={(e) => setLectureName(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
           />
 
           <input type="text" placeholder="Subject" value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
           />
 
           <input type="number" placeholder="Duration (min)" value={duration}
             onChange={(e) => setDuration(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
           />
 
           <select value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition bg-white"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition bg-white"
           >
             <option>Easy</option>
             <option>Medium</option>
@@ -148,7 +148,7 @@ export default function CreateQuiz() {
               <label className="block text-sm font-semibold text-gray-700 mb-2">Question {qIndex + 1}</label>
               <input type="text" placeholder={`Enter question ${qIndex + 1}`} value={q.text}
                 onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
               />
 
               <div className="space-y-2 mb-4">
@@ -157,11 +157,11 @@ export default function CreateQuiz() {
                     <input type="radio" name={`correct-${qIndex}`}
                       checked={q.correctIndex === oIndex}
                       onChange={() => handleCorrectChange(qIndex, oIndex)}
-                      className="w-5 h-5 text-blue-600"
+                      className="w-5 h-5 text-teal-600"
                     />
                     <input type="text" placeholder={`Option ${oIndex + 1}`} value={opt}
                       onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
-                      className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
                     />
                   </div>
                 ))}
@@ -176,7 +176,7 @@ export default function CreateQuiz() {
             </div>
           ))}
 
-          <button onClick={addQuestion} className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <button onClick={addQuestion} className="bg-gradient-to-r from-teal-600 to-teal-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-teal-700 hover:to-teal-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
             + Add Question
           </button>
         </div>

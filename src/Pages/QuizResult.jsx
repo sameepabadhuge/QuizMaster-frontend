@@ -72,7 +72,7 @@ export default function QuizResult() {
           </p>
           <button
             onClick={() => navigate("/quiz-list")}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors duration-200"
+            className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-semibold transition-colors duration-200"
           >
             Back to Quizzes
           </button>
@@ -99,9 +99,9 @@ export default function QuizResult() {
 
           {/* Score Summary */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border-l-4 border-teal-600 shadow-md hover:shadow-lg transition-shadow">
               <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Score</p>
-              <p className="text-4xl font-bold text-blue-600 mt-2">
+              <p className="text-4xl font-bold text-teal-600 mt-2">
                 {score}/{totalQuestions}
               </p>
             </div>
@@ -123,7 +123,7 @@ export default function QuizResult() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 border-l-4 border-indigo-600 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border-l-4 border-teal-600 shadow-md hover:shadow-lg transition-shadow">
               <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Status</p>
               <p
                 className={`text-lg font-bold mt-2 ${
@@ -164,7 +164,7 @@ export default function QuizResult() {
                   <div className="space-y-2 text-sm">
                     <p className="text-gray-700">
                       <span className="font-semibold">Your Answer:</span>{" "}
-                      <span className="text-blue-600">
+                      <span className="text-teal-600">
                         {item.userAnswer || "Not answered"}
                       </span>
                     </p>

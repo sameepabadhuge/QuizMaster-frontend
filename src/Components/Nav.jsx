@@ -25,23 +25,25 @@ export default function Nav() {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 shadow-lg sticky top-0 z-50">
+    <nav className="flex items-center justify-between bg-gradient-to-r from-teal-600 to-teal-700 text-white px-8 py-4 shadow-lg sticky top-0 z-50">
       <h2 className="text-2xl font-bold tracking-wide">QuizMaster</h2>
 
       <div className="flex space-x-6">
-        {navLinks.map((link) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            className={`font-semibold transition duration-200 ${
-              location.pathname === link.path
-                ? "text-yellow-200 border-b-2 border-yellow-200"
-                : "hover:text-yellow-200"
-            }`}
-          >
-            {link.name}
-          </Link>
-        ))}
+        {navLinks.map((link) => {
+          const isActive = location.pathname === link.path || location.pathname.startsWith(link.path + "/");
+          return (
+            <Link
+              key={link.path}
+              to={link.path}
+              aria-current={isActive ? "page" : undefined}
+              className={`font-semibold transition duration-200 ${
+                isActive ? "text-white border-b-2 border-white" : "hover:text-white/80"
+              }`}
+            >
+              {link.name}
+            </Link>
+          );
+        })}
       </div>
 
       <button

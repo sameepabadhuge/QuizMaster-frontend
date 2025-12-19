@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import axios from "axios";
-import bgImage from "../assets/1.avif";
+import { motion } from "framer-motion";
 
 export default function Register() {
   const navigate = useNavigate();
 
   const [role, setRole] = useState("Student");
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -40,9 +42,11 @@ export default function Register() {
 
   // Validation Function
   const validateForm = () => {
-    const { fullName, email, password, confirmPassword, subject } = formData;
+    const { firstName, lastName, username, email, password, confirmPassword, subject } = formData;
 
-    if (!fullName.trim()) return "Please enter your full name.";
+    if (!firstName.trim()) return "Please enter your first name.";
+    if (!lastName.trim()) return "Please enter your last name.";
+    if (!username.trim()) return "Please enter a username.";
 
     if (!email.trim()) return "Please enter your email.";
 
@@ -98,7 +102,9 @@ export default function Register() {
           : "http://localhost:5000/api/teachers/register";
 
       const payload = {
-        fullName: formData.fullName.trim(),
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        username: formData.username.trim(),
         email: formData.email.trim(),
         password: formData.password,
         confirmPassword: formData.confirmPassword,
@@ -204,17 +210,47 @@ export default function Register() {
             </div>
           </motion.div>
 
-          {/* Full Name */}
+          {/* First Name */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
-              Full Name
+              First Name
             </label>
             <input
               type="text"
-              name="fullName"
-              value={formData.fullName}
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
-              placeholder="Enter your full name"
+              placeholder="Enter your first name"
+              className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
+            />
+          </div>
+
+          {/* Last Name */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700">
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Enter your last name"
+              className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
+            />
+          </div>
+
+          {/* Username */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700">
+              Username
+            </label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="Choose a username"
               className="w-full p-3 mt-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-gray-50 text-gray-900 placeholder-gray-400"
             />
           </div>

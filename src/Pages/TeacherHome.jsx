@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import Card from "../Components/Card";
 import CreateQuiz from "./CreateQuiz";
-import QuizResult from "./QuizResult";
 import Leaderboard from "./Leaderboard";
 import ViewSubmission from "./ViewSubmission";
+import TeacherProfile from "./TeacherProfile";
 import axios from "axios";
 
 export default function TeacherHome() {
@@ -17,7 +17,7 @@ export default function TeacherHome() {
   const [errorStats, setErrorStats] = useState("");
 
   const [activeTab, setActiveTab] = useState("create-quiz");
-  const teacherName = localStorage.getItem("userEmail") || "Teacher";
+  const teacherName = sessionStorage.getItem("userEmail") || "Teacher";
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -39,11 +39,13 @@ export default function TeacherHome() {
       case "create-quiz":
         return <CreateQuiz />;
       case "results":
-        return <QuizResult />;
+        return <ViewSubmission />; // Teachers view student submissions, not their own results
       case "leaderboard":
         return <Leaderboard />;
       case "view-submissions":
         return <ViewSubmission />;
+      case "profile":
+        return <TeacherProfile />;
       default:
         return <CreateQuiz />;
     }

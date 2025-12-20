@@ -40,15 +40,18 @@ const Login = () => {
       }
 
       if (role.toLowerCase() === "student") {
-        localStorage.setItem("role", "student");
-        localStorage.setItem("studentToken", data.token);
-        localStorage.setItem("studentId", data.user._id);
-        localStorage.setItem("student", JSON.stringify({ email: data.user.email }));
+        sessionStorage.setItem("role", "student");
+        sessionStorage.setItem("studentToken", data.token);
+        sessionStorage.setItem("studentId", data.user._id);
+        sessionStorage.setItem("student", JSON.stringify({ email: data.user.email }));
+        sessionStorage.setItem("studentName", `${data.user.firstName || ''} ${data.user.lastName || ''}`.trim() || "Student");
+        sessionStorage.setItem("profilePhoto", data.user.profilePhoto || "");
         navigate("/home");
       } else {
-        localStorage.setItem("role", "teacher");
-        localStorage.setItem("teacherToken", data.token);
-        localStorage.setItem("teacherId", data.user._id);
+        sessionStorage.setItem("role", "teacher");
+        sessionStorage.setItem("teacherToken", data.token);
+        sessionStorage.setItem("teacherId", data.user._id);
+        sessionStorage.setItem("teacher", JSON.stringify(data.user));
         navigate("/teacher-home");
       }
     } catch (error) {

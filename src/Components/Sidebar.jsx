@@ -1,26 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Sidebar({ userType, activeTab, onSelectTab }) {
   const navigate = useNavigate();
+  const [teacherName, setTeacherName] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
+
+  useEffect(() => {
+    const teacherData = sessionStorage.getItem("teacher");
+    if (teacherData) {
+      const teacher = JSON.parse(teacherData);
+      setTeacherName(teacher.username || `${teacher.firstName} ${teacher.lastName}`);
+      setProfilePicture(teacher.profilePicture || "");
+    }
+  }, [activeTab]);
 
   if (userType !== "teacher") return null;
 
   const menuItems = [
     { id: "create-quiz", label: "Create Quiz", icon: "➕" },
-    { id: "results", label: "View Results", icon: "📈" },
+    { id: "view-submissions", label: "Student Results", icon: "📊" },
     { id: "leaderboard", label: "Leaderboard", icon: "🏆" },
-    { id: "view-submissions", label: "View Submissions", icon: "📝" },
+    { id: "profile", label: "My Profile", icon: "👤" },
   ];
 
   const handleLogout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     navigate("/login");
   };
 
   return (
     <div className="fixed left-0 top-0 w-64 h-screen bg-gradient-to-b from-teal-50 to-teal-200 p-6 border-r border-gray-300 flex flex-col shadow-lg">
-      <h2 className="text-2xl font-bold mb-10 text-teal-900">Teacher Dashboard</h2>
+      <div 
+        className="flex flex-col items-center mb-6 cursor-pointer group"
+        onClick={() => onSelectTab("profile")}
+      >
+        {profilePicture ? (
+          <img
+            src={profilePicture}
+            alt="Profile"
+            className="w-20 h-20 rounded-full object-cover border-4 border-teal-600 shadow-md mb-3 group-hover:border-teal-500 group-hover:scale-105 transition-all duration-200"
+          />
+        ) : (
+          <div className="w-20 h-20 rounded-full bg-teal-600 flex items-center justify-center text-white text-3xl font-bold border-4 border-teal-700 shadow-md mb-3 group-hover:bg-teal-500 group-hover:scale-105 transition-all duration-200">
+            {teacherName ? teacherName.charAt(0).toUpperCase() : "T"}
+          </div>
+        )}
+        <h2 className="text-xl font-bold text-teal-900 text-center group-hover:text-teal-700 transition-colors">
+        {teacherName || "Teacher"}
+        </h2>
+      </div>
 
       <nav className="flex flex-col gap-3 flex-1">
         {menuItems.map((item) => (

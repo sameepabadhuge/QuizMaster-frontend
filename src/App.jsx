@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 
 import Landing from "./Pages/Landing";
@@ -12,6 +12,7 @@ import TeacherHome from "./Pages/TeacherHome";
 import CreateQuiz from "./Pages/CreateQuiz";
 import TakeQuiz from "./Pages/TakeQuiz";   // ✅ ADDED
 import ViewSubmission from "./Pages/ViewSubmission"; // Matches filename exactly
+import StudentSettings from "./Pages/StudentSettings"; // Student settings page
 
 import Nav from "./Components/Nav";
 
@@ -21,13 +22,20 @@ function App() {
 
 function MainApp() {
   const location = useLocation();
+  const [showNavbar, setShowNavbar] = useState(false);
 
-  const hideNavbarPaths = ["/", "/login", "/register"];
-  const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
+  const hideNavbarPaths = ["/", "/login", "/register", "/teacher-home"];
+
+  useEffect(() => {
+    const role = sessionStorage.getItem("role");
+    const shouldHide = hideNavbarPaths.includes(location.pathname);
+    const isStudent = role === "student";
+    setShowNavbar(!shouldHide && isStudent);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {shouldShowNavbar && <Nav />}
+      {showNavbar && <Nav />}
 
       <Routes>
         {/* Public Pages */}
@@ -46,6 +54,7 @@ function MainApp() {
         <Route path="/quiz-list" element={<QuizList />} />
         <Route path="/quiz-result/:resultId" element={<QuizResult />} />
         <Route path="/quiz-result" element={<QuizResult />} />
+        <Route path="/student-settings" element={<StudentSettings />} />
         
 
         {/* ⭐⭐ Take Quiz PAGE */}

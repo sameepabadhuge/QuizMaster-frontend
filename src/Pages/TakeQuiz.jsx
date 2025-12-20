@@ -14,7 +14,7 @@ export default function TakeQuiz() {
 
   useEffect(() => {
     // 🔒 Check if student is logged in
-    const studentToken = localStorage.getItem("studentToken"); // token stored at login
+    const studentToken = sessionStorage.getItem("studentToken"); // token stored at login
     if (!studentToken) {
       alert("You must be logged in to take this quiz!");
       navigate("/login"); // redirect unregistered student
@@ -53,7 +53,7 @@ export default function TakeQuiz() {
 
     setSubmitting(true);
 
-    const studentId = localStorage.getItem("studentId");
+    const studentId = sessionStorage.getItem("studentId");
     if (!studentId) {
       alert("You are not logged in properly. Please log in again.");
       setSubmitting(false);

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { motion } from "framer-motion";
-import bgImage from "../assets/p7.jpeg";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -134,16 +133,9 @@ export default function Register() {
   return (
     <div className="min-h-screen relative selection:bg-blue-100 selection:text-blue-900">
       <div className="flex flex-col md:flex-row min-h-screen">
-        {/* Left: Image */}
+        {/* Left: Decorative gradient (image removed) */}
         <div className="w-full md:w-1/2 h-64 md:h-screen relative overflow-hidden">
-          <motion.img
-            initial={{ scale: 1.05, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            src={bgImage}
-            alt="Background"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-400 to-blue-300" />
         </div>
 
         {/* Right: Form */}
@@ -339,7 +331,7 @@ export default function Register() {
             disabled={loading}
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-blue-600 text-white py-2.5 md:py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-blue-400 text-white py-2.5 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? "Creating Account..." : "Register"}
           </motion.button>
@@ -354,7 +346,7 @@ export default function Register() {
           Already have an account?{" "}
           <button
             onClick={() => navigate("/login")}
-            className="text-blue-600 hover:text-blue-700 font-semibold"
+            className="text-blue-400 hover:text-blue-600 font-semibold"
           >
             Login
           </button>

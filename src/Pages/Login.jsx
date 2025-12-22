@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import bgImage from "../assets/p6.jpeg";   // <-- IMPORTANT: import background
 
 const Login = () => {
   const navigate = useNavigate();
@@ -63,17 +62,9 @@ const Login = () => {
   return (
     <div className="min-h-screen relative selection:bg-blue-100 selection:text-blue-900">
       <div className="flex flex-col md:flex-row min-h-screen">
-        {/* Left: Image */}
+        {/* Left: Decorative gradient (image removed) */}
         <div className="w-full md:w-1/2 h-64 md:h-screen relative overflow-hidden">
-          <motion.img
-            initial={{ scale: 1.05, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            src={bgImage}
-            alt="Background"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {/* Overlay removed per request */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-400 to-blue-300" />
         </div>
 
         {/* Right: Form */}
@@ -172,7 +163,7 @@ const Login = () => {
             transition={{ delay: 0.7 }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold mt-4 hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/30 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-blue-400 text-white py-3 rounded-lg font-bold mt-4 hover:bg-blue-600 transition-all duration-300 shadow-lg hover:shadow-blue-500/30 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? "Logging in..." : "Sign In"}
           </motion.button>
@@ -188,7 +179,7 @@ const Login = () => {
             Don't have an account?{" "}
             <button
               onClick={() => navigate("/register")}
-              className="text-blue-600 hover:text-blue-700 font-bold transition-colors underline decoration-transparent hover:decoration-blue-600"
+              className="text-blue-400 hover:text-blue-700 font-bold transition-colors underline decoration-transparent hover:decoration-blue-600"
             >
               Register
             </button>

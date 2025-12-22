@@ -72,7 +72,7 @@ export default function Leaderboard() {
           <p className="text-red-600 text-lg mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Retry
           </button>
@@ -102,7 +102,7 @@ export default function Leaderboard() {
               <select
                 value={selectedSubject}
                 onChange={handleSubjectChange}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none bg-white text-gray-700 min-w-[200px]"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white text-gray-700 min-w-[200px]"
               >
                 <option value="all">All Subjects</option>
                 {subjects.map((subject) => (
@@ -112,7 +112,7 @@ export default function Leaderboard() {
                 ))}
               </select>
               {selectedSubject !== "all" && (
-                <span className="text-sm text-teal-600 font-medium bg-teal-50 px-3 py-1 rounded-full">
+                <span className="text-sm text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full">
                   Showing results for: {selectedSubject}
                 </span>
               )}
@@ -124,7 +124,7 @@ export default function Leaderboard() {
         <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-shadow duration-300 max-w-6xl w-full">
           {leaderboardData.length > 0 ? (
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-teal-600 to-teal-700 border-b-2 border-teal-800">
+              <thead className="bg-gradient-to-r from-blue-600 to-blue-700 border-b-2 border-blue-800">
                 <tr>
                   <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Rank</th>
                   <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Student</th>
@@ -137,7 +137,7 @@ export default function Leaderboard() {
                 {leaderboardData.map((student) => (
                   <tr
                     key={student.studentId}
-                    className="hover:bg-teal-50 transition-colors duration-200 hover:shadow-md"
+                    className="hover:bg-blue-50 transition-colors duration-200 hover:shadow-md"
                   >
                     <td className="px-8 py-5">
                       <span className={`inline-flex items-center justify-center w-10 h-10 rounded-full font-bold text-white text-sm ${
@@ -158,10 +158,10 @@ export default function Leaderboard() {
                           <img
                             src={student.profilePhoto}
                             alt={`${student.firstName}'s profile`}
-                            className="w-10 h-10 rounded-full object-cover border-2 border-teal-200"
+                            className="w-10 h-10 rounded-full object-cover border-2 border-blue-200"
                           />
                         ) : (
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white font-bold text-sm">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
                             {student.firstName?.charAt(0).toUpperCase() || "?"}
                           </div>
                         )}
@@ -173,7 +173,7 @@ export default function Leaderboard() {
                     <td className="px-8 py-5 text-center text-gray-700 font-medium">
                       {student.quizzesAttempted}
                     </td>
-                    <td className="px-8 py-5 text-center font-bold text-teal-600">
+                    <td className="px-8 py-5 text-center font-bold text-blue-600">
                       {student.totalScore}/{student.totalQuestions}
                     </td>
                     <td className="px-8 py-5 text-right font-semibold">
@@ -181,7 +181,7 @@ export default function Leaderboard() {
                         student.averagePercentage >= 75
                           ? "bg-green-100 text-green-700"
                           : student.averagePercentage >= 50
-                          ? "bg-teal-100 text-teal-700"
+                          ? "bg-blue-100 text-blue-700"
                           : "bg-red-100 text-red-700"
                       }`}>
                         {student.averagePercentage}%

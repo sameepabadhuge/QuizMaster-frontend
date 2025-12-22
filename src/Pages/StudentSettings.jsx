@@ -106,7 +106,7 @@ export default function StudentSettings() {
         <div className="mb-8">
           <button
             onClick={() => navigate(-1)}
-            className="mb-4 text-teal-600 hover:text-teal-700 font-semibold flex items-center gap-2"
+            className="mb-4 text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2"
           >
             ← Back
           </button>
@@ -133,10 +133,10 @@ export default function StudentSettings() {
                   <img
                     src={formData.profilePhoto}
                     alt="Profile"
-                    className="w-32 h-32 rounded-full object-cover border-4 border-teal-500 shadow-lg"
+                    className="w-32 h-32 rounded-full object-cover border-4 border-blue-500 shadow-lg"
                   />
                 ) : (
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white text-4xl font-bold border-4 border-teal-500 shadow-lg">
+                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-4xl font-bold border-4 border-blue-500 shadow-lg">
                     {formData.firstName.charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -145,7 +145,7 @@ export default function StudentSettings() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute bottom-0 right-0 w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white hover:bg-teal-700 transition-colors shadow-lg"
+                  className="absolute bottom-0 right-0 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors shadow-lg"
                 >
                   📷
                 </button>
@@ -163,7 +163,7 @@ export default function StudentSettings() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="text-teal-600 hover:text-teal-700 font-medium text-sm"
+                  className="text-blue-600 hover:text-blue-700 font-medium text-sm"
                 >
                   Change Photo
                 </button>
@@ -192,7 +192,7 @@ export default function StudentSettings() {
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 />
               </div>
 
@@ -206,7 +206,7 @@ export default function StudentSettings() {
                   value={formData.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 />
               </div>
 
@@ -220,7 +220,7 @@ export default function StudentSettings() {
                   value={formData.username}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 />
               </div>
 
@@ -234,7 +234,7 @@ export default function StudentSettings() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 />
               </div>
             </div>
@@ -247,7 +247,7 @@ export default function StudentSettings() {
                 className={`w-full py-3 rounded-lg font-semibold text-white transition-all duration-300 ${
                   saving
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-teal-600 hover:bg-teal-700 shadow-lg hover:shadow-xl"
+                    : "bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl"
                 }`}
               >
                 {saving ? "Saving..." : "Save Changes"}

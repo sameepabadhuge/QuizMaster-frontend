@@ -30,7 +30,7 @@ const SubmissionRow = ({ submission, onClick }) => {
     ? "text-red-700 bg-red-100"
     : isCompleted
       ? "text-green-700 bg-green-100"
-      : "text-teal-700 bg-teal-100";
+      : "text-blue-700 bg-blue-100";
   
   // Score color based on percentage
   const scoreColor = isFailed 
@@ -42,7 +42,7 @@ const SubmissionRow = ({ submission, onClick }) => {
   // Row background for failed submissions
   const rowBgClass = isFailed 
     ? "bg-red-50 hover:bg-red-100" 
-    : "hover:bg-teal-50";
+    : "hover:bg-blue-50";
 
   return (
     <tr 
@@ -93,7 +93,7 @@ const ResultDetail = ({ result, onBack }) => {
       </button>
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl shadow-xl p-8 mb-8 border border-teal-200">
+      <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-xl p-8 mb-8 border border-blue-200">
         <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
           📊 Quiz Results
         </h1>
@@ -102,9 +102,9 @@ const ResultDetail = ({ result, onBack }) => {
 
         {/* Score Summary */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
-          <div className="bg-white rounded-xl p-6 border-l-4 border-teal-600 shadow-md">
+          <div className="bg-white rounded-xl p-6 border-l-4 border-blue-600 shadow-md">
             <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Score</p>
-            <p className="text-4xl font-bold text-teal-600 mt-2">
+            <p className="text-4xl font-bold text-blue-600 mt-2">
               {score}/{totalQuestions}
             </p>
           </div>
@@ -124,7 +124,7 @@ const ResultDetail = ({ result, onBack }) => {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border-l-4 border-teal-600 shadow-md">
+          <div className="bg-white rounded-xl p-6 border-l-4 border-blue-600 shadow-md">
             <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Status</p>
             <p
               className={`text-lg font-bold mt-2 ${
@@ -294,7 +294,7 @@ const QuizSubmissions = () => {
         <button
           onClick={fetchSubmissions}
           disabled={loading}
-          className="flex items-center space-x-2 text-teal-600 hover:text-teal-700 font-medium px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <VscRefresh className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
           <span>{loading ? "Loading..." : "Refresh Data"}</span>
@@ -315,28 +315,28 @@ const QuizSubmissions = () => {
           value={quizStats.totalSubmissions}
           detail="submissions"
           icon={MdOutlineSchool}
-          borderClass="border-l-4 border-teal-400"
+          borderClass="border-l-4 border-blue-400"
         />
         <StatCard
           title="Average Score"
           value={quizStats.averageScore}
           detail="overall average score"
           icon={MdOutlineAvTimer}
-          borderClass="border-l-4 border-teal-400"
+          borderClass="border-l-4 border-blue-400"
         />
         <StatCard
           title="Completed"
           value={quizStats.completedSubmissions}
           detail="submissions completed"
           icon={MdOutlineCheckCircleOutline}
-          borderClass="border-l-4 border-teal-400"
+          borderClass="border-l-4 border-blue-400"
         />
         <StatCard
           title="Students Reviewed"
           value={quizStats.studentsReviewed}
           detail="unique students with submissions"
           icon={MdOutlinePeople}
-          borderClass="border-l-4 border-teal-400"
+          borderClass="border-l-4 border-blue-400"
         />
       </div>
 

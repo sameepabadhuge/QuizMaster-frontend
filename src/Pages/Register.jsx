@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { motion } from "framer-motion";
+import registerImg from "../assets/register.jpeg";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -133,9 +134,13 @@ export default function Register() {
   return (
     <div className="min-h-screen relative selection:bg-blue-100 selection:text-blue-900">
       <div className="flex flex-col md:flex-row min-h-screen">
-        {/* Left: Decorative gradient (image removed) */}
+        {/* Left: Register Image */}
         <div className="w-full md:w-1/2 h-64 md:h-screen relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-400 to-blue-300" />
+          <img 
+            src={registerImg} 
+            alt="Register" 
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* Right: Form */}
@@ -199,7 +204,7 @@ export default function Register() {
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                👨‍🎓 Student
+                 Student
               </motion.button>
 
               <motion.button
@@ -213,7 +218,7 @@ export default function Register() {
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                👨‍🏫 Teacher
+                 Teacher
               </motion.button>
             </div>
           </motion.div>

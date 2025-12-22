@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
-import landingImg from "../assets/1234.avif";
+import landingImg from "../assets/i2.jpg";
 
 const Landing = () => {
   return (
@@ -31,8 +31,8 @@ const Landing = () => {
         </h1>
       </Motion.div>
 
-      {/* Centered content */}
-      <div className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-10 lg:px-12 text-center z-20">
+      {/* Main content (aligned to right on larger screens) */}
+      <div className="relative min-h-screen flex flex-col items-center md:items-end justify-center px-6 md:px-10 lg:px-16 text-center md:text-right z-20">
         {/* CTA */}
         <div className="w-full max-w-xl bg-transparent rounded-2xl p-6 md:p-8">
           <div className="mt-0 max-w-xl mx-auto">
@@ -67,7 +67,7 @@ const Landing = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 1 }}
-              className="mt-12 flex items-center justify-center gap-4 text-sm text-white/80 font-medium"
+              className="mt-12 flex items-center justify-center md:justify-end gap-4 text-sm text-white/80 font-medium"
             >
               <div className="flex -space-x-2">
                 {[1,2,3,4].map((i) => (
@@ -81,14 +81,14 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      {/* Centered headline and description */}
+      {/* Headline and description (shifted to right) */}
       <Motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.8 }}
-        className="absolute inset-x-0 top-20 md:top-24 px-6 md:px-8 z-20"
+        className="absolute inset-x-0 top-20 md:top-24 px-6 md:px-8 z-20 flex justify-center md:justify-end"
       >
-        <div className="mx-auto max-w-2xl text-center">
+        <div className="max-w-2xl text-center md:text-right md:mr-10 lg:mr-20">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.2] tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200 drop-shadow">
             Master Your Knowledge!
           </h2>

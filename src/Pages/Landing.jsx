@@ -1,55 +1,53 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
-import landingImg from "../assets/s.jpg";
+import landingImg from "../assets/1234.avif";
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-gray-50 relative font-sans selection:bg-teal-100 selection:text-teal-900">
-      <div className="flex flex-col md:flex-row min-h-screen">
-        {/* Left Section - Text Content */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 relative z-10 py-20 md:py-0 bg-gradient-to-br from-teal-50 via-teal-100/30 to-teal-50">
-          <div className="mt-0 max-w-xl">
-            <Motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="mb-6"
-            >
-              <h1 className="text-3xl md:text-4xl font-extrabold text-teal-600 tracking-tight">
-                quizMaster
-              </h1>
-            </Motion.div>
+    <div className="min-h-screen relative font-sans selection:bg-blue-100 selection:text-blue-900">
+      {/* Full-page background image */}
+      <div className="absolute inset-0">
+        <Motion.img
+          initial={{ scale: 1.05, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          src={landingImg}
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-blue-900/20 mix-blend-multiply" />
+      </div>
+
+      {/* Brand top-left */}
+      <Motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.6 }}
+        className="absolute top-0 left-0 p-6 md:p-8 z-20"
+      >
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-600 drop-shadow-md">
+          quizMaster
+        </h1>
+      </Motion.div>
+
+      {/* Centered content */}
+      <div className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-10 lg:px-12 text-center z-20">
+        {/* CTA */}
+        <div className="w-full max-w-xl bg-transparent rounded-2xl p-6 md:p-8">
+          <div className="mt-0 max-w-xl mx-auto">
             
-            <Motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-[1.2] tracking-tight text-gray-900">
-                Master Your Knowledge!
-              </h2>
-            </Motion.div>
             
-            <Motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-lg md:text-xl text-gray-700 mb-12 font-medium leading-relaxed max-w-lg"
-            >
-              Engaging quizzes to help students learn and teachers teach. Join our community of lifelong learners today.
-            </Motion.p>
 
             <Motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 items-center justify-center"
             >
               <Link
                 to="/login"
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-teal-600 rounded-xl hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 shadow-lg hover:shadow-teal-500/30 hover:-translate-y-0.5"
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5"
                 role="button"
               >
                 Get Started Now
@@ -69,11 +67,11 @@ const Landing = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 1 }}
-              className="mt-12 flex items-center gap-4 text-sm text-gray-500 font-medium"
+              className="mt-12 flex items-center justify-center gap-4 text-sm text-white/80 font-medium"
             >
               <div className="flex -space-x-2">
                 {[1,2,3,4].map((i) => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs overflow-hidden">
+                  <div key={i} className="w-8 h-8 rounded-full bg-white/30 border-2 border-white/60 flex items-center justify-center text-xs overflow-hidden">
                      <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`} alt="User" />
                   </div>
                 ))}
@@ -82,20 +80,23 @@ const Landing = () => {
             </Motion.div>
           </div>
         </div>
-
-        {/* Right Section - Image */}
-        <div className="w-full md:w-1/2 h-64 md:h-screen relative overflow-hidden bg-gradient-to-br from-teal-200 via-teal-50/80 to-teal-200">
-          <Motion.img
-            initial={{ scale: 1.1, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            src={landingImg}
-            alt="Students collaborating on a quiz"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-teal-900/50 to-transparent md:bg-teal-900/10 mix-blend-multiply"></div>
-        </div>
       </div>
+      {/* Centered headline and description */}
+      <Motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25, duration: 0.8 }}
+        className="absolute inset-x-0 top-20 md:top-24 px-6 md:px-8 z-20"
+      >
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.2] tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200 drop-shadow">
+            Master Your Knowledge!
+          </h2>
+          <p className="mt-6 text-lg md:text-xl text-white/90 font-medium leading-relaxed">
+            Engaging quizzes to help students learn and teachers teach. Join our community of lifelong learners today.
+          </p>
+        </div>
+      </Motion.div>
     </div>
   );
 };

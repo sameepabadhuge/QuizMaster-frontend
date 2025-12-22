@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import loginImg from "../assets/login.jpeg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -62,9 +63,13 @@ const Login = () => {
   return (
     <div className="min-h-screen relative selection:bg-blue-100 selection:text-blue-900">
       <div className="flex flex-col md:flex-row min-h-screen">
-        {/* Left: Decorative gradient (image removed) */}
+        {/* Left: Login Image */}
         <div className="w-full md:w-1/2 h-64 md:h-screen relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-400 to-blue-300" />
+          <img 
+            src={loginImg} 
+            alt="Login" 
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* Right: Form */}

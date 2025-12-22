@@ -47,10 +47,10 @@ export default function Card({ quiz, isFailed = false, failedResult = null }) {
           <img
             src={teacherPhoto}
             alt={teacherName}
-            className="w-10 h-10 rounded-full object-cover border-2 border-teal-200"
+            className="w-10 h-10 rounded-full object-cover border-2 border-blue-200"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
             {teacherName.charAt(0).toUpperCase()}
           </div>
         )}
@@ -80,7 +80,7 @@ export default function Card({ quiz, isFailed = false, failedResult = null }) {
         className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-md hover:shadow-lg ${
           isFailed
             ? "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white"
-            : "bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white"
+            : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
         }`}
       >
         {isFailed ? "🔄 Retry Quiz" : "Start Quiz"}

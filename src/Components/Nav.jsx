@@ -54,9 +54,9 @@ export default function Nav() {
   const studentName = sessionStorage.getItem("studentName") || "Student";
 
   return (
-    <nav className="flex items-center justify-between bg-gradient-to-r from-teal-600 to-teal-700 text-white px-8 py-4 shadow-lg sticky top-0 z-50">
+    <nav className="flex items-center justify-between bg-transparent text-slate-900 px-8 py-4 shadow-lg sticky top-0 z-50">
       <h2 
-        className="text-2xl font-bold tracking-wide cursor-pointer hover:text-teal-100 transition-colors duration-200"
+        className="text-2xl font-bold tracking-wide cursor-pointer hover:text-blue-700 transition-colors duration-200"
         onClick={() => navigate("/home")}
       >
         QuizMaster
@@ -71,7 +71,7 @@ export default function Nav() {
               to={link.path}
               aria-current={isActive ? "page" : undefined}
               className={`font-semibold transition duration-200 ${
-                isActive ? "text-white border-b-2 border-white" : "hover:text-white/80"
+                isActive ? "text-blue-700 border-b-2 border-blue-600" : "hover:text-blue-600"
               }`}
             >
               {link.name}
@@ -90,10 +90,10 @@ export default function Nav() {
             <img
               src={profilePhoto}
               alt="Profile"
-              className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
+              className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 shadow-md"
             />
           ) : (
-            <div className="w-10 h-10 rounded-full bg-teal-800 flex items-center justify-center text-white font-bold text-lg border-2 border-white shadow-md">
+            <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-blue-700 font-bold text-lg border-2 border-blue-200 shadow-md">
               {studentName.charAt(0).toUpperCase()}
             </div>
           )}
@@ -101,13 +101,13 @@ export default function Nav() {
 
         {/* Dropdown Menu */}
         {showDropdown && (
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50 animate-fadeIn">
+          <div className="absolute right-0 mt-2 w-48 bg-white/95 rounded-xl shadow-xl border border-blue-100 py-2 z-50 animate-fadeIn">
             <button
               onClick={() => {
                 setShowDropdown(false);
                 navigate("/student-settings");
               }}
-              className="w-full text-left px-4 py-3 text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors flex items-center gap-3"
+              className="w-full text-left px-4 py-3 text-slate-700 hover:text-blue-700 transition-colors flex items-center gap-3"
             >
               <span>⚙️</span>
               <span>Settings</span>
@@ -117,7 +117,7 @@ export default function Nav() {
                 setShowDropdown(false);
                 handleLogout();
               }}
-              className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 transition-colors flex items-center gap-3"
+              className="w-full text-left px-4 py-3 text-red-600 transition-colors flex items-center gap-3"
             >
               <span>🚪</span>
               <span>Logout</span>

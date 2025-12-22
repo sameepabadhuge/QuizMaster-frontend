@@ -9,6 +9,14 @@ export default function StudentSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState({ type: "", text: "" });
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   
   const [formData, setFormData] = useState({
     firstName: "",
@@ -61,6 +69,45 @@ export default function StudentSettings() {
 
   const handleRemovePhoto = () => {
     setFormData({ ...formData, profilePhoto: "" });
+  };
+
+  const handlePasswordChange = async () => {
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordMessage({ type: "error", text: "New passwords do not match" });
+      return;
+    }
+
+    if (passwordData.newPassword.length < 8) {
+      setPasswordMessage({ type: "error", text: "Password must be at least 8 characters" });
+      return;
+    }
+
+    try {
+      setPasswordSaving(true);
+      setPasswordMessage({ type: "", text: "" });
+
+      const res = await axios.put(
+        "http://localhost:5000/api/students/change-password",
+        {
+          studentId,
+          currentPassword: passwordData.currentPassword,
+          newPassword: passwordData.newPassword,
+        }
+      );
+
+      if (res.data.success) {
+        setPasswordMessage({ type: "success", text: "Password changed successfully!" });
+        setShowPasswordModal(false);
+        setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      }
+    } catch (err) {
+      setPasswordMessage({
+        type: "error",
+        text: err.response?.data?.message || "Failed to change password",
+      });
+    } finally {
+      setPasswordSaving(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -253,9 +300,105 @@ export default function StudentSettings() {
                 {saving ? "Saving..." : "Save Changes"}
               </button>
             </div>
+
+            <div className="mt-4 flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setPasswordMessage({ type: "", text: "" });
+                  setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+                  setShowPasswordModal(true);
+                }}
+                className="px-6 py-3 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+              >
+                Change Password
+              </button>
+            </div>
           </form>
         </div>
       </div>
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Change Password</h3>
+            {passwordMessage.text && (
+              <div
+                className={`mb-4 p-3 rounded-lg text-sm ${
+                  passwordMessage.type === "success"
+                    ? "bg-green-100 text-green-700 border border-green-300"
+                    : "bg-red-100 text-red-700 border border-red-300"
+                }`}
+              >
+                {passwordMessage.text}
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  value={passwordData.currentPassword}
+                  onChange={(e) =>
+                    setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))
+                  }
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  value={passwordData.newPassword}
+                  onChange={(e) =>
+                    setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))
+                  }
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  value={passwordData.confirmPassword}
+                  onChange={(e) =>
+                    setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))
+                  }
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-4 mt-6">
+              <button
+                onClick={handlePasswordChange}
+                disabled={passwordSaving}
+                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+              >
+                {passwordSaving ? "Changing..." : "Change Password"}
+              </button>
+              <button
+                onClick={() => {
+                  setShowPasswordModal(false);
+                  setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+                  setPasswordMessage({ type: "", text: "" });
+                }}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

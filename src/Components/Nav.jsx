@@ -54,9 +54,9 @@ export default function Nav() {
   const studentName = sessionStorage.getItem("studentName") || "Student";
 
   return (
-    <nav className="flex items-center justify-between bg-transparent text-slate-900 px-8 py-4 shadow-lg sticky top-0 z-50">
+    <nav className="flex items-center justify-between bg-gray-400 text-slate-900 px-8 py-4 shadow-lg sticky top-0 z-50">
       <h2 
-        className="text-2xl font-bold tracking-wide cursor-pointer hover:text-blue-700 transition-colors duration-200"
+        className="text-2xl font-bold tracking-wide cursor-pointer text-blue-700 hover:text-blue-700 transition-colors duration-200"
         onClick={() => navigate("/home")}
       >
         QuizMaster
@@ -90,7 +90,7 @@ export default function Nav() {
             <img
               src={profilePhoto}
               alt="Profile"
-              className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 shadow-md"
+              className="w-10 h-10 rounded-full object-cover border-2 hover:text-blue-600  border-gray-500  shadow-md"
             />
           ) : (
             <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-blue-700 font-bold text-lg border-2 border-blue-200 shadow-md">

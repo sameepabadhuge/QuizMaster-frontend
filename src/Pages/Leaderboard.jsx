@@ -130,7 +130,6 @@ export default function Leaderboard() {
                   <th className="px-8 py-5 text-left text-xs font-bold text-white uppercase tracking-wider">Student</th>
                   <th className="px-8 py-5 text-center text-xs font-bold text-white uppercase tracking-wider">Quizzes Attempted</th>
                   <th className="px-8 py-5 text-center text-xs font-bold text-white uppercase tracking-wider">Total Score</th>
-                  <th className="px-8 py-5 text-right text-xs font-bold text-white uppercase tracking-wider">Avg %</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -175,17 +174,6 @@ export default function Leaderboard() {
                     </td>
                     <td className="px-8 py-5 text-center font-bold text-blue-600">
                       {student.totalScore}/{student.totalQuestions}
-                    </td>
-                    <td className="px-8 py-5 text-right font-semibold">
-                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                        student.averagePercentage >= 75
-                          ? "bg-green-100 text-green-700"
-                          : student.averagePercentage >= 50
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-red-100 text-red-700"
-                      }`}>
-                        {student.averagePercentage}%
-                      </span>
                     </td>
                   </tr>
                 ))}

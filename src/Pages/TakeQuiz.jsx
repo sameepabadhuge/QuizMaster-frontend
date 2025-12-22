@@ -89,12 +89,12 @@ export default function TakeQuiz() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-teal-50 py-10 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-10 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Quiz Header */}
-        <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white p-6 rounded-xl shadow-lg mb-6">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-xl shadow-lg mb-6">
           <h2 className="text-3xl font-bold text-center">{quizData.title}</h2>
-          <div className="text-center mt-2 text-teal-100">
+          <div className="text-center mt-2 text-blue-100">
             Question {currentIndex + 1} / {quizData.questions.length}
           </div>
         </div>
@@ -109,8 +109,8 @@ export default function TakeQuiz() {
                 key={idx}
                 className={`block p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md ${
                   answers[currentIndex] === option 
-                    ? "bg-teal-50 border-teal-600 shadow-md" 
-                    : "border-gray-300 hover:border-teal-400 bg-white"
+                    ? "bg-blue-50 border-blue-600 shadow-md" 
+                    : "border-gray-300 hover:border-blue-400 bg-white"
                 }`}
               >
                 <div className="flex items-center">
@@ -119,7 +119,7 @@ export default function TakeQuiz() {
                     name={`question-${currentIndex}`}
                     checked={answers[currentIndex] === option}
                     onChange={() => handleOptionSelect(option)}
-                    className="mr-3 w-5 h-5 text-teal-600"
+                    className="mr-3 w-5 h-5 text-blue-600"
                   />
                   <span className="text-lg text-gray-800">{option}</span>
                 </div>
@@ -149,7 +149,7 @@ export default function TakeQuiz() {
           ) : (
             <button
               onClick={() => setCurrentIndex(currentIndex + 1)}
-              className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-lg font-semibold hover:from-teal-700 hover:to-teal-800 transition-all duration-300 shadow-md hover:shadow-lg"
+              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Next →
             </button>

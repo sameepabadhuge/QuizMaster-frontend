@@ -17,6 +17,7 @@ export default function TeacherProfile() {
   const [message, setMessage] = useState({ type: "", text: "" });
   const [isEditing, setIsEditing] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState({ type: "", text: "" });
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -68,6 +69,14 @@ export default function TeacherProfile() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "phone") {
+      // Allow only digits and limit to 10 characters
+      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+      setProfile((prev) => ({ ...prev, phone: digitsOnly }));
+      return;
+    }
+
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -123,21 +132,22 @@ export default function TeacherProfile() {
 
   const handlePasswordChange = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setMessage({ type: "error", text: "New passwords do not match" });
+      setPasswordMessage({ type: "error", text: "New passwords do not match" });
       return;
     }
 
-    if (passwordData.newPassword.length < 6) {
-      setMessage({ type: "error", text: "Password must be at least 6 characters" });
+    if (passwordData.newPassword.length < 8) {
+      setPasswordMessage({ type: "error", text: "Password must be at least 8 characters" });
       return;
     }
 
     try {
       setSaving(true);
+      setPasswordMessage({ type: "", text: "" });
       const teacherId = sessionStorage.getItem("teacherId") || profile._id;
       
       if (!teacherId) {
-        setMessage({ type: "error", text: "Please login again" });
+        setPasswordMessage({ type: "error", text: "Please login again" });
         setSaving(false);
         return;
       }
@@ -151,12 +161,12 @@ export default function TeacherProfile() {
       );
 
       if (res.data.success) {
-        setMessage({ type: "success", text: "Password changed successfully!" });
+        setPasswordMessage({ type: "success", text: "Password changed successfully!" });
         setShowPasswordModal(false);
         setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
       }
     } catch (err) {
-      setMessage({ 
+      setPasswordMessage({ 
         type: "error", 
         text: err.response?.data?.message || "Failed to change password" 
       });
@@ -193,7 +203,7 @@ export default function TeacherProfile() {
         {/* Profile Picture Section */}
         <div className="flex flex-col items-center mb-8">
           <div className="relative">
-            <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200 border-4 border-teal-500">
+            <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200 border-4 border-blue-500">
               {profile.profilePicture ? (
                 <img
                   src={profile.profilePicture}
@@ -207,7 +217,7 @@ export default function TeacherProfile() {
               )}
             </div>
             {isEditing && (
-              <label className="absolute bottom-0 right-0 bg-teal-600 text-white p-2 rounded-full cursor-pointer hover:bg-teal-700 transition-colors">
+              <label className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
                 <input
                   type="file"
                   accept="image/*"
@@ -237,8 +247,8 @@ export default function TeacherProfile() {
               onChange={handleChange}
               disabled={!isEditing}
               className={`w-full p-3 border rounded-lg ${
-                isEditing
-                  ? "border-teal-300 focus:ring-2 focus:ring-teal-500"
+                  isEditing
+                    ? "border-blue-300 focus:ring-2 focus:ring-blue-500"
                   : "bg-gray-50 border-gray-200"
               } transition-all`}
             />
@@ -255,8 +265,8 @@ export default function TeacherProfile() {
               onChange={handleChange}
               disabled={!isEditing}
               className={`w-full p-3 border rounded-lg ${
-                isEditing
-                  ? "border-teal-300 focus:ring-2 focus:ring-teal-500"
+                  isEditing
+                    ? "border-blue-300 focus:ring-2 focus:ring-blue-500"
                   : "bg-gray-50 border-gray-200"
               } transition-all`}
             />
@@ -273,8 +283,8 @@ export default function TeacherProfile() {
               onChange={handleChange}
               disabled={!isEditing}
               className={`w-full p-3 border rounded-lg ${
-                isEditing
-                  ? "border-teal-300 focus:ring-2 focus:ring-teal-500"
+                  isEditing
+                    ? "border-blue-300 focus:ring-2 focus:ring-blue-500"
                   : "bg-gray-50 border-gray-200"
               } transition-all`}
             />
@@ -291,8 +301,8 @@ export default function TeacherProfile() {
               onChange={handleChange}
               disabled={!isEditing}
               className={`w-full p-3 border rounded-lg ${
-                isEditing
-                  ? "border-teal-300 focus:ring-2 focus:ring-teal-500"
+                  isEditing
+                    ? "border-blue-300 focus:ring-2 focus:ring-blue-500"
                   : "bg-gray-50 border-gray-200"
               } transition-all`}
             />
@@ -309,8 +319,8 @@ export default function TeacherProfile() {
               onChange={handleChange}
               disabled={!isEditing}
               className={`w-full p-3 border rounded-lg ${
-                isEditing
-                  ? "border-teal-300 focus:ring-2 focus:ring-teal-500"
+                  isEditing
+                    ? "border-blue-300 focus:ring-2 focus:ring-blue-500"
                   : "bg-gray-50 border-gray-200"
               } transition-all`}
             />
@@ -328,10 +338,11 @@ export default function TeacherProfile() {
               disabled={!isEditing}
               placeholder={isEditing ? "Enter phone number" : "Not provided"}
               className={`w-full p-3 border rounded-lg ${
-                isEditing
-                  ? "border-teal-300 focus:ring-2 focus:ring-teal-500"
+                  isEditing
+                    ? "border-blue-300 focus:ring-2 focus:ring-blue-500"
                   : "bg-gray-50 border-gray-200"
               } transition-all`}
+              maxLength={10}
             />
           </div>
 
@@ -347,8 +358,8 @@ export default function TeacherProfile() {
               rows={3}
               placeholder={isEditing ? "Tell us about yourself..." : "No bio provided"}
               className={`w-full p-3 border rounded-lg ${
-                isEditing
-                  ? "border-teal-300 focus:ring-2 focus:ring-teal-500"
+                  isEditing
+                    ? "border-blue-300 focus:ring-2 focus:ring-blue-500"
                   : "bg-gray-50 border-gray-200"
               } transition-all resize-none`}
             />
@@ -362,7 +373,7 @@ export default function TeacherProfile() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition-colors disabled:opacity-50"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>
@@ -380,15 +391,19 @@ export default function TeacherProfile() {
             <>
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition-colors"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
-                ✏️ Edit Profile
+                Edit Profile
               </button>
               <button
-                onClick={() => setShowPasswordModal(true)}
+                onClick={() => {
+                  setPasswordMessage({ type: "", text: "" });
+                  setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+                  setShowPasswordModal(true);
+                }}
                 className="px-6 py-3 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors"
               >
-                🔒 Change Password
+                 Change Password
               </button>
             </>
           )}
@@ -400,6 +415,17 @@ export default function TeacherProfile() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-8 max-w-md w-full mx-4">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Change Password</h3>
+            {passwordMessage.text && (
+              <div
+                className={`mb-4 p-3 rounded-lg text-sm ${
+                  passwordMessage.type === "success"
+                    ? "bg-green-100 text-green-700 border border-green-300"
+                    : "bg-red-100 text-red-700 border border-red-300"
+                }`}
+              >
+                {passwordMessage.text}
+              </div>
+            )}
             
             <div className="space-y-4">
               <div>
@@ -412,7 +438,7 @@ export default function TeacherProfile() {
                   onChange={(e) =>
                     setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))
                   }
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -426,7 +452,7 @@ export default function TeacherProfile() {
                   onChange={(e) =>
                     setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))
                   }
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -440,7 +466,7 @@ export default function TeacherProfile() {
                   onChange={(e) =>
                     setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))
                   }
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -449,7 +475,7 @@ export default function TeacherProfile() {
               <button
                 onClick={handlePasswordChange}
                 disabled={saving}
-                className="flex-1 px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition-colors disabled:opacity-50"
+                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
                 {saving ? "Changing..." : "Change Password"}
               </button>
@@ -457,6 +483,7 @@ export default function TeacherProfile() {
                 onClick={() => {
                   setShowPasswordModal(false);
                   setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+                  setPasswordMessage({ type: "", text: "" });
                 }}
                 className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
               >

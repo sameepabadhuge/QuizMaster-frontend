@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -10,56 +10,90 @@ export default function TakeQuiz() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(null);
 
+  const submitLock = useRef(false);
+
+  // ============================
+  // FETCH QUIZ
+  // ============================
   useEffect(() => {
-    // 🔒 Check if student is logged in
-    const studentToken = sessionStorage.getItem("studentToken"); // token stored at login
+    const studentToken = sessionStorage.getItem("studentToken");
     if (!studentToken) {
       alert("You must be logged in to take this quiz!");
-      navigate("/login"); // redirect unregistered student
+      navigate("/login");
       return;
     }
 
-    // Fetch quiz data if logged in
     axios
       .get(`http://localhost:5000/api/createquiz/quiz/${quizId}`, {
-        headers: { Authorization: `Bearer ${studentToken}` } // optional: backend can verify
+        headers: { Authorization: `Bearer ${studentToken}` }
       })
       .then((res) => {
-        setQuizData(res.data);
+        const data = res.data;
+
+        if (!data || !Array.isArray(data.questions) || data.questions.length === 0) {
+          setLoadError("Quiz data is invalid or empty.");
+          setLoading(false);
+          return;
+        }
+
+        setQuizData(data);
+
+        const duration = Number(data.duration);
+        if (duration > 0) {
+          setTimeLeft(duration * 60); // minutes → seconds
+        }
+
         setLoading(false);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        setLoadError("Failed to load quiz.");
         setLoading(false);
       });
   }, [quizId, navigate]);
 
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
-  if (!quizData) return <div className="text-center mt-10">Quiz not found!</div>;
+  // ============================
+  // TIMER (AUTO SUBMIT)
+  // ============================
+  useEffect(() => {
+    if (timeLeft === null) return;
 
-  const question = quizData.questions[currentIndex];
+    if (timeLeft <= 0) {
+      if (!submitLock.current) {
+		handleSubmit(); // ⏰ AUTO SUBMIT
+      }
+      return;
+    }
 
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  // ============================
+  // HANDLERS
+  // ============================
   const handleOptionSelect = (option) => {
-    setAnswers({ ...answers, [currentIndex]: option });
+    setAnswers((prev) => ({ ...prev, [currentIndex]: option }));
   };
 
   const handleSubmit = async () => {
-    if (Object.keys(answers).length === 0) {
-      alert("Please answer at least one question before submitting!");
+    if (submitLock.current) return;
+    submitLock.current = true;
+
+    const studentId = sessionStorage.getItem("studentId");
+    if (!studentId) {
+      alert("Session expired. Please login again.");
+      navigate("/login");
       return;
     }
 
     setSubmitting(true);
-
-    const studentId = sessionStorage.getItem("studentId");
-    if (!studentId) {
-      alert("You are not logged in properly. Please log in again.");
-      setSubmitting(false);
-      navigate("/login");
-      return;
-    }
 
     try {
       const res = await axios.post(
@@ -68,93 +102,113 @@ export default function TakeQuiz() {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      if (res.data.resultId) {
-        navigate(`/quiz-result/${res.data.resultId}`);
-      } else {
-        const resultData = {
-          quizTitle: res.data.quizTitle || "Quiz",
-          score: res.data.score || 0,
-          totalQuestions: res.data.totalQuestions || 0,
-          percentage: res.data.percentage || 0,
-          results: res.data.results || []
-        };
-        navigate("/quiz-result", { state: resultData });
-      }
+      navigate(`/quiz-result/${res.data.resultId}`);
     } catch (err) {
-      console.error("Quiz submission error:", err);
-      alert(`Error submitting quiz: ${err.response?.data?.message || err.message}`);
+      console.error(err);
+      alert("Error submitting quiz.");
+      submitLock.current = false;
     } finally {
       setSubmitting(false);
     }
   };
 
+  // ============================
+  // RENDER SAFETY
+  // ============================
+  if (loading) return <div className="text-center mt-10">Loading...</div>;
+  if (loadError) return <div className="text-center mt-10 text-red-600">{loadError}</div>;
+
+  const safeIndex = Math.min(currentIndex, quizData.questions.length - 1);
+  const question = quizData.questions[safeIndex];
+
+  if (!question || !Array.isArray(question.options)) {
+    return (
+      <div className="text-center mt-10 text-red-600">
+        Invalid question format. Options missing.
+      </div>
+    );
+  }
+
+  const formatTime = (seconds) => {
+    if (seconds === null) return "--:--";
+    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const s = String(seconds % 60).padStart(2, "0");
+    return `${m}:${s}`;
+  };
+
+  // ============================
+  // UI
+  // ============================
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-10 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Quiz Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-xl shadow-lg mb-6">
-          <h2 className="text-3xl font-bold text-center">{quizData.title}</h2>
-          <div className="text-center mt-2 text-blue-100">
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-3xl mx-auto bg-white p-6 rounded shadow">
+
+        <h2 className="text-2xl font-bold text-center mb-2">{quizData.title}</h2>
+
+        <div className="flex justify-between mb-4 text-sm">
+          <span>
             Question {currentIndex + 1} / {quizData.questions.length}
-          </div>
+          </span>
+          {quizData.duration ? (
+            <span className="font-semibold text-red-600">
+              Time Left: {formatTime(timeLeft)}
+            </span>
+          ) : (
+            <span>No time limit</span>
+          )}
         </div>
 
-        {/* Question Card */}
-        <div className="bg-white p-8 rounded-xl shadow-xl border border-gray-200">
-          <h3 className="text-2xl font-bold mb-6 text-gray-900">{question.question}</h3>
-          
-          <div className="space-y-3">
-            {question.options.map((option, idx) => (
-              <label
-                key={idx}
-                className={`block p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md ${
-                  answers[currentIndex] === option 
-                    ? "bg-blue-50 border-blue-600 shadow-md" 
-                    : "border-gray-300 hover:border-blue-400 bg-white"
-                }`}
-              >
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name={`question-${currentIndex}`}
-                    checked={answers[currentIndex] === option}
-                    onChange={() => handleOptionSelect(option)}
-                    className="mr-3 w-5 h-5 text-blue-600"
-                  />
-                  <span className="text-lg text-gray-800">{option}</span>
-                </div>
-              </label>
-            ))}
-          </div>
+        <h3 className="text-xl font-semibold mb-4">{question.question}</h3>
+
+        <div className="space-y-2">
+          {question.options.map((option, idx) => (
+            <label
+              key={idx}
+              className={`block border p-3 rounded cursor-pointer ${
+                answers[currentIndex] === option
+                  ? "bg-blue-50 border-blue-600"
+                  : "border-gray-300"
+              }`}
+            >
+              <input
+                type="radio"
+                name={`q-${currentIndex}`}
+                checked={answers[currentIndex] === option}
+                onChange={() => handleOptionSelect(option)}
+                className="mr-2"
+              />
+              {option}
+            </label>
+          ))}
         </div>
 
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-8">
+        <div className="flex justify-between mt-6">
           <button
             disabled={currentIndex === 0}
-            onClick={() => setCurrentIndex(currentIndex - 1)}
-            className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-400 transition-colors"
+            onClick={() => setCurrentIndex((i) => i - 1)}
+            className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
           >
-            ← Previous
+            Previous
           </button>
 
           {currentIndex + 1 === quizData.questions.length ? (
             <button
               onClick={handleSubmit}
               disabled={submitting}
-              className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold disabled:opacity-50 hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              className="px-6 py-2 bg-green-600 text-white rounded"
             >
-              {submitting ? "Submitting..." : "✓ Submit Quiz"}
+              {submitting ? "Submitting..." : "Submit"}
             </button>
           ) : (
             <button
-              onClick={() => setCurrentIndex(currentIndex + 1)}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-md hover:shadow-lg"
+              onClick={() => setCurrentIndex((i) => i + 1)}
+              className="px-4 py-2 bg-blue-600 text-white rounded"
             >
-              Next →
+              Next
             </button>
           )}
         </div>
+
       </div>
     </div>
   );

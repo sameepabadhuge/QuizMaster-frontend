@@ -1,6 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+
+// Confetti celebration component
+const Confetti = ({ isActive }) => {
+  const [confetti, setConfetti] = useState([]);
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#00b894'];
+    const newConfetti = [];
+
+    for (let i = 0; i < 100; i++) {
+      newConfetti.push({
+        id: i,
+        left: Math.random() * 100,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        delay: Math.random() * 3,
+        duration: 3 + Math.random() * 2,
+        size: 8 + Math.random() * 8,
+      });
+    }
+
+    setConfetti(newConfetti);
+
+    const timeout = setTimeout(() => {
+      setConfetti([]);
+    }, 6000);
+
+    return () => clearTimeout(timeout);
+  }, [isActive]);
+
+  if (!isActive || confetti.length === 0) return null;
+
+  return (
+    <div className="confetti-container">
+      {confetti.map((c) => (
+        <div
+          key={c.id}
+          className="confetti"
+          style={{
+            left: `${c.left}%`,
+            backgroundColor: c.color,
+            width: `${c.size}px`,
+            height: `${c.size}px`,
+            animationDelay: `${c.delay}s`,
+            animationDuration: `${c.duration}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Star burst animation component
+const StarBurst = ({ isActive }) => {
+  if (!isActive) return null;
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {[...Array(12)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute text-4xl"
+          style={{
+            left: `${10 + (i % 4) * 25}%`,
+            top: `${10 + Math.floor(i / 4) * 30}%`,
+            animation: `star-burst 1.5s ease-out ${i * 0.1}s forwards`,
+          }}
+        >
+          ⭐
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default function QuizResult() {
   const navigate = useNavigate();
@@ -11,6 +86,8 @@ export default function QuizResult() {
   const [selectedResult, setSelectedResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [isNewResult, setIsNewResult] = useState(false);
 
   const role = sessionStorage.getItem("role");
   const studentId = sessionStorage.getItem("studentId");
@@ -56,10 +133,28 @@ export default function QuizResult() {
   useEffect(() => {
     if (location.state) {
       setSelectedResult(location.state);
+      setIsNewResult(true);
     } else if (resultId) {
       fetchResultDetail(resultId);
+      setIsNewResult(true);
     }
   }, [resultId, location.state]);
+
+  // Trigger celebration when quiz is passed
+  useEffect(() => {
+    if (selectedResult && isNewResult) {
+      const percentage = selectedResult.percentage || 0;
+      if (percentage >= 50) {
+        setShowCelebration(true);
+        // Stop celebration after 6 seconds
+        const timeout = setTimeout(() => {
+          setShowCelebration(false);
+          setIsNewResult(false);
+        }, 6000);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [selectedResult, isNewResult]);
 
   const fetchResultDetail = async (id) => {
     try {
@@ -126,14 +221,24 @@ export default function QuizResult() {
     const totalQuestions = selectedResult.totalQuestions || 0;
     const percentage = selectedResult.percentage || 0;
     const results = Array.isArray(selectedResult.results) ? selectedResult.results : [];
+    const quizId = selectedResult.quizId || selectedResult.quiz;
+
+    const handleRetryQuiz = () => {
+      if (quizId) {
+        navigate(`/take-quiz/${quizId}`);
+      }
+    };
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="p-10">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+        {/* Celebration Effects */}
+        <Confetti isActive={showCelebration} />
+        
+        <div className="p-10 relative z-10">
           {/* Back Button */}
           <button
             onClick={handleBackToList}
-            className="mb-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-semibold transition-colors duration-200 flex items-center gap-2"
+            className="mb-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-semibold transition-colors duration-200 flex items-center gap-2 animate-fade-in-up"
           >
             ← Back to All Results
           </button>
@@ -144,8 +249,48 @@ export default function QuizResult() {
             </div>
           ) : (
             <>
+              {/* Celebration Banner for Passed Quiz */}
+              {percentage >= 50 && showCelebration && (
+                <div className="mb-8 animate-celebrate-bounce">
+                  <div className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 rounded-2xl p-8 text-center text-white shadow-2xl relative overflow-hidden">
+                    <StarBurst isActive={showCelebration} />
+                    <div className="relative z-10">
+                      <div className="text-6xl mb-4 animate-trophy-shine">🏆</div>
+                      <h2 className="text-4xl font-bold mb-2">Congratulations!</h2>
+                      <p className="text-xl opacity-90">You passed the quiz with flying colors!</p>
+                      <div className="mt-4 flex justify-center gap-4 text-4xl">
+                        <span className="animate-float" style={{ animationDelay: '0s' }}>🎉</span>
+                        <span className="animate-float" style={{ animationDelay: '0.2s' }}>⭐</span>
+                        <span className="animate-float" style={{ animationDelay: '0.4s' }}>🌟</span>
+                        <span className="animate-float" style={{ animationDelay: '0.6s' }}>🎊</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Failed Banner */}
+              {percentage < 50 && isNewResult && (
+                <div className="mb-8 animate-fade-in-up">
+                  <div className="bg-gradient-to-r from-orange-400 to-red-500 rounded-2xl p-6 text-center text-white shadow-xl">
+                    <div className="text-5xl mb-3">💪</div>
+                    <h2 className="text-2xl font-bold mb-2">Keep Going!</h2>
+                    <p className="text-lg opacity-90 mb-4">Don't give up! Review your answers and try again.</p>
+                    {quizId && (
+                      <button
+                        onClick={handleRetryQuiz}
+                        className="mt-2 px-8 py-3 bg-white text-orange-500 font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2 mx-auto"
+                      >
+                        <span>🔄</span>
+                        <span>Retry Quiz</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Header */}
-              <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+              <div className={`bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-200 hover:shadow-xl transition-all duration-300 animate-fade-in-scale ${percentage >= 50 && showCelebration ? 'success-glow' : ''}`}>
                 <h1 className="text-3xl font-bold text-gray-900 mb-1">
                   📊 Quiz Results
                 </h1>
@@ -153,7 +298,7 @@ export default function QuizResult() {
 
                 {/* Score Summary */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg p-4 border-l-4 border-blue-700 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl p-4 border-l-4 border-blue-700 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 animate-slide-in-left">
                     <p className="text-gray-700 text-xs font-bold uppercase tracking-wider">Score</p>
                     <p className="text-3xl font-bold text-blue-600 mt-1">
                       {score}/{totalQuestions}
@@ -161,7 +306,7 @@ export default function QuizResult() {
                   </div>
 
                   <div
-                    className={`rounded-lg p-4 border-l-4 shadow-sm hover:shadow-md transition-shadow ${
+                    className={`rounded-xl p-4 border-l-4 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 animate-fade-in-up ${
                       percentage >= 50
                         ? "bg-gradient-to-br from-green-50 to-green-100 border-green-600"
                         : "bg-gradient-to-br from-red-50 to-red-100 border-red-600"
@@ -177,14 +322,22 @@ export default function QuizResult() {
                     </p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border-l-4 border-blue-800 shadow-sm hover:shadow-md transition-shadow">
+                  <div className={`rounded-xl p-4 border-l-4 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 animate-slide-in-right ${
+                    percentage >= 50 
+                      ? "bg-gradient-to-br from-green-50 to-emerald-100 border-green-600" 
+                      : "bg-gradient-to-br from-red-50 to-red-100 border-red-600"
+                  }`}>
                     <p className="text-gray-700 text-xs font-bold uppercase tracking-wider">Status</p>
                     <p
-                      className={`text-lg font-bold mt-1 ${
+                      className={`text-lg font-bold mt-1 flex items-center gap-2 ${
                         percentage >= 50 ? "text-green-600" : "text-red-600"
                       }`}
                     >
-                      {percentage >= 50 ? "✅ Passed" : "❌ Failed"}
+                      {percentage >= 50 ? (
+                        <><span className="text-2xl">✅</span> Passed</>
+                      ) : (
+                        <><span className="text-2xl">❌</span> Failed</>
+                      )}
                     </p>
                   </div>
                 </div>
@@ -192,25 +345,26 @@ export default function QuizResult() {
 
               {/* Questions Breakdown */}
               {results.length > 0 ? (
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mt-8 hover:shadow-xl transition-shadow duration-300">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                    ❓ Question Breakdown
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mt-8 hover:shadow-xl transition-all duration-300 animate-fade-in-up">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    <span>❓</span> Question Breakdown
                   </h3>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {results.map((item, idx) => (
                       <div
                         key={idx}
-                        className={`rounded-lg shadow-sm p-4 border-l-4 hover:shadow-md transition-all duration-200 ${
+                        className={`rounded-xl shadow-sm p-4 border-l-4 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] animate-fade-in-up ${
                           item.isCorrect
                             ? "bg-gradient-to-br from-green-50 to-green-100 border-green-500"
                             : "bg-gradient-to-br from-red-50 to-red-100 border-red-500"
                         }`}
+                        style={{ animationDelay: `${idx * 0.1}s` }}
                       >
                         <div className="flex items-start justify-between mb-2">
                           <p className="font-semibold text-gray-800 text-sm">
                             Q{idx + 1}: {item.question}
                           </p>
-                          <span className="text-2xl">
+                          <span className={`text-2xl ${item.isCorrect ? 'animate-bounce-subtle' : ''}`}>
                             {item.isCorrect ? "✅" : "❌"}
                           </span>
                         </div>
@@ -218,14 +372,14 @@ export default function QuizResult() {
                         <div className="space-y-1 text-xs">
                           <p className="text-gray-700">
                             <span className="font-semibold">Your Answer:</span>{" "}
-                            <span className={item.isCorrect ? "text-green-600" : "text-red-600"}>
+                            <span className={`font-medium ${item.isCorrect ? "text-green-600" : "text-red-600"}`}>
                               {item.userAnswer || "Not answered"}
                             </span>
                           </p>
-                          {!item.isCorrect && (
+                          {!item.isCorrect && percentage >= 50 && (
                             <p className="text-gray-700">
                               <span className="font-semibold">Correct Answer:</span>{" "}
-                              <span className="text-green-600 font-semibold">
+                              <span className="text-green-600 font-bold">
                                 {item.correctAnswer}
                               </span>
                             </p>
@@ -236,7 +390,7 @@ export default function QuizResult() {
                   </div>
                 </div>
               ) : (
-                <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
+                <div className="bg-white rounded-2xl shadow-lg p-8 text-center animate-fade-in-up">
                   <p className="text-gray-600 text-lg">
                     No question details available.
                   </p>

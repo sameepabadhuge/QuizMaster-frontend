@@ -56,13 +56,13 @@ export default function Nav() {
   return (
     <nav className="flex items-center justify-between bg-gray-400 text-slate-900 px-8 py-4 shadow-lg sticky top-0 z-50">
       <h2 
-        className="text-2xl font-bold tracking-wide cursor-pointer text-blue-700 hover:text-blue-700 transition-colors duration-200"
+        className="text-2xl font-bold tracking-wide cursor-pointer text-blue-700 hover:text-blue-800 transition-colors duration-200"
         onClick={() => navigate("/home")}
       >
         QuizMaster
       </h2>
 
-      <div className="flex space-x-6">
+      <div className="flex space-x-8">
         {navLinks.map((link) => {
           const isActive = location.pathname === link.path || location.pathname.startsWith(link.path + "/");
           return (
@@ -70,11 +70,12 @@ export default function Nav() {
               key={link.path}
               to={link.path}
               aria-current={isActive ? "page" : undefined}
-              className={`font-semibold transition duration-200 ${
-                isActive ? "text-blue-700 border-b-2 border-blue-600" : "hover:text-blue-600"
+              className={`font-medium transition duration-300 relative ${
+                isActive ? "text-blue-700" : "text-slate-700 hover:text-blue-600"
               }`}
             >
               {link.name}
+              {isActive && <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full"></div>}
             </Link>
           );
         })}
@@ -84,16 +85,16 @@ export default function Nav() {
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setShowDropdown(!showDropdown)}
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200 focus:outline-none"
+          className="flex items-center gap-2 hover:opacity-90 transition-opacity duration-200 focus:outline-none"
         >
           {profilePhoto ? (
             <img
               src={profilePhoto}
               alt="Profile"
-              className="w-10 h-10 rounded-full object-cover border-2 hover:text-blue-600  border-gray-500  shadow-md"
+              className="w-11 h-11 rounded-full object-cover border-2 border-blue-300 shadow-md hover:shadow-lg transition-shadow"
             />
           ) : (
-            <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-blue-700 font-bold text-lg border-2 border-blue-200 shadow-md">
+            <div className="w-11 h-11 rounded-full bg-white flex items-center justify-center text-blue-700 font-bold text-lg border-2 border-blue-300 shadow-md hover:shadow-lg transition-shadow">
               {studentName.charAt(0).toUpperCase()}
             </div>
           )}
@@ -101,26 +102,33 @@ export default function Nav() {
 
         {/* Dropdown Menu */}
         {showDropdown && (
-          <div className="absolute right-0 mt-2 w-48 bg-white/95 rounded-xl shadow-xl border border-blue-100 py-2 z-50 animate-fadeIn">
+          <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50 overflow-hidden">
+            {/* Settings Option */}
             <button
               onClick={() => {
                 setShowDropdown(false);
                 navigate("/student-settings");
               }}
-              className="w-full text-left px-4 py-3 text-slate-700 hover:text-blue-700 transition-colors flex items-center gap-3"
+              className="w-full text-left px-6 py-4 text-gray-700 hover:bg-blue-50 transition-colors duration-200 flex items-center gap-4 border-b border-gray-100 hover:text-blue-700"
             >
-              <span>⚙️</span>
-              <span>Settings</span>
+              <svg className="w-5 h-5 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span className="font-medium">Settings</span>
             </button>
+            {/* Logout Option */}
             <button
               onClick={() => {
                 setShowDropdown(false);
                 handleLogout();
               }}
-              className="w-full text-left px-4 py-3 text-red-600 transition-colors flex items-center gap-3"
+              className="w-full text-left px-6 py-4 text-red-500 hover:bg-red-50 transition-colors duration-200 flex items-center gap-4 hover:text-red-700"
             >
-              <span>🚪</span>
-              <span>Logout</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span className="font-medium">Logout</span>
             </button>
           </div>
         )}

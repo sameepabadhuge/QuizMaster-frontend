@@ -145,31 +145,31 @@ export default function QuizResult() {
           ) : (
             <>
               {/* Header */}
-              <div className="bg-white rounded-xl shadow-xl p-8 mb-10 border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                <h1 className="text-3xl font-bold text-gray-900 mb-1">
                   📊 Quiz Results
                 </h1>
-                <h2 className="text-xl text-gray-600 mb-6">{quizTitle}</h2>
+                <h2 className="text-lg text-gray-600 mb-6">{quizTitle}</h2>
 
                 {/* Score Summary */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-shadow">
-                    <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Score</p>
-                    <p className="text-4xl font-bold text-blue-600 mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg p-4 border-l-4 border-blue-700 shadow-sm hover:shadow-md transition-shadow">
+                    <p className="text-gray-700 text-xs font-bold uppercase tracking-wider">Score</p>
+                    <p className="text-3xl font-bold text-blue-600 mt-1">
                       {score}/{totalQuestions}
                     </p>
                   </div>
 
                   <div
-                    className={`rounded-xl p-6 border-l-4 shadow-md hover:shadow-lg transition-shadow ${
+                    className={`rounded-lg p-4 border-l-4 shadow-sm hover:shadow-md transition-shadow ${
                       percentage >= 50
                         ? "bg-gradient-to-br from-green-50 to-green-100 border-green-600"
                         : "bg-gradient-to-br from-red-50 to-red-100 border-red-600"
                     }`}
                   >
-                    <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Percentage</p>
+                    <p className="text-gray-700 text-xs font-bold uppercase tracking-wider">Percentage</p>
                     <p
-                      className={`text-4xl font-bold mt-2 ${
+                      className={`text-3xl font-bold mt-1 ${
                         percentage >= 50 ? "text-green-600" : "text-red-600"
                       }`}
                     >
@@ -177,10 +177,10 @@ export default function QuizResult() {
                     </p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-shadow">
-                    <p className="text-gray-600 text-sm font-bold uppercase tracking-wider">Status</p>
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border-l-4 border-blue-800 shadow-sm hover:shadow-md transition-shadow">
+                    <p className="text-gray-700 text-xs font-bold uppercase tracking-wider">Status</p>
                     <p
-                      className={`text-lg font-bold mt-2 ${
+                      className={`text-lg font-bold mt-1 ${
                         percentage >= 50 ? "text-green-600" : "text-red-600"
                       }`}
                     >
@@ -192,30 +192,30 @@ export default function QuizResult() {
 
               {/* Questions Breakdown */}
               {results.length > 0 ? (
-                <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-8 mt-8 hover:shadow-2xl transition-shadow duration-300">
-                  <h3 className="text-3xl font-bold text-gray-900 mb-8">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mt-8 hover:shadow-xl transition-shadow duration-300">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">
                     ❓ Question Breakdown
                   </h3>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {results.map((item, idx) => (
                       <div
                         key={idx}
-                        className={`rounded-xl shadow-md p-6 border-l-4 hover:shadow-lg transition-all duration-200 ${
+                        className={`rounded-lg shadow-sm p-4 border-l-4 hover:shadow-md transition-all duration-200 ${
                           item.isCorrect
                             ? "bg-gradient-to-br from-green-50 to-green-100 border-green-500"
                             : "bg-gradient-to-br from-red-50 to-red-100 border-red-500"
                         }`}
                       >
-                        <div className="flex items-start justify-between mb-3">
-                          <p className="font-semibold text-gray-800 text-lg">
+                        <div className="flex items-start justify-between mb-2">
+                          <p className="font-semibold text-gray-800 text-sm">
                             Q{idx + 1}: {item.question}
                           </p>
-                          <span className="text-3xl">
+                          <span className="text-2xl">
                             {item.isCorrect ? "✅" : "❌"}
                           </span>
                         </div>
 
-                        <div className="space-y-2 text-sm">
+                        <div className="space-y-1 text-xs">
                           <p className="text-gray-700">
                             <span className="font-semibold">Your Answer:</span>{" "}
                             <span className={item.isCorrect ? "text-green-600" : "text-red-600"}>
@@ -264,7 +264,7 @@ export default function QuizResult() {
             </p>
             <button
               onClick={() => navigate("/quiz-list")}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors duration-200"
+              className="px-6 py-3 bg-blue-400 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors duration-200"
             >
               Browse Quizzes
             </button>
@@ -282,53 +282,57 @@ export default function QuizResult() {
                 <div
                   key={result._id}
                   onClick={() => handleResultClick(result)}
-                  className="bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl hover:border-blue-300 transition-all duration-300 cursor-pointer"
+                  className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200 hover:shadow-2xl hover:border-blue-400 transition-all duration-300 cursor-pointer group overflow-hidden"
                 >
                   {/* Teacher Info */}
-                  <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
+                  <div className="flex items-center gap-3 mb-5 pb-4 border-b border-gray-200">
                     {teacherPhoto ? (
                       <img
                         src={teacherPhoto}
                         alt={teacherName}
-                        className="w-10 h-10 rounded-full object-cover border-2 border-blue-200"
+                        className="w-12 h-12 rounded-full object-cover border-2 border-blue-400 shadow-md"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
                         {teacherName.charAt(0).toUpperCase()}
                       </div>
                     )}
-                    <p className="text-sm font-semibold text-gray-800">{teacherName}</p>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-800">{teacherName}</p>
+                      <p className="text-xs text-gray-500">Instructor</p>
+                    </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 truncate">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 truncate line-clamp-2">
                     {result.quizTitle}
                   </h3>
                   
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Score:</span>
-                      <span className="font-semibold text-blue-600">
+                  {/* Score Grid */}
+                  <div className="grid grid-cols-3 gap-3 mb-5">
+                    <div className="bg-blue-50 rounded-lg p-3 border-l-4 border-blue-500">
+                      <p className="text-xs text-gray-600 font-semibold uppercase">Score</p>
+                      <p className="text-lg font-bold text-blue-600 mt-1">
                         {result.score}/{result.totalQuestions}
-                      </span>
+                      </p>
                     </div>
                     
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Percentage:</span>
-                      <span className={`font-semibold ${result.percentage >= 50 ? "text-green-600" : "text-red-600"}`}>
+                    <div className={`rounded-lg p-3 border-l-4 ${result.percentage >= 50 ? "bg-green-50 border-green-500" : "bg-red-50 border-red-500"}`}>
+                      <p className="text-xs text-gray-600 font-semibold uppercase">Percentage</p>
+                      <p className={`text-lg font-bold mt-1 ${result.percentage >= 50 ? "text-green-600" : "text-red-600"}`}>
                         {result.percentage}%
-                      </span>
+                      </p>
                     </div>
                     
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Status:</span>
-                      <span className={`font-semibold ${result.percentage >= 50 ? "text-green-600" : "text-red-600"}`}>
-                        {result.percentage >= 50 ? "✅ Passed" : "❌ Failed"}
-                      </span>
+                    <div className={`rounded-lg p-3 border-l-4 ${result.percentage >= 50 ? "bg-green-50 border-green-500" : "bg-red-50 border-red-500"}`}>
+                      <p className="text-xs text-gray-600 font-semibold uppercase">Status</p>
+                      <p className={`text-lg font-bold mt-1 ${result.percentage >= 50 ? "text-green-600" : "text-red-600"}`}>
+                        {result.percentage >= 50 ? "✅ Pass" : "❌ Fail"}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="text-sm text-gray-500 mb-4">
-                    {new Date(result.createdAt).toLocaleDateString("en-US", {
+                  <div className="text-xs text-gray-500 mb-4 flex items-center gap-1">
+                    🕐 {new Date(result.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
                       day: "numeric",
@@ -337,7 +341,7 @@ export default function QuizResult() {
                     })}
                   </div>
 
-                  <button className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition-colors duration-200">
+                  <button className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform group-hover:scale-105">
                     View Details
                   </button>
                 </div>

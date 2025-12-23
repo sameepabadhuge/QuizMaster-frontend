@@ -139,17 +139,34 @@ export default function Leaderboard() {
                     className="hover:bg-blue-50 transition-colors duration-200 hover:shadow-md"
                   >
                     <td className="px-8 py-5">
-                      <span className={`inline-flex items-center justify-center w-10 h-10 rounded-full font-bold text-white text-sm ${
-                        student.rank === 1
-                          ? "bg-gradient-to-br from-yellow-400 to-yellow-500 shadow-lg"
-                          : student.rank === 2
-                          ? "bg-gradient-to-br from-gray-400 to-gray-500 shadow-lg"
-                          : student.rank === 3
-                          ? "bg-gradient-to-br from-amber-600 to-amber-700 shadow-lg"
-                          : "bg-gradient-to-br from-gray-300 to-gray-400"
-                      }`}>
-                        {student.rank === 1 ? "🥇" : student.rank === 2 ? "🥈" : student.rank === 3 ? "🥉" : student.rank}
-                      </span>
+                      <div className="flex items-center justify-center">
+                        {student.rank === 1 ? (
+                          <div className="relative flex items-center justify-center">
+                            <div className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-xl animate-pulse" style={{animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+                            <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-lg flex items-center justify-center font-bold text-xl text-white border-2 border-yellow-300">
+                              🥇
+                            </div>
+                          </div>
+                        ) : student.rank === 2 ? (
+                          <div className="relative flex items-center justify-center">
+                            <div className="absolute w-12 h-12 rounded-full bg-gradient-to-br from-cyan-300 to-blue-500 shadow-lg"></div>
+                            <div className="relative w-11 h-11 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg flex items-center justify-center font-bold text-lg text-white border-2 border-cyan-300">
+                              🥈
+                            </div>
+                          </div>
+                        ) : student.rank === 3 ? (
+                          <div className="relative flex items-center justify-center">
+                            <div className="absolute w-12 h-12 rounded-full bg-gradient-to-br from-purple-300 to-pink-500 shadow-lg"></div>
+                            <div className="relative w-11 h-11 rounded-full bg-gradient-to-br from-purple-400 to-pink-600 shadow-lg flex items-center justify-center font-bold text-lg text-white border-2 border-purple-300">
+                              🥉
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 font-bold text-white text-sm shadow-md">
+                            {student.rank}
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">

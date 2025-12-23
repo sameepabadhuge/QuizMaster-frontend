@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
-import landingImg from "../assets/i2.jpg";
+import landingImg from "../assets/pp1.jpg";
 
 const Landing = () => {
   return (
@@ -31,11 +31,11 @@ const Landing = () => {
         </h1>
       </Motion.div>
 
-      {/* Main content (centered) */}
-      <div className="relative min-h-screen flex flex-col items-center md:items-center justify-center px-6 md:px-10 lg:px-16 text-center md:text-center z-20">
+      {/* Main content (left-aligned) */}
+      <div className="relative min-h-screen flex flex-col items-start md:items-start justify-center px-6 md:px-10 lg:px-16 text-left md:text-left z-20">
         {/* CTA */}
-        <div className="w-full max-w-xl bg-transparent rounded-2xl p-6 md:p-8">
-          <div className="mt-0 max-w-xl mx-auto">
+        <div className="w-full bg-transparent rounded-2xl p-6 md:p-8">
+          <div className="mt-0">
             
 
             {/* Headline and description */}
@@ -43,7 +43,7 @@ const Landing = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="mt-8 max-w-2xl mx-auto"
+              className="mt-8 max-w-2xl"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.2] tracking-tight text-white drop-shadow-lg shadow-black whitespace-nowrap">
                 Master Your Knowledge!
@@ -58,7 +58,7 @@ const Landing = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-8"
+              className="flex flex-col sm:flex-row gap-4 items-start justify-start mt-8"
             >
               <Link
                 to="/login"
@@ -82,7 +82,7 @@ const Landing = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 1 }}
-              className="mt-12 flex items-center justify-center md:justify-center gap-4 text-sm text-white/80 font-medium"
+              className="mt-12 flex items-center justify-start md:justify-start gap-4 text-sm text-white/80 font-medium"
             >
               <div className="flex -space-x-2">
                 {[1,2,3,4].map((i) => (

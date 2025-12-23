@@ -140,75 +140,104 @@ export default function TakeQuiz() {
   // UI
   // ============================
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded shadow">
-
-        <h2 className="text-2xl font-bold text-center mb-2">{quizData.title}</h2>
-
-        <div className="flex justify-between mb-4 text-sm">
-          <span>
-            Question {currentIndex + 1} / {quizData.questions.length}
-          </span>
-          {quizData.duration ? (
-            <span className="font-semibold text-red-600">
-              Time Left: {formatTime(timeLeft)}
-            </span>
-          ) : (
-            <span>No time limit</span>
-          )}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
+      <div className="max-w-lg mx-auto">
+        {/* Header Card */}
+        <div className="bg-white rounded-t-2xl shadow-lg p-4 md:p-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-2">{quizData.title}</h2>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-6 pt-4 border-t border-gray-200">
+            <div className="flex items-center gap-2">
+              <span className="text-lg font-semibold text-gray-700">
+                Question <span className="text-blue-600">{currentIndex + 1}</span> / <span className="text-gray-500">{quizData.questions.length}</span>
+              </span>
+            </div>
+            {quizData.duration ? (
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-bold">
+                  <span className={`${timeLeft <= 30 ? 'text-red-600 animate-pulse' : 'text-blue-600'}`}>
+                    ⏱️ {formatTime(timeLeft)}
+                  </span>
+                </span>
+              </div>
+            ) : (
+              <span className="text-gray-600">No time limit</span>
+            )}
+          </div>
         </div>
 
-        <h3 className="text-xl font-semibold mb-4">{question.question}</h3>
+        {/* Question Card */}
+        <div className="bg-white shadow-lg p-4 md:p-6">
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">{question.question}</h3>
+            <div className="h-1 w-16 bg-blue-600 rounded"></div>
+          </div>
 
-        <div className="space-y-2">
-          {question.options.map((option, idx) => (
-            <label
-              key={idx}
-              className={`block border p-3 rounded cursor-pointer ${
-                answers[currentIndex] === option
-                  ? "bg-blue-50 border-blue-600"
-                  : "border-gray-300"
-              }`}
-            >
-              <input
-                type="radio"
-                name={`q-${currentIndex}`}
-                checked={answers[currentIndex] === option}
-                onChange={() => handleOptionSelect(option)}
-                className="mr-2"
-              />
-              {option}
-            </label>
-          ))}
-        </div>
+          {/* Options */}
+          <div className="space-y-3 mb-8">
+            {question.options.map((option, idx) => (
+              <label
+                key={idx}
+                className={`block border-2 p-4 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md ${
+                  answers[currentIndex] === option
+                    ? "bg-blue-50 border-blue-600 shadow-md"
+                    : "border-gray-300 hover:border-gray-400"
+                }`}
+              >
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    name={`q-${currentIndex}`}
+                    checked={answers[currentIndex] === option}
+                    onChange={() => handleOptionSelect(option)}
+                    className="w-5 h-5 text-blue-600 cursor-pointer"
+                  />
+                  <span className="ml-3 text-lg text-gray-800 font-medium">{option}</span>
+                </div>
+              </label>
+            ))}
+          </div>
 
-        <div className="flex justify-between mt-6">
-          <button
-            disabled={currentIndex === 0}
-            onClick={() => setCurrentIndex((i) => i - 1)}
-            className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
+          {/* Progress Bar */}
+          <div className="mb-8 bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((currentIndex + 1) / quizData.questions.length) * 100}%` }}
+            ></div>
+          </div>
 
-          {currentIndex + 1 === quizData.questions.length ? (
+          {/* Buttons */}
+          <div className="flex justify-between gap-4">
             <button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className="px-6 py-2 bg-green-600 text-white rounded"
+              disabled={currentIndex === 0}
+              onClick={() => setCurrentIndex((i) => i - 1)}
+              className="px-6 py-3 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
-              {submitting ? "Submitting..." : "Submit"}
+              ← Previous
             </button>
-          ) : (
-            <button
-              onClick={() => setCurrentIndex((i) => i + 1)}
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Next
-            </button>
-          )}
-        </div>
 
+            <div className="text-center text-sm text-gray-600 font-medium flex items-center">
+              {currentIndex + 1} of {quizData.questions.length}
+            </div>
+
+            {currentIndex + 1 === quizData.questions.length ? (
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 shadow-lg"
+              >
+                {submitting ? "Submitting..." : "✓ Submit"}
+              </button>
+            ) : (
+              <button
+                onClick={() => setCurrentIndex((i) => i + 1)}
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 shadow-lg"
+              >
+                Next →
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

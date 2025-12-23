@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import homeBg from '../assets/1234.avif';
+import homeBg from '../assets/pp3.jpg';
 
 function Home() {
   const navigate = useNavigate();
@@ -12,19 +12,20 @@ function Home() {
       className="min-h-screen bg-cover bg-center bg-no-repeat relative selection:bg-blue-100 selection:text-blue-900"
       style={{ backgroundImage: `url(${homeBg})` }}
     >
-      {/* Background image is shown directly (no overlay) */}
+      {/* Darkening overlay */}
+      <div className="absolute inset-0 bg-black/40 z-0"></div>
       {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="absolute top-4 right-4 md:top-6 md:right-8 text-right pt-2 md:pt-4 pb-2 md:pb-4 px-4 z-20"
+        className="absolute top-4 left-4 md:top-6 md:left-8 text-left pt-2 md:pt-4 pb-2 md:pb-4 px-4 z-20"
       >
-        <h1 className="text-lg md:text-xl lg:text-2xl font-normal mb-2 text-gray-800">
+        <h1 className="text-lg md:text-xl lg:text-2xl font-normal mb-2 text-white">
           Welcome back, <span className="text-blue-700 font-normal">{studentName}!</span>
         </h1>
-        <p className="text-sm md:text-sm text-gray-700 max-w-xl">
-          Ready to test your knowledge? Choose an option below
+        <p className="text-sm md:text-sm text-white max-w-xl">
+          Ready to test your knowledge? Choose an option below,
         </p>
       </motion.div>
 
@@ -43,7 +44,7 @@ function Home() {
           }}
           whileHover={{ scale: 1.06, y: -12 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-transparent rounded-2xl p-6 w-64 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer text-center border border-blue-100"
+          className="bg-gray-400 rounded-2xl p-6 w-64 shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer text-center border-2 border-blue-300"
         >
           <div className="text-4xl mb-3">📝</div>
           <h2 className="text-xl font-semibold mb-2 text-gray-900">Take Quiz</h2>
@@ -70,7 +71,7 @@ function Home() {
           }}
           whileHover={{ scale: 1.06, y: -12 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-transparent rounded-2xl p-6 w-64 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer text-center border border-blue-100"
+          className="bg-gray-400 rounded-2xl p-6 w-64 shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer text-center border-2 border-blue-300"
         >
           <div className="text-4xl mb-3">📊</div>
           <h2 className="text-xl font-semibold mb-2 text-gray-900">My Results</h2>
@@ -97,7 +98,7 @@ function Home() {
           }}
           whileHover={{ scale: 1.06, y: -12 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-transparent rounded-2xl p-6 w-64 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer text-center border border-blue-100"
+          className="bg-gray-400 rounded-2xl p-6 w-64 shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer text-center border-2 border-blue-300"
         >
           <div className="text-4xl mb-3">🏆</div>
           <h2 className="text-xl font-semibold mb-2 text-gray-900">Leaderboard</h2>
